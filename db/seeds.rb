@@ -1,6 +1,10 @@
-temperature = Measurement.create(name: 'temperature', unit: 'C')
-humidity = Measurement.create(name: 'humidity', unit: '%')
-pm = Measurement.create(name: 'pm', unit: 'ug/m3')
+# temperature = Measurement.create(name: 'temperature', unit: 'C')
+# humidity = Measurement.create(name: 'humidity', unit: '%')
+# pm = Measurement.create(name: 'pm', unit: 'ug/m3')
+temperature = Measurement.find_by_name('temperature')
+humidity = Measurement.find_by_name('humidity')
+pm = Measurement.find_by_name('pm')
+
 ms = [temperature, humidity, pm]
 # sensor = Sensor.create(id: 1000, name: 'My own! My precious!', long: 19.959689, lat: 50.048504, measurements: ms)
 sensor = Sensor.find(1000)
