@@ -22,7 +22,7 @@ class @SmogMap
 
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
-        sensorMarker = L.marker([sensor['long'], sensor['lat']]).
+        sensorMarker = L.marker([sensor['lat'], sensor['long']]).
           addTo(window.smogMap).
           on 'click', (sensor) =>
             $.get 'sensors/' + sensor.target.dbId, (data) ->
