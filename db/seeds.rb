@@ -4,7 +4,7 @@ pm = Measurement.create(name: 'pm', unit: 'ug/m3')
 ms = [temperature, humidity, pm]
 # sensor = Sensor.create(id: 1000, name: 'My own! My precious!', long: 19.959689, lat: 50.048504, measurements: ms)
 sensor = Sensor.find(1000)
-(Sensor.all - sensor).destroy_all
+(Sensor.all - [sensor]).destroy_all
 
 fake_sensor_file = File.open('sensorLocation.csv').read
 fake_sensor_file.lines.each do |line|
@@ -17,7 +17,7 @@ end
   sensor_value_file.lines.each do |line|
     data = line.split(',')
   	Reading.create(measurement: pm, sensor_id: data[0].to_i, time: Time.now - (i*15).minutes, value: data[1].to_f)
-  end 
+  end
 end
 
 # 30.times.each do |i|
