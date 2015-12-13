@@ -5,9 +5,9 @@ ms = [temperature, humidity, pm]
 # sensor = Sensor.create(id: 1000, name: 'My own! My precious!', long: 50.048504, lat: 19.959689, measurements: ms)
 
 fake_sensor_file = File.open('sensorLocation.csv').read
-fake_sensor_file.lines[1,100].each do |line|
+fake_sensor_file.lines[1,10].each do |line|
   data = line.split(',')
-  sensor = Sensor.create(id: data[0].to_i, name: data[0], long: data[2].to_f, lat: data[1].to_f, measurements: ms)
+  sensor = Sensor.create(id: data[0].to_i, name: data[0], long: data[1].to_f, lat: data[2].to_f, measurements: ms)
 
   30.times.each do |i|
     Reading.create(measurement: pm, sensor: sensor, time: Time.now - (i*15).minutes, value: rand(500).to_f)

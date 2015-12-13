@@ -8,8 +8,8 @@ var cfg = {
 	"maxOpacity": .6,
 	"scaleRadius": true,
 	"useLocalRadius": true,
-	"latField": 'x',
-	"lngField": 'y',
+	"latField": 'lat',
+	"lngField": 'long',
 	"valueField": 'value'
 };
 
