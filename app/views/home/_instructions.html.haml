@@ -9,4 +9,7 @@
 
 %p
   - @measurement.each do |measurement|
-    = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]", measurement_path(id: measurement.id), class: 'btn btn-primary'
+    = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
+              '#',
+              class: 'btn btn-primary measurement-button',
+              data: { id: measurement.id }

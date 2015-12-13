@@ -8,6 +8,8 @@
 #= require leaflet
 #= require esri-leaflet
 #= require js-routes
+#= require leaflet-heatmap
+#= require heatmap
 #= require_tree .
 
 $ ->

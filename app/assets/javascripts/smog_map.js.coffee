@@ -2,8 +2,10 @@ class @SmogMap
   constructor: ->
     $('#smog-map').css('min-height', window.innerHeight - 50)
 
+    window.heatmapLayer = new HeatmapOverlay(cfg)
+
     # Create a map in the "map" div, set the view to Kraków and zoom level to 13
-    @smogMap = L.map('smog-map', { zoomControl: false })
+    @smogMap = L.map('smog-map', { zoomControl: false, layers: [window.heatmapLayer] })
                 .setView [50.06, 19.95], 13
     new L.Control.Zoom(
       zoomInTitle: I18n.t('map.zoom_in')
@@ -13,6 +15,8 @@ class @SmogMap
     L.tileLayer(Config.CDB_TILE_URL,{
       attribution: Config.OSM_ATTRIBUTION + ', ' + Config.CDB_ATTRIBUTION
     }).addTo @smogMap
+
+#    window.heatmapLayer.setData(retrieveData())
 
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>

@@ -14,28 +14,28 @@ var cfg = {
 };
 
 function retrieveData(){
-var latitudes = new Array();
-var longtitudes = new Array();
-var values = new Array();
-for(var i = 0; i < 500; i++){
-	latitudes[i] = Math.random()*(20.256446-19.786780) + 19.786780;
-	longtitudes[i] = Math.random()*(50.126177-49.968323) + 49.968323;
-	values[i] = Math.random()*300 +
-				100*(Math.min(latitudes[i]-19.786780, 20.256446-latitudes[i]))/(20.256446-19.786780) +
-				100*(Math.min(longtitudes[i]-49.968323, 50.126177-longtitudes[i]))/(50.126177-49.968323);
-}
-var result = new Object();
-result.max = 500;
-var data = new Array();
-for(var i = 0; i<500; i++){
-	var dp = new Object();
-	dp.x = longtitudes[i];
-	dp.y = latitudes[i];
-	dp.value = values[i];
-	data[i] = dp;
-}
-result.data = data;
-return result;
+    var latitudes = new Array();
+    var longtitudes = new Array();
+    var values = new Array();
+    for(var i = 0; i < 500; i++){
+        latitudes[i] = Math.random()*(20.256446-19.786780) + 19.786780;
+        longtitudes[i] = Math.random()*(50.126177-49.968323) + 49.968323;
+        values[i] = Math.random()*300 +
+                    100*(Math.min(latitudes[i]-19.786780, 20.256446-latitudes[i]))/(20.256446-19.786780) +
+                    100*(Math.min(longtitudes[i]-49.968323, 50.126177-longtitudes[i]))/(50.126177-49.968323);
+    }
+    var result = new Object();
+    result.max = 500;
+    var data = new Array();
+    for(var i = 0; i<500; i++){
+        var dp = new Object();
+        dp.x = longtitudes[i];
+        dp.y = latitudes[i];
+        dp.value = values[i];
+        data[i] = dp;
+    }
+    result.data = data;
+    return result;
 
 	/*var result = new Object();
 	result.max = 500;
@@ -60,6 +60,7 @@ return result;
 	};*/
 }
 
+
 function setData(){
 	heatMap.setData(retrieveData());
 }
@@ -67,19 +68,18 @@ function setData(){
 function init(){
 	heatmapLayer = new HeatmapOverlay(cfg);
 	
-	baseLayer = L.tileLayer(
-		'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-			attribution: '',
-			maxZoom: 18
-		}
-	);
-	
-	
-	map = new L.map('map', {
-		center: new L.LatLng(50.0525, 19.9659),
-		zoom: 11,
-		layers: [baseLayer, heatmapLayer]
-	});
+	//baseLayer = L.tileLayer(
+	//	'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	//		attribution: '',
+	//		maxZoom: 18
+	//	}
+	//);
+
+	//map = new L.map('map', {
+	//	center: new L.LatLng(50.0525, 19.9659),
+	//	zoom: 11,
+	//	layers: [baseLayer, heatmapLayer]
+	//});
 
 	heatmapLayer.setData(retrieveData());
 	//window.setInterval(setData, 1000);
