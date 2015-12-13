@@ -8,10 +8,14 @@ fake_sensor_file = File.open('sensorLocation.csv').read
 fake_sensor_file.lines[1,10].each do |line|
   data = line.split(',')
   sensor = Sensor.create(id: data[0].to_i, name: data[0], long: data[1].to_f, lat: data[2].to_f, measurements: ms)
+end
 
-  30.times.each do |i|
-    Reading.create(measurement: pm, sensor: sensor, time: Time.now - (i*15).minutes, value: rand(500).to_f)
-  end
+11.times.each do |i|
+  sensor_value_file = File.open('values'+i+'.csv').read
+  sensor_value_file.lines.each do |line|
+    data = line.split(',')
+	Reading.create(measurement: pm, sensor: data[0], time: Time.now - (i*15).minutes, value: data[1].to_f)
+  end 
 end
 
 # 30.times.each do |i|
