@@ -19,4 +19,9 @@ $ ->
   $('.measurement-button').on 'click', (measurement) ->
     url = 'measurements/' + $(measurement.currentTarget).data('id')
     iteration = 10
+    window.smogMap.eachLayer (layer) ->
+      if layer._latlng
+        window.smogMap.removeLayer(layer)
+      else
+        console.log layer
     loadHeatmap(url, iteration)
