@@ -4,9 +4,9 @@
 %h4.text-center
   Sensor id: #{ @sensor.id }
 
-- @readings.each do |measurement, _|
-  %p
-    %div.reading-chart{ id: "#{measurement.name}-container" }
+%h4.text-center
+  - @readings.each do |measurement, _|
+    .reading-chart{ id: "#{measurement.name}-container" }
 
 - @readings.each do |measurement, readings|
   :javascript
@@ -17,7 +17,7 @@
           x: -20 //center
         },
         xAxis: {
-          categories: ['- 1 Day']
+          categories: ['- 1 Day','','','','','','','','','','Now']
         },
         yAxis: {
           title: {
