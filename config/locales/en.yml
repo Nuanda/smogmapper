@@ -1,0 +1,33 @@
+en:
+  title: Kraków Smog Mapper
+
+  home:
+    header: Know your Smog!
+
+  measurement:
+    temperature: Temperature
+    humidity: Humidity
+    pm: Particulate matter
+
+  instructions:
+    welcome: Welcome to %{title}
+    what_you_see: |
+      Please click a sensor marker on the map, in order to get detailed information.
+      You can also see the past readings from the chosen sensor.
+    what_you_see_2: |
+      Please use the buttons below to see a dynamic map of a given phenomenon, for the
+      last 24 hours.
+
+  nav:
+    to_en: Switch language to English
+    to_pl: Przełącz język na polski
+    zoom_out: Show all districts
+    tabs:
+      info: Information
+      sensors: Mierniki
+
+  map:
+    zoom_in: Zoom in
+    zoom_out: Zoom out
+
+  welcome: Welcome,

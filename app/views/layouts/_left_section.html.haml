@@ -1,0 +1,20 @@
+#left-section
+  %ul.tab-pane
+    - tab_data = { toggle: 'tab', placement: 'right' }
+    %li.active
+      %a{ href: '#info-tab',
+          data: tab_data,
+          title: t('nav.tabs.info') }
+        = icon('map-marker')
+    %li
+      %a{ href: '#sensors-tab',
+          data: tab_data,
+          title: t('nav.tabs.sensors') }
+        = icon('weixin')
+
+  .tab-content
+    #info-tab.tab-pane.active
+      = render 'home/instructions'
+    #sensors-tab.tab-pane
+      #sensors
+        = t 'nav.tabs.sensors'

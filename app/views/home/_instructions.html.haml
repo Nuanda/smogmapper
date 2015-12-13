@@ -1,0 +1,12 @@
+%h4.text-center
+  = t 'instructions.welcome', title: t('title')
+
+%p
+  = t 'instructions.what_you_see'
+
+%p
+  = t 'instructions.what_you_see_2'
+
+%p
+  - @measurement.each do |measurement|
+    = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]", measurement_path(id: measurement.id), class: 'btn btn-primary'

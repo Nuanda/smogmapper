@@ -1,0 +1,22 @@
+#!/bin/bash
+read -r -p "Confirm deployment to PRODUCTION? Type 'yes' to continue " response
+if [ $response == "yes" ]
+then
+ git checkout -B prod
+ # Precompile assets and commit to github
+ bundle exec rake assets:precompile RAILS_ENV=production
+ git add .
+ git commit -m 'recompiling assets'
+
+ # Push to heroku
+ git push heroku prod:master -f
+
+ # Run migrations
+ heroku run rake db:migrate --app smogmapper
+
+ # Do whatever you need with your app (seeds, data, etc..)
+
+
+ # Restart app
+ heroku restart --app smogmapper
+fi

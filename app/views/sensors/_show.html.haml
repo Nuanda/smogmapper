@@ -1,0 +1,40 @@
+%h4.text-center
+  Sensor name: #{ @sensor.name}
+
+%h4.text-center
+  Sensor id: #{@sensor.id}
+
+- @readings.each do |measurement, _|
+  %p
+    %div.reading-chart{ id: "#{measurement.name}-container" }
+
+- @readings.each do |measurement, readings|
+  :javascript
+    $(function () {
+      $('##{measurement.name}-container').highcharts({
+        title: {
+          text: '#{measurement.name}',
+          x: -20 //center
+        },
+        xAxis: {
+          categories: ['- 1 Day']
+        },
+        yAxis: {
+          title: {
+            text: '[#{measurement.unit}]'
+          },
+          plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+          }]
+        },
+        tooltip: {
+          valueSuffix: '#{measurement.unit}'
+        },
+        series: [{
+          name: '#{measurement.name}',
+          data: #{readings.map(&:value)}
+        }]
+      });
+    });

@@ -1,0 +1,32 @@
+pl:
+  title: Kraków Smog Mapper
+
+  home:
+    header: Proszę Państwa, oto Smog!
+
+  measurement:
+    temperature: Temperatura
+    humidity: Wilgotność
+    pm: Pył
+
+  instructions:
+    welcome: Witamy w %{title}
+    what_you_see: |
+      Proszę kliknij miernik na mapie, aby zobaczyć dokładniejsze dane na jego temat i odczyty.
+    what_you_see_2: |
+      Proszę wybierz jedną z poniższych wielkości aby zobaczyć dynamiczną mapę zjawiska
+      z ostatniej doby.
+
+  nav:
+    to_en: Switch language to English
+    to_pl: Przełącz język na polski
+    zoom_out: Pokaż całą mapę
+    tabs:
+      info: Informacje
+      sensors: Sensors
+
+  map:
+    zoom_in: Przybliż mapę
+    zoom_out: Oddal mapę
+
+  welcome: Witaj,

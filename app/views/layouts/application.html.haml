@@ -1,0 +1,19 @@
+!!! 5
+%html
+  = render 'layouts/head'
+  %body(data-dispatch=body_data_dispatch)
+    = render 'layouts/navbar'
+
+    #main.container-fluid
+      .row
+        .col-sm-4
+          = render 'layouts/left_section'
+
+        #content.col-sm-8.full-content
+          = yield
+          #smog-map
+
+    = render 'layouts/flash'
+    :javascript
+      console.log('INIT: setting current locale');
+      I18n.locale = "#{I18n.locale}";
