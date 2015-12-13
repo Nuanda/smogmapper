@@ -1,5 +1,7 @@
 class @SmogMap
   constructor: ->
+    L.Icon.Default.imagePath = 'assets/images'
+
     $('#smog-map').css('min-height', window.innerHeight - 50)
 
     window.heatmapLayer = new HeatmapOverlay(cfg)
