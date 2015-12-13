@@ -13,7 +13,7 @@ $ ->
           () ->
             console.log iteration - 1
             loadHeatmap(url, iteration - 1)
-          700
+          500
         )
 
   $('.measurement-button').on 'click', (measurement) ->
