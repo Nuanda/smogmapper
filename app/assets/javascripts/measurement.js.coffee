@@ -11,7 +11,6 @@ $ ->
       if iteration > 0
         setTimeout(
           () ->
-            console.log iteration - 1
             loadHeatmap(url, iteration - 1)
           500
         )
@@ -22,6 +21,4 @@ $ ->
     window.smogMap.eachLayer (layer) ->
       if layer._latlng
         window.smogMap.removeLayer(layer)
-      else
-        console.log layer
     loadHeatmap(url, iteration)
