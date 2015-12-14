@@ -3,11 +3,11 @@ class MeasurementsController < ApplicationController
 
   def show
     @measurement = Measurement.find(params[:id])
+    ref_time = Time.new(2015, 12, 14, 10, 34)
     @readings = @measurement.
       readings.
-      where('time > ?', Time.now - ((params[:iteration].to_i + 1) * 15).minutes).
-      where('time < ?', Time.now - (params[:iteration].to_i * 15).minutes)
-      # group_by{ |r| ((Time.now - r.time) / 15.minutes).to_i }
+      where('time > ?', ref_time - ((params[:iteration].to_i + 1) * 15).minutes).
+      where('time < ?', ref_time - (params[:iteration].to_i * 15).minutes)
 
     render json: @readings, include: :sensor
   end
