@@ -18,10 +18,12 @@ pl:
       zbudowaliśmy. Prezentujemy także symulację wizualizacji danych z 340 takich
       mierników, gdyby zostały one rozmieszczone w Krakowie.
     what_you_see_2: |
-      Proszę kliknij miernik na mapie, aby zobaczyć dokładniejsze dane na jego temat i odczyty.
+      Proszę kliknij miernik na mapie, aby zobaczyć odczyty. Większy znacznik w okolicy
+      Zabłocia pokazuje prawdziwe odczyty z miernika, który zbudowaliśmy. Pozostałe
+      znaczniki pokazują dane demonstracyjne.
 
       Proszę wybierz przycisk 'Pył' poniżej, aby zobaczyć dynamiczną mapę zjawiska
-      zanieczyszczenia powietrza pyłem.
+      zanieczyszczenia powietrza pyłem, symulowaną dla 340 mierników.
 
     disclaimer: |
       <strong>UWAGA</strong>: proszę zauważyć, że prezentowane dane zostały wygenerowane na

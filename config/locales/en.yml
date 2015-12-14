@@ -18,11 +18,12 @@ en:
       It also demonstrates visualization of 340 of such sensors, if one would deploy them
       throughout the city of Kraków, Poland.
     what_you_see_2: |
-      Please click a sensor marker on the map, in order to get detailed information.
-      You can also see the past readings from the chosen sensor.
+      Please click a sensor marker on the map, in order to get the readings. The bigger marker
+      in Zabłocie district shows the real readings from the sensor we have constructed. All
+      other readings are just a demonstration.
 
-      Please use the Particulate  buttons below to see a dynamic map of a given phenomenon, for the
-      last 24 hours.
+      Please also use the Particulate matter button below to see a dynamic map of the
+      phenomenon, simulated for 340 sensors.
 
     disclaimer: |
       <strong>NOTE</strong>: please note the presented data is generated for the purpose
