@@ -3,10 +3,11 @@ class SensorsController < ApplicationController
 
   def show
     @sensor = Sensor.find(params[:id])
+    ref_time = Time.new(2015, 12, 14, 10, 34)
 
     @readings = @sensor.
       readings.
-      where('time > ?', Time.now - 1.day).
+      where('time > ?', ref_time - 1.day).
       includes(:measurement).
       order('time asc').
       group_by{ |r| r.measurement }
