@@ -26,8 +26,8 @@ pl:
     disclaimer: |
       <strong>UWAGA</strong>: proszę zauważyć, że prezentowane dane zostały wygenerowane na
       potrzeby prezentacji rozwiązania, a więc z żadnym razie nie pokazują prawdziwych wartości
-      jakości potwierza (z wyjątkiem jednego znacznika na mapie, który reprezentuje prawdziwy
-      miernik zbudowany przez nas i zintegrowany z serwisem).
+      jakości potwierza (z wyjątkiem jednego, większego znacznika na mapie, który reprezentuje
+      prawdziwy miernik zbudowany przez nas i zintegrowany z serwisem).
 
   nav:
     to_en: Switch language to English

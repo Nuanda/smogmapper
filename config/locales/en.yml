@@ -27,7 +27,7 @@ en:
     disclaimer: |
       <strong>NOTE</strong>: please note the presented data is generated for the purpose
       of the demonstration, so it in no way shows the actual air quality (apart from the
-      single marker, that represents the real sensor we have built and integrated in).
+      single, bigger, marker, that represents the real sensor we have built and integrated in).
 
   nav:
     to_en: Switch language to English
