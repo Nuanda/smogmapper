@@ -12,10 +12,22 @@ pl:
   instructions:
     welcome: Witamy w %{title}
     what_you_see: |
-      Proszę kliknij miernik na mapie, aby zobaczyć dokładniejsze dane na jego temat i odczyty.
+      To jest demonstracyjna wersja systemu, który został zaprojektowany, wykonany
+      i opublikowany w trakcie trwania <a href='http://www.smogathon.pl/'>Smogathonu 2015</a>.
+      Serwis pokazuje odczyty temperatury, wilgotności i pyłu z miernika, który wówczas
+      zbudowaliśmy. Prezentujemy także symulację wizualizacji danych z 340 takich
+      mierników, gdyby zostały one rozmieszczone w Krakowie.
     what_you_see_2: |
-      Proszę wybierz jedną z poniższych wielkości aby zobaczyć dynamiczną mapę zjawiska
-      z ostatniej doby.
+      Proszę kliknij miernik na mapie, aby zobaczyć dokładniejsze dane na jego temat i odczyty.
+
+      Proszę wybierz przycisk 'Pył' poniżej, aby zobaczyć dynamiczną mapę zjawiska
+      zanieczyszczenia powietrza pyłem.
+
+    disclaimer: |
+      <strong>UWAGA</strong>: proszę zauważyć, że prezentowane dane zostały wygenerowane na
+      potrzeby prezentacji rozwiązania, a więc z żadnym razie nie pokazują prawdziwych wartości
+      jakości potwierza (z wyjątkiem jednego znacznika na mapie, który reprezentuje prawdziwy
+      miernik zbudowany przez nas i zintegrowany z serwisem).
 
   nav:
     to_en: Switch language to English

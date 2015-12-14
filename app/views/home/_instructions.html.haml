@@ -2,14 +2,18 @@
   = t 'instructions.welcome', title: t('title')
 
 %p
-  = t 'instructions.what_you_see'
+  = t('instructions.what_you_see').html_safe
 
 %p
   = t 'instructions.what_you_see_2'
 
 %p
-  - @measurement.each do |measurement|
-    = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
-              '#',
-              class: 'btn btn-primary measurement-button',
-              data: { id: measurement.id }
+  - if @measurements.present?
+    - @measurements.each do |measurement|
+      = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
+                '#',
+                class: "btn btn-primary measurement-button #{measurement.name == 'pm' ? '' : 'disabled'}",
+                data: { id: measurement.id }
+
+%p
+  = t('instructions.disclaimer').html_safe

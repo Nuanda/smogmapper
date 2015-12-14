@@ -12,11 +12,22 @@ en:
   instructions:
     welcome: Welcome to %{title}
     what_you_see: |
+      It's a demonstration version of what was designed, developed and deployed
+      during <a href='http://www.smogathon.pl/'>Smogathon 2015</a>. It shows temperature,
+      humidity and particulate matter reading data from the sensor we have built.
+      It also demonstrates visualization of 340 of such sensors, if one would deploy them
+      throughout the city of Kraków, Poland.
+    what_you_see_2: |
       Please click a sensor marker on the map, in order to get detailed information.
       You can also see the past readings from the chosen sensor.
-    what_you_see_2: |
-      Please use the buttons below to see a dynamic map of a given phenomenon, for the
+
+      Please use the Particulate  buttons below to see a dynamic map of a given phenomenon, for the
       last 24 hours.
+
+    disclaimer: |
+      <strong>NOTE</strong>: please note the presented data is generated for the purpose
+      of the demonstration, so it in no way shows the actual air quality (apart from the
+      single marker, that represents the real sensor we have built and integrated in).
 
   nav:
     to_en: Switch language to English

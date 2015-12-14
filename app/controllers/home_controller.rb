@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @measurement = Measurement.all
+    @measurements = Measurement.all
   end
 end
