@@ -19,6 +19,8 @@ gem 'uglifier', '2.6.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'oj'
+gem 'oj_mimic_json'
 
 # A rails-assets 'gem' section, downloaded and packaged from bower.io
 # That packages the leaflet.js library for maps handling
