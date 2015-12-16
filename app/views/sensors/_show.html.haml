@@ -36,5 +36,9 @@
           name: '#{measurement.name}',
           data: #{readings.map(&:value)}
         }]
+      }, function(e) {
+        setTimeout(function() {
+          e.setSize($('##{measurement.name}-container').width(), $('##{measurement.name}-container').height());
+        }, 1);
       });
     });
