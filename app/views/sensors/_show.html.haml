@@ -17,7 +17,7 @@
           x: -20 //center
         },
         xAxis: {
-          categories: ['- 1 Day','','','','','','','','','','Now']
+          categories: ['3 hours ago','','','','','','','','','','Now']
         },
         yAxis: {
           title: {
@@ -30,11 +30,13 @@
           }]
         },
         tooltip: {
-          valueSuffix: '#{measurement.unit}'
+          formatter: function () {
+            return '<div class="tooltip"><b>' + Highcharts.numberFormat(this.y) + ' [#{measurement.unit}]</b></div>';
+          }
         },
         series: [{
           name: '#{measurement.name}',
-          data: #{readings.map(&:value)}
+          data: #{readings.map{ |r| r.value.round(4) }}
         }]
       }, function(e) {
         setTimeout(function() {
