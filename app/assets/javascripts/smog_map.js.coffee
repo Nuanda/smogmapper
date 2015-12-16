@@ -22,12 +22,14 @@ class @SmogMap
       iconUrl: 'assets/images/marker-icon-2x.png'
       iconAnchor:   [20, 80] # point of the icon which will correspond to marker's location
 
+    window.markerLayer = L.layerGroup()
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
         sensorMarker = if sensor.id == 1000
           L.marker([sensor['lat'], sensor['long']], { icon: bigIcon })
         else
           L.marker([sensor['lat'], sensor['long']])
+        window.markerLayer.addLayer(sensorMarker)
         sensorMarker.addTo(window.smogMap).
           on 'click', (sensor) =>
             $.get 'sensors/' + sensor.target.dbId, (data) ->

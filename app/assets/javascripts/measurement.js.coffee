@@ -14,11 +14,13 @@ $ ->
             loadHeatmap(url, iteration - 1)
           500
         )
+      else
+        window.markerLayer.eachLayer (sensorMarker) ->
+          window.smogMap.addLayer(sensorMarker)
 
   $('.measurement-button').on 'click', (measurement) ->
     url = 'measurements/' + $(measurement.currentTarget).data('id')
     iteration = 10
-    window.smogMap.eachLayer (layer) ->
-      if layer._latlng
-        window.smogMap.removeLayer(layer)
+    window.markerLayer.eachLayer (sensorMarker) ->
+      window.smogMap.removeLayer(sensorMarker)
     loadHeatmap(url, iteration)
