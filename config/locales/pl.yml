@@ -37,7 +37,7 @@ pl:
     zoom_out: Pokaż całą mapę
     tabs:
       info: Informacje
-      sensors: Sensors
+      sensors: Mierniki
 
   map:
     zoom_in: Przybliż mapę

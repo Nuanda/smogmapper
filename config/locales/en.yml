@@ -33,10 +33,10 @@ en:
   nav:
     to_en: Switch language to English
     to_pl: Przełącz język na polski
-    zoom_out: Show all districts
+    zoom_out: Show entire map
     tabs:
       info: Information
-      sensors: Mierniki
+      sensors: Sensors
 
   map:
     zoom_in: Zoom in
