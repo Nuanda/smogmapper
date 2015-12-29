@@ -3,7 +3,7 @@ class MeasurementsController < ApplicationController
 
   def show
     @measurement = Measurement.find(params[:id])
-    ref_time = Time.new(2015, 12, 14, 10, 34)
+    ref_time = Rails.env.production? ? Time.new(2015, 12, 14, 10, 34) : Time.now
     @readings = @measurement.
       readings.
       includes(:sensor).
