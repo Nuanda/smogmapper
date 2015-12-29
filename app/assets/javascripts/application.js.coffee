@@ -29,8 +29,12 @@ $ ->
 
   $('body').on 'click', '#show-sidebar', (e) ->
     e.preventDefault()
-    $('div#main').toggleClass('sidebar-show').promise().done ->
+    window.toggleSidebar()
+
+window.toggleSidebar = (refreshMap = true) ->
+  $('div#main').toggleClass('sidebar-show').promise().done =>
+    if refreshMap
       setTimeout(
         ->
           window.smogMap.invalidateSize()
-        , 250)
+      , 250)

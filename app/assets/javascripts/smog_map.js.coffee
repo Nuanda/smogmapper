@@ -32,6 +32,7 @@ class @SmogMap
         window.markerLayer.addLayer(sensorMarker)
         sensorMarker.addTo(window.smogMap).
           on 'click', (sensor) =>
+            window.toggleSidebar(false)
             $.get 'sensors/' + sensor.target.dbId, (data) ->
               $('#sensors-tab').html data
               $('#left-section a[href="#sensors-tab"]').tab 'show'
