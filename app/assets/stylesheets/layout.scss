@@ -2,6 +2,12 @@
   height: 51px;
 }
 
+@media (min-width: 768px) {
+  .show-sidebar {
+    display: none;
+  }
+}
+
 .logo {
   color: #ffffff;
   font-family: "Righteous",cursive;

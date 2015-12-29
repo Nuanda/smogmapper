@@ -14,6 +14,12 @@
           #smog-map
 
     = render 'layouts/flash'
+
+    .device-xs.visible-xs
+    .device-sm.visible-sm
+    .device-md.visible-md
+    .device-lg.visible-lg
+
     :javascript
       console.log('INIT: setting current locale');
       I18n.locale = "#{I18n.locale}";

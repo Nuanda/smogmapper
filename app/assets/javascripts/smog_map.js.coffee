@@ -8,15 +8,15 @@ class @SmogMap
 
     # Create a map in the "map" div, set the view to Kraków and zoom level to 13
     window.smogMap = L.map('smog-map', { zoomControl: false, layers: [window.heatmapLayer] })
-                .setView [50.06, 19.95], 14
+                .setView [50.06, 19.95], 13
     new L.Control.Zoom(
       zoomInTitle: I18n.t('map.zoom_in')
       zoomOutTitle: I18n.t('map.zoom_out')
     ).addTo window.smogMap
 
-#    L.tileLayer(Config.CDB_TILE_URL,{
-#      attribution: Config.OSM_ATTRIBUTION + ', ' + Config.CDB_ATTRIBUTION
-#    }).addTo window.smogMap
+    L.tileLayer(Config.CDB_TILE_URL,{
+      attribution: Config.OSM_ATTRIBUTION + ', ' + Config.CDB_ATTRIBUTION
+    }).addTo window.smogMap
 
     bigIcon = L.icon
       iconUrl: 'assets/images/marker-icon-2x.png'
@@ -32,7 +32,7 @@ class @SmogMap
         window.markerLayer.addLayer(sensorMarker)
         sensorMarker.addTo(window.smogMap).
           on 'click', (sensor) =>
-            window.toggleSidebar(false)
+            window.toggleSidebar(false) if window.isDeviceClass('xs')
             $.get 'sensors/' + sensor.target.dbId, (data) ->
               $('#sensors-tab').html data
               $('#left-section a[href="#sensors-tab"]').tab 'show'

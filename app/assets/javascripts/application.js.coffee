@@ -38,3 +38,6 @@ window.toggleSidebar = (refreshMap = true) ->
         ->
           window.smogMap.invalidateSize()
       , 250)
+
+window.isDeviceClass = (alias) ->
+  $('.device-' + alias).is(':visible')
