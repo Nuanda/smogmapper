@@ -1,7 +1,12 @@
 =content_for :action_nav do
   %ul.nav.navbar-nav.panel-menu
     %li
-      = link_to '#', id: 'zoom-out-button',
+      = link_to '#', id: 'show-sidebar',
       data: { placement: 'bottom' },
-      title: t('nav.zoom_out') do
-        = icon 'expand'
+      class: 'show-sidebar' do
+        = icon 'bars'
+    -#%li
+    -#  = link_to '#', id: 'zoom-out-button',
+    -#  data: { placement: 'bottom' },
+    -#  title: t('nav.zoom_out') do
+    -#    = icon 'expand'

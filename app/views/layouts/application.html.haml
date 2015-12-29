@@ -6,10 +6,10 @@
 
     #main.container-fluid
       .row
-        .col-sm-4
+        #sidebar-left.col-sm-4.col-xs-12
           = render 'layouts/left_section'
 
-        #content.col-sm-8.full-content
+        #content.col-sm-8.col-xs-12.full-content
           = yield
           #smog-map
 

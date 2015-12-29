@@ -26,3 +26,11 @@ $ ->
       hide: 0
     container: 'body'
     selector: '[title]'
+
+  $('body').on 'click', '#show-sidebar', (e) ->
+    e.preventDefault()
+    $('div#main').toggleClass('sidebar-show').promise().done ->
+      setTimeout(
+        ->
+          window.smogMap.invalidateSize()
+        , 250)
