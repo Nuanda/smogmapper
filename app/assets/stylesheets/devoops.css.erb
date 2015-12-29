@@ -2154,21 +2154,22 @@ border-radius: 50%;}
 .control-group {margin-bottom:30px;}
 
 @media (min-width: 768px) {
-  #sidebar-left {
+ .sidebar-show #sidebar-left {
     opacity: 1;
     /*width: 16.666666666666664%;*/
-    width: 33.3333333333%;
+    width: 33.3333333334%;
     padding: 0 15px;
+    height: 100%;
   }
-  .sidebar-show #sidebar-left {
+  #sidebar-left {
     opacity: 0;
     width: 0;
     height: 0;
     padding: 0;
   }
-  .sidebar-show #content {
+  #content {
     opacity: 1;
-    width: 100%;
+    width: 66.66666666%;
   }
   .page-404 .form-inline {
     width: 60%;

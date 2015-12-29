@@ -31,13 +31,11 @@ $ ->
     e.preventDefault()
     window.toggleSidebar()
 
+  unless window.isDeviceClass('xs')
+    $('div#main').toggleClass('sidebar-show')
+
 window.toggleSidebar = (refreshMap = true) ->
-  $('div#main').toggleClass('sidebar-show').promise().done =>
-    if refreshMap
-      setTimeout(
-        ->
-          window.smogMap.invalidateSize()
-      , 250)
+  $('div#main').toggleClass('sidebar-show')
 
 window.isDeviceClass = (alias) ->
   $('.device-' + alias).is(':visible')
