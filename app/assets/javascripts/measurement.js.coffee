@@ -23,5 +23,5 @@ $ ->
     iteration = 10
     window.markerLayer.eachLayer (sensorMarker) ->
       window.smogMap.removeLayer(sensorMarker)
-    window.toggleSidebar(false) if window.isDeviceClass('xs')
+    window.toggleSidebar() if window.isDeviceClass('xs')
     loadHeatmap(url, iteration)

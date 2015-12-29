@@ -34,8 +34,13 @@ $ ->
   unless window.isDeviceClass('xs')
     $('div#main').toggleClass('sidebar-show')
 
-window.toggleSidebar = (refreshMap = true) ->
-  $('div#main').toggleClass('sidebar-show')
+window.toggleSidebar = (completeCallback = null) ->
+  $('div#main').toggleClass('sidebar-show').promise().done =>
+    if completeCallback
+      setTimeout(
+        ->
+          completeCallback()
+      , 250)
 
 window.isDeviceClass = (alias) ->
   $('.device-' + alias).is(':visible')

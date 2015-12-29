@@ -32,10 +32,11 @@ class @SmogMap
         window.markerLayer.addLayer(sensorMarker)
         sensorMarker.addTo(window.smogMap).
           on 'click', (sensor) =>
-            window.toggleSidebar(false) if window.isDeviceClass('xs')
-            $.get 'sensors/' + sensor.target.dbId, (data) ->
-              $('#sensors-tab').html data
-              $('#left-section a[href="#sensors-tab"]').tab 'show'
+            if window.isDeviceClass('xs')
+              window.toggleSidebar () =>
+                SmogMap.loadSensor(sensor)
+            else
+              SmogMap.loadSensor(sensor)
         sensorMarker.dbId = sensor.id
 
     $('#zoom-out-button').on 'click', =>
@@ -44,3 +45,8 @@ class @SmogMap
       northEast = L.latLng Config.MAX_BOUNDS_NORTH, Config.MAX_BOUNDS_EAST
       bounds = L.latLngBounds southWest, northEast
       window.smogMap.fitBounds bounds
+
+  @loadSensor: (sensor) ->
+    $.get 'sensors/' + sensor.target.dbId, (data) ->
+      $('#sensors-tab').html data
+      $('#left-section a[href="#sensors-tab"]').tab 'show'
