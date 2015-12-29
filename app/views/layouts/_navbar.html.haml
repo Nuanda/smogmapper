@@ -1,19 +1,19 @@
-%header.navbar.navbar-fixed-top.navbar-default(role="navigation")
-  .container-fluid
-    .row
-      .col-sm-4.top-left-panel
-        %a.logo(href=root_path)
-          = icon('map-marker')
-          = t('title')
-        .btn-group.btn-group-xs.pull-right.navbar-btn
-          = link_to 'EN', { locale: :en },
-                    title: t('nav.to_en'),
-                    data: { placement: 'bottom' },
-                    class: "btn btn-default #{'active' if en?}"
-          = link_to 'PL', { locale: :pl },
-                    title: t('nav.to_pl'),
-                    data: { placement: 'bottom' },
-                    class: "btn btn-default #{'active' unless en?}"
+%nav.navbar.navbar-fixed-top.navbar-default(role="navigation")
+  .container-fluid.top-left-panel
+    %a.logo(href=root_path)
+      = icon('map-marker')
+      = t('title')
 
-      .col-sm-8.top-panel
-        =yield :action_nav
+    .btn-group.pull-right.navbar-btn.btn
+      = link_to 'EN', { locale: :en },
+                title: t('nav.to_en'),
+                data: { placement: 'bottom' },
+                class: "btn btn-default #{'active' if en?}"
+      = link_to 'PL', { locale: :pl },
+                title: t('nav.to_pl'),
+                data: { placement: 'bottom' },
+                class: "btn btn-default #{'active' unless en?}"
+
+    .navbar-btn.pull-right.btn
+      = link_to '#', id: 'show-sidebar', class: 'btn btn-default show-sidebar' do
+        = icon 'bars'
