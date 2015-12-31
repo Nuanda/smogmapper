@@ -10,6 +10,7 @@
 #= require js-routes
 #= require leaflet-heatmap
 #= require heatmap
+#= require highcharts
 #= require_tree .
 
 $ ->
