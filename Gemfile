@@ -1,6 +1,4 @@
 source 'https://rubygems.org'
-# This source allows us use bower.io js packages as gems
-source 'https://rails-assets.org'
 
 # This declaration is required for proper Heroku deployment
 ruby '2.2.0'
@@ -22,11 +20,15 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'oj'
 gem 'oj_mimic_json'
 
-# A rails-assets 'gem' section, downloaded and packaged from bower.io
-# That packages the leaflet.js library for maps handling
-gem 'rails-assets-leaflet'
-# It's an extension for leaflet.js to deal with ArcGIS feature layer servers
-gem 'rails-assets-esri-leaflet', '1.0.0.rc.4'
+# This source allows us use bower.io js packages as gems
+source 'https://rails-assets.org' do
+  # A rails-assets 'gem' section, downloaded and packaged from bower.io
+  # That packages the leaflet.js library for maps handling
+  gem 'rails-assets-leaflet', '1.0.0.beta.2'
+  # It's an extension for leaflet.js to deal with ArcGIS feature layer servers
+  gem 'rails-assets-esri-leaflet', '1.0.1'
+end
+
 # Helps with translating strings directly in js/cs
 gem 'i18n-js'
 # For Rails route helpers in js/cs code
