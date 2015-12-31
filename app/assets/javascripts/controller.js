@@ -1,9 +1,4 @@
-var heatmapLayer;
-var map;
-
-var baseLayer;
-
-var cfg = {
+var heatmapConfig = {
 	"radius": .025,
 	"maxOpacity": .6,
 	"scaleRadius": true,
@@ -60,27 +55,6 @@ function retrieveData(){
 	};*/
 }
 
-
 function setData(){
 	heatMap.setData(retrieveData());
-}
-
-function init(){
-	heatmapLayer = new HeatmapOverlay(cfg);
-	
-	//baseLayer = L.tileLayer(
-	//	'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-	//		attribution: '',
-	//		maxZoom: 18
-	//	}
-	//);
-
-	//map = new L.map('map', {
-	//	center: new L.LatLng(50.0525, 19.9659),
-	//	zoom: 11,
-	//	layers: [baseLayer, heatmapLayer]
-	//});
-
-	heatmapLayer.setData(retrieveData());
-	//window.setInterval(setData, 1000);
 }

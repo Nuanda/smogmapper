@@ -4,10 +4,8 @@ class @SmogMap
 
     $('#smog-map').css('min-height', window.innerHeight - 50)
 
-    window.heatmapLayer = new HeatmapOverlay(cfg)
-
     # Create a map in the "map" div, set the view to Kraków and zoom level to 13
-    window.smogMap = L.map('smog-map', { zoomControl: false, layers: [window.heatmapLayer] })
+    window.smogMap = L.map('smog-map', { zoomControl: false })
                 .setView [50.06, 19.95], 13
     new L.Control.Zoom(
       zoomInTitle: I18n.t('map.zoom_in')
