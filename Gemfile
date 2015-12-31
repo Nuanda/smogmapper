@@ -1,12 +1,10 @@
 source 'https://rubygems.org'
-# This source allows us use bower.io js packages as gems
-source 'https://rails-assets.org'
 
 # This declaration is required for proper Heroku deployment
-ruby '2.2.0'
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '~> 4.2.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -22,11 +20,15 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'oj'
 gem 'oj_mimic_json'
 
-# A rails-assets 'gem' section, downloaded and packaged from bower.io
-# That packages the leaflet.js library for maps handling
-gem 'rails-assets-leaflet'
-# It's an extension for leaflet.js to deal with ArcGIS feature layer servers
-gem 'rails-assets-esri-leaflet', '1.0.0.rc.4'
+# This source allows us use bower.io js packages as gems
+source 'https://rails-assets.org' do
+  # A rails-assets 'gem' section, downloaded and packaged from bower.io
+  # That packages the leaflet.js library for maps handling
+  gem 'rails-assets-leaflet', '1.0.0.beta.2'
+  # It's an extension for leaflet.js to deal with ArcGIS feature layer servers
+  gem 'rails-assets-esri-leaflet', '~> 1.0.0'
+end
+
 # Helps with translating strings directly in js/cs
 gem 'i18n-js'
 # For Rails route helpers in js/cs code
@@ -52,8 +54,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'bootstrap-sass', '~> 3.3.1'
-gem 'font-awesome-sass', '~> 4.2.0'
+gem 'bootstrap-sass', '~> 3.3'
+gem 'font-awesome-sass', '~> 4.2'
 gem 'autoprefixer-rails'
 gem 'devoops-rails',
     github: 'mkasztelnik/devoops-rails',
@@ -77,7 +79,7 @@ group :development, :test do
   gem 'byebug'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0.0.beta4'
+  gem 'web-console', '~> 3.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
