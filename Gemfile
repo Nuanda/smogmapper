@@ -100,7 +100,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.0'
 
   # additional matchers
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda-matchers', '~> 3.0'
 
   # automatically invoke spec after clicking ctr+s
   gem 'guard-rspec', require: false
