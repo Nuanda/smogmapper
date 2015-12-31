@@ -46,5 +46,3 @@ RSpec.configure do |config|
   # config.include OauthHelper
   config.include FactoryGirl::Syntax::Methods
 end
-
-OmniAuth.config.test_mode = true
