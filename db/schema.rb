@@ -53,4 +53,8 @@ ActiveRecord::Schema.define(version: 20151212191929) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "measurement_sensors", "measurements"
+  add_foreign_key "measurement_sensors", "sensors"
+  add_foreign_key "readings", "measurements"
+  add_foreign_key "readings", "sensors"
 end
