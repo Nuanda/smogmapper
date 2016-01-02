@@ -20,6 +20,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'oj'
 gem 'oj_mimic_json'
 
+# Activerecord-import is a library for bulk inserting data using ActiveRecord.
+gem 'activerecord-import'
+
 # This source allows us use bower.io js packages as gems
 source 'https://rails-assets.org' do
   # A rails-assets 'gem' section, downloaded and packaged from bower.io
