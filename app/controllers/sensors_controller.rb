@@ -23,7 +23,11 @@ class SensorsController < ApplicationController
   private
 
   def to
-    @to ||= Rails.env.production? ? Time.new(2015, 12, 14, 10, 34) : Time.now
+    @to ||= if Rails.env.production?
+              params[:id] == 1000 ? Time.new(2015, 12, 14, 15, 15) : Time.new(2015, 12, 14, 10, 34)
+            else
+              Time.now
+            end
   end
 
   def from
