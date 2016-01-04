@@ -17,7 +17,12 @@
           x: -20 //center
         },
         xAxis: {
-          categories: ['3 hours ago','','','','','','','','','','Now']
+          type: 'datetime',
+          labels: {
+            formatter: function() {
+              return Highcharts.dateFormat('%H:%M', this.value*1000);
+            },
+          }
         },
         yAxis: {
           title: {
@@ -31,12 +36,13 @@
         },
         tooltip: {
           formatter: function () {
-            return '<div class="tooltip"><b>' + Highcharts.numberFormat(this.y) + ' [#{measurement.unit}]</b></div>';
+            return '<div class="tooltip">' + Highcharts.dateFormat('%e %b %H:%M:%S', this.x * 1000) + '<br/><b>' + Highcharts.numberFormat(this.y) + ' [#{measurement.unit}]</b></div>';
           }
         },
         series: [{
           name: '#{measurement.name}',
-          data: #{readings.map{ |r| r.value.round(4) }}
+          data: #{readings.map{ |r| [r.time.to_i, r.value.round(4)] }},
+          showInLegend: false
         }]
       }, function(e) {
         setTimeout(function() {
