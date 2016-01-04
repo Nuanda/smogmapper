@@ -1,7 +1,5 @@
 #= require jquery
-#= require jquery.turbolinks
 #= require jquery_ujs
-#= require turbolinks
 #= require i18n
 #= require i18n/translations
 #= require bootstrap-sprockets
