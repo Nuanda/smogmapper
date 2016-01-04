@@ -23,14 +23,20 @@ if (!this.Config) {
   I18n.defaultLocale = "<%= I18n.default_locale %>";
 
   this.Config.set = function(key, value) {
-    if (window.localStorage) {
-      window.localStorage.setItem("config." + key, value);
-    }
+    key = "config." + key;
+
+    if (window.localStorage)
+      window.localStorage.setItem(key, value);
+    else if (window.Cookies)
+      window.Cookies.set(key, value, { expires: 365 });
   }
 
   this.Config.get = function(key) {
-    if (window.localStorage) {
-      return window.localStorage.getItem("config." + key);
-    }
+    key = "config." + key;
+
+    if (window.localStorage)
+      return window.localStorage.getItem(key);
+    else if (window.Cookies)
+      return window.Cookies.get(key);
   }
 }

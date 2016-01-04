@@ -30,6 +30,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-leaflet', '1.0.0.beta.2'
   # It's an extension for leaflet.js to deal with ArcGIS feature layer servers
   gem 'rails-assets-esri-leaflet', '~> 1.0.0'
+  gem 'rails-assets-js-cookie', '~> 2.1.0'
 end
 
 # Helps with translating strings directly in js/cs
