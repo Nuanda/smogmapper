@@ -1,5 +1,7 @@
 class @SmogMap
-  constructor: ->
+  constructor: (config) ->
+    @config = config
+
     L.Icon.Default.imagePath = 'assets/images'
 
     $('#smog-map').css('min-height', window.innerHeight - 50)
@@ -12,8 +14,8 @@ class @SmogMap
       zoomOutTitle: I18n.t('map.zoom_out')
     ).addTo window.smogMap
 
-    L.tileLayer(Config.CDB_TILE_URL,{
-      attribution: Config.OSM_ATTRIBUTION + ', ' + Config.CDB_ATTRIBUTION
+    L.tileLayer(config.CDB_TILE_URL,{
+      attribution: config.OSM_ATTRIBUTION + ', ' + config.CDB_ATTRIBUTION
     }).addTo window.smogMap
 
     bigIcon = L.icon
@@ -44,8 +46,8 @@ class @SmogMap
 
     $('#zoom-out-button').on 'click', =>
       # Zoom the map to proper bounds
-      southWest = L.latLng Config.MAX_BOUNDS_SOUTH, Config.MAX_BOUNDS_WEST
-      northEast = L.latLng Config.MAX_BOUNDS_NORTH, Config.MAX_BOUNDS_EAST
+      southWest = L.latLng config.MAX_BOUNDS_SOUTH, config.MAX_BOUNDS_WEST
+      northEast = L.latLng config.MAX_BOUNDS_NORTH, config.MAX_BOUNDS_EAST
       bounds = L.latLngBounds southWest, northEast
       window.smogMap.fitBounds bounds
 
