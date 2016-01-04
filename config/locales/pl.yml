@@ -27,9 +27,10 @@ pl:
 
     disclaimer: |
       <strong>UWAGA</strong>: proszę zauważyć, że prezentowane dane zostały wygenerowane na
-      potrzeby prezentacji rozwiązania, a więc z żadnym razie nie pokazują prawdziwych wartości
+      potrzeby symulacji rozwiązania, a więc w żadnym razie nie pokazują prawdziwych wartości
       jakości potwierza (z wyjątkiem jednego, większego znacznika na mapie, który reprezentuje
-      prawdziwy miernik zbudowany przez nas i zintegrowany z serwisem).
+      prawdziwy miernik zbudowany przez nas i zintegrowany z serwisem). Dane z rzeczywistego
+      miernika zostały zarejestrowane 13 grudnia 2015 roku, wewnątrz lokalu biurowego.
 
   nav:
     to_en: Switch language to English
