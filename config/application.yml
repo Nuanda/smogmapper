@@ -9,6 +9,8 @@ defaults: &defaults
       north: 50.12550879764089
   charts:
     interval: 5 # hours
+  measurements:
+    interval: 15 # minutes
 
 development:
   <<: *defaults
