@@ -24,7 +24,7 @@ class SensorsController < ApplicationController
 
   def to
     @to ||= if Rails.env.production?
-              (params[:id].to_i == 1000) ? Time.new(2015, 12, 14, 15, 15) : Time.new(2015, 12, 14, 10, 34)
+              (params[:id].to_i == 1000) ? Time.new(2015, 12, 13, 15, 15) : Time.new(2015, 12, 14, 10, 34)
             else
               Time.now
             end
