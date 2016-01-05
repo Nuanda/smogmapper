@@ -32,6 +32,12 @@ pl:
       prawdziwy miernik zbudowany przez nas i zintegrowany z serwisem). Dane z rzeczywistego
       miernika zostały zarejestrowane 13 grudnia 2015 roku, wewnątrz lokalu biurowego.
 
+  sensors:
+    title: Dane pomiarowe
+    instruction: |
+      Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
+      %{hours} godzin.
+
   nav:
     to_en: Switch language to English
     to_pl: Przełącz język na polski

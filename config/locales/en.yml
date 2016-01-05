@@ -31,6 +31,11 @@ en:
       single, bigger, marker, that represents the real sensor we have built and integrated in).
       The real sensor data was recorded on 13th of December, 2015, indoors.
 
+  sensors:
+    title: Sensor readings
+    instruction: |
+      Please pick a sensor on the map in order to see the last %{hours} hours of readings.
+
   nav:
     to_en: Switch language to English
     to_pl: Przełącz język na polski

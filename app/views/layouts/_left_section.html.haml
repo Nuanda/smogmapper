@@ -17,4 +17,7 @@
       = render 'home/instructions'
     #sensors-tab.tab-pane
       #sensors
-        = t 'nav.tabs.sensors'
+        %h4.text-center
+          = t 'sensors.title'
+        %p
+          = t('sensors.instruction', hours: Rails.application.config_for(:application).fetch('charts', { 'interval' => 5 })['interval'])
