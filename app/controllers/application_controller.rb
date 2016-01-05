@@ -18,11 +18,14 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  def demo?
+    @demo ||= Rails.application.config_for(:application).fetch('demo')
+  end
+
   private
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
     Rails.application.routes.default_url_options[:locale] = I18n.locale
   end
-
 end

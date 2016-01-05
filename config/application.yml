@@ -11,6 +11,7 @@ defaults: &defaults
     interval: 5 # hours
   measurements:
     interval: 15 # minutes
+  demo: false
 
 development:
   <<: *defaults

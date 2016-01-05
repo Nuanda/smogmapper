@@ -20,10 +20,16 @@ class SensorsController < ApplicationController
     render json: @sensors
   end
 
+  def new
+    @sensor = Sensor.new
+
+    render partial: 'sensors/new'
+  end
+
   private
 
   def to
-    @to ||= if Rails.env.production?
+    @to ||= if demo?
               (params[:id].to_i == 1000) ? Time.new(2015, 12, 13, 15, 15) : Time.new(2015, 12, 14, 10, 34)
             else
               Time.now

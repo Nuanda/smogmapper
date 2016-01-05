@@ -30,7 +30,7 @@ class MeasurementsController < ApplicationController
   end
 
   def reference_time
-    Rails.env.production? ? Time.new(2015, 12, 14, 10, 34) : Time.now
+    demo? ? Time.new(2015, 12, 14, 10, 34) : Time.now
   end
 
   def to
