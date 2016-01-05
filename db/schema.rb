@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151212191929) do
+ActiveRecord::Schema.define(version: 20160105113315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,12 +38,11 @@ ActiveRecord::Schema.define(version: 20151212191929) do
     t.integer  "sensor_id",      null: false
     t.float    "value",          null: false
     t.datetime "time"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
   end
 
   add_index "readings", ["measurement_id"], name: "index_readings_on_measurement_id", using: :btree
   add_index "readings", ["sensor_id"], name: "index_readings_on_sensor_id", using: :btree
+  add_index "readings", ["time"], name: "index_readings_on_time", using: :btree
 
   create_table "sensors", force: :cascade do |t|
     t.string   "name"
