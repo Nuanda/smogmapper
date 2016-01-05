@@ -2,14 +2,14 @@ class MeasurementsController < ApplicationController
   layout false
 
   def show
-    ref_time = Rails.env.production? ? Time.new(2015, 12, 14, 10, 34) : Time.now
-
-    cache_key = { id: params[:id],
-                  day: Time.now.yday,
-                  interval_number: interval_number(ref_time - params[:iteration].to_i * interval) }
+    iteration_time = reference_time - params[:iteration].to_i * interval
+    cache_key = {
+      id: params[:id],
+      day: iteration_time.yday,
+      interval_number: interval_number(iteration_time)
+    }
 
     @readings = Rails.cache.fetch(cache_key, expires_in: 25.hours) do
-      logger.info 'MISS MISS MISS'
       @measurement = Measurement.find(params[:id])
       @measurement.
         readings.
@@ -29,9 +29,12 @@ class MeasurementsController < ApplicationController
     (minutes/15).to_i
   end
 
+  def reference_time
+    Rails.env.production? ? Time.new(2015, 12, 14, 10, 34) : Time.now
+  end
+
   def to
-    ref_time = Rails.env.production? ? Time.new(2015, 12, 14, 10, 34) : Time.now
-    @to ||= (ref_time - params[:iteration].to_i * interval)
+    @to ||= (reference_time - params[:iteration].to_i * interval)
   end
 
   def from
