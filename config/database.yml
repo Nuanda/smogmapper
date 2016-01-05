@@ -32,5 +32,3 @@ test:
 production:
   <<: *default
   database: smogmapper_production
-  username: smogmapper
-  password: <%= ENV['SMOGMAPPER_DATABASE_PASSWORD'] %>
