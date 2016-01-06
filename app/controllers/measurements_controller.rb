@@ -23,7 +23,7 @@ class MeasurementsController < ApplicationController
       Reading.includes(:sensor).
         where(measurement_id: params[:id]).
         where('time > ? AND time <= ?', to - interval.minutes, to).
-        to_json(include: :sensor)
+        to_json(only: :value, include: { sensor: { only: [:lat, :long] } })
     end
   end
 

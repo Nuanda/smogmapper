@@ -16,7 +16,7 @@ RSpec.describe "Heatmap" do
       result = JSON.parse(response.body)
 
       expect(result.size).to eq 1
-      expect(result[0]['id']).to eq new_reading.id
+      expect(result[0]['value']).to eq new_reading.value
     end
 
     it 'caches readings until new reading appear' do
@@ -37,7 +37,10 @@ RSpec.describe "Heatmap" do
       new_reading = create_reading
       get measurement_path(id: measurement.id), nil, json_header
 
-      expect(response.body).to include new_reading.to_json(include: :sensor)
+      expect(response.body).
+        to include new_reading.to_json(only: :value,
+                                       include: { sensor: {
+                                                  only: [:lat, :long] }})
     end
   end
 
@@ -57,7 +60,7 @@ RSpec.describe "Heatmap" do
       result = JSON.parse(response.body)
 
       expect(result.size).to eq 1
-      expect(result[0]['id']).to eq current.id
+      expect(result[0]['value']).to eq current.value
     end
 
     it 'uses cache for iteration data' do
