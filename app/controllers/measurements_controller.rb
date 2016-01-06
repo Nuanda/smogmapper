@@ -25,11 +25,10 @@ class MeasurementsController < ApplicationController
   end
 
   def iteration_readings
-    iteration_time = reference_time - params[:iteration].to_i * interval
     cache_key = {
       id: params[:id],
-      day: iteration_time.yday,
-      interval_number: interval_number(iteration_time)
+      day: to.yday,
+      interval_number: interval_number(to)
     }
 
     Rails.cache.fetch(cache_key, expires_in: 25.hours) do
@@ -40,26 +39,32 @@ class MeasurementsController < ApplicationController
   def readings_json(to)
     Reading.includes(:sensor).
       where(measurement_id: params[:id]).
-      where('time > ? AND time <= ?', to - interval, to).
+      where('time > ? AND time <= ?', to - interval.minutes, to).
       to_json(include: :sensor)
   end
 
   def interval_number(time)
-    minutes = (time.seconds_since_midnight/60).to_i
+    minutes = (time.getutc.seconds_since_midnight/60).to_i
     logger.info "MINUTES: #{minutes}"
     (minutes/15).to_i
   end
 
   def reference_time
+    @reference_time ||=
+      Time.utc(base_time.year, base_time.month, base_time.day) +
+        (interval_number(base_time) * interval).minutes
+  end
+
+  def base_time
     demo? ? Time.new(2015, 12, 14, 10, 34) : Time.now
   end
 
   def to
-    @to ||= (reference_time - params[:iteration].to_i * interval)
+    @to ||= reference_time - (params[:iteration].to_i * interval).minutes
   end
 
   def interval
     Rails.application.config_for(:application).
-      fetch('measurements', { 'interval' => 15 })['interval'].minutes
+      fetch('measurements', { 'interval' => 15 })['interval']
   end
 end

@@ -41,6 +41,24 @@ RSpec.describe "Heatmap" do
     end
   end
 
+  context 'iteration' do
+    it 'returns results from iteration interval' do
+      # interval from 11:45 to 12:00
+      allow(Time).to receive(:now).
+        and_return(Time.new(2015, 1, 1, 12, 5))
+
+      create_reading(Time.new(2015, 1, 1, 11, 44)) # before
+      current = create_reading(Time.new(2015, 1, 1, 11, 50))
+      create_reading(Time.new(2015, 1, 1, 12, 1)) # after
+
+      get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+      expect(result[0]['id']).to eq current.id
+    end
+  end
+
   def create_reading(time = Time.now)
     create(:reading, measurement: measurement, sensor: sensor, time: time)
   end
