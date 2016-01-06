@@ -3,44 +3,28 @@ class MeasurementsController < ApplicationController
 
   def show
     if params[:iteration].blank?
-      render json: latest_readings
+      last_reading = Reading.where(measurement_id: params[:id]).last
+      readings = readings_json((last_reading&.time || Time.now),
+                               (2 * interval).minutes)
     else
-      render json: iteration_readings
+      to = reference_time - (params[:iteration].to_i * interval).minutes
+      readings = readings_json(to, 25.hours)
     end
+
+    render json: readings
   end
 
   private
 
-  def latest_readings
-    last_reading = Reading.where(measurement_id: params[:id]).last
-    cache_key = {
-      id: params[:id],
-      to: last_reading.try(:time).try(:to_f)
-    }
-    Rails.cache.fetch(cache_key,
-                      expires_in: interval + interval) do
-      to = Time.now
-      readings_json(to)
+  def readings_json(to, expires_in)
+    cache_key = { id: params[:id], to: to&.to_f }
+
+    Rails.cache.fetch(cache_key, expires_in: expires_in) do
+      Reading.includes(:sensor).
+        where(measurement_id: params[:id]).
+        where('time > ? AND time <= ?', to - interval.minutes, to).
+        to_json(include: :sensor)
     end
-  end
-
-  def iteration_readings
-    cache_key = {
-      id: params[:id],
-      day: to.yday,
-      interval_number: interval_number(to)
-    }
-
-    Rails.cache.fetch(cache_key, expires_in: 25.hours) do
-      readings_json(to)
-    end
-  end
-
-  def readings_json(to)
-    Reading.includes(:sensor).
-      where(measurement_id: params[:id]).
-      where('time > ? AND time <= ?', to - interval.minutes, to).
-      to_json(include: :sensor)
   end
 
   def interval_number(time)
@@ -50,17 +34,14 @@ class MeasurementsController < ApplicationController
   end
 
   def reference_time
-    @reference_time ||=
+    @reference_time ||= begin
       Time.utc(base_time.year, base_time.month, base_time.day) +
         (interval_number(base_time) * interval).minutes
+    end
   end
 
   def base_time
     demo? ? Time.new(2015, 12, 14, 10, 34) : Time.now
-  end
-
-  def to
-    @to ||= reference_time - (params[:iteration].to_i * interval).minutes
   end
 
   def interval

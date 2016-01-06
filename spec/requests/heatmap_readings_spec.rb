@@ -42,11 +42,13 @@ RSpec.describe "Heatmap" do
   end
 
   context 'iteration' do
-    it 'returns results from iteration interval' do
+    before do
       # interval from 11:45 to 12:00
       allow(Time).to receive(:now).
         and_return(Time.new(2015, 1, 1, 12, 5))
+    end
 
+    it 'returns results from iteration interval' do
       create_reading(Time.new(2015, 1, 1, 11, 44)) # before
       current = create_reading(Time.new(2015, 1, 1, 11, 50))
       create_reading(Time.new(2015, 1, 1, 12, 1)) # after
@@ -56,6 +58,16 @@ RSpec.describe "Heatmap" do
 
       expect(result.size).to eq 1
       expect(result[0]['id']).to eq current.id
+    end
+
+    it 'uses cache for iteration data' do
+      create_reading(Time.new(2015, 1, 1, 11, 50))
+      #make sure cache is created
+      get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+
+      expect do
+        get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+      end.to_not make_database_queries
     end
   end
 
