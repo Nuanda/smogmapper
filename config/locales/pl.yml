@@ -38,6 +38,10 @@ pl:
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
 
+  heatmap:
+    last_day: Dane z ostatnich 24 godzin
+    current: Aktualne dane
+
   nav:
     to_en: Switch language to English
     to_pl: Przełącz język na polski

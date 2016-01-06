@@ -36,6 +36,10 @@ en:
     instruction: |
       Please pick a sensor on the map in order to see the last %{hours} hours of readings.
 
+  heatmap:
+    last_day: Data from last 24 hours
+    current: Current data
+
   nav:
     to_en: Switch language to English
     to_pl: Przełącz język na polski

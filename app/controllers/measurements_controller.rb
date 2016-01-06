@@ -2,6 +2,29 @@ class MeasurementsController < ApplicationController
   layout false
 
   def show
+    if params[:iteration].blank?
+      render json: latest_readings
+    else
+      render json: iteration_readings
+    end
+  end
+
+  private
+
+  def latest_readings
+    last_reading = Reading.where(measurement_id: params[:id]).last
+    cache_key = {
+      id: params[:id],
+      to: last_reading.try(:time).try(:to_f)
+    }
+    Rails.cache.fetch(cache_key,
+                      expires_in: interval + interval) do
+      to = Time.now
+      readings_json(to)
+    end
+  end
+
+  def iteration_readings
     iteration_time = reference_time - params[:iteration].to_i * interval
     cache_key = {
       id: params[:id],
@@ -9,19 +32,17 @@ class MeasurementsController < ApplicationController
       interval_number: interval_number(iteration_time)
     }
 
-    @readings = Rails.cache.fetch(cache_key, expires_in: 25.hours) do
-      @measurement = Measurement.find(params[:id])
-      @measurement.
-        readings.
-        includes(:sensor).
-        where('time > ? AND time <= ?', from, to).
-        to_json(include: :sensor)
+    Rails.cache.fetch(cache_key, expires_in: 25.hours) do
+      readings_json(to)
     end
-
-    render json: @readings
   end
 
-  private
+  def readings_json(to)
+    Reading.includes(:sensor).
+      where(measurement_id: params[:id]).
+      where('time > ? AND time <= ?', to - interval, to).
+      to_json(include: :sensor)
+  end
 
   def interval_number(time)
     minutes = (time.seconds_since_midnight/60).to_i
@@ -35,10 +56,6 @@ class MeasurementsController < ApplicationController
 
   def to
     @to ||= (reference_time - params[:iteration].to_i * interval)
-  end
-
-  def from
-    @from ||= to - interval
   end
 
   def interval

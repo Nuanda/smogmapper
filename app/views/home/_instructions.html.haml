@@ -7,8 +7,17 @@
 %p
   = t 'instructions.what_you_see_2'
 
-%p
-  - if @measurements.present?
+- if @measurements.present?
+  %h5= t('heatmap.last_day')
+  %p
+    - @measurements.each do |measurement|
+      = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
+                '#',
+                class: "btn btn-primary measurement-button-24h #{measurement.name == 'pm' ? '' : 'disabled'}",
+                data: { id: measurement.id }
+
+  %h5= t('heatmap.current')
+  %p
     - @measurements.each do |measurement|
       = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
                 '#',
