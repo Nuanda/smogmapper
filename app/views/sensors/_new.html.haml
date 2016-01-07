@@ -1,0 +1,29 @@
+%h4.text-center
+  = t 'registration.title'
+
+%p
+  = t('registration.instruction')
+
+%p
+  = t('registration.geo')
+
+#registration-form
+  = form_for @sensor do |form|
+
+    .form-group
+      = form.label :lat
+      = form.text_field :lat, class: 'form-control'
+
+    .form-group
+      = form.label :long
+      = form.text_field :long, class: 'form-control'
+
+    -#.form-group
+    -#  = form.label :token
+    -#  = form.text_field :token, class: 'form-control'
+
+    .form-group
+      = form.label :name
+      = form.text_field :name, class: 'form-control'
+
+    %button.btn.btn-primary{ type: 'submit' } Register

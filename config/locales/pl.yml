@@ -38,6 +38,18 @@ pl:
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
 
+  registration:
+    title: Zarejestruj nowy sensor
+    instruction: |
+      Podaj proszę współrzędne geograficzne położenia miernika, wraz z numerem identyfikacyjnym, który
+      został Ci przekazany. Możesz także, jeśli chcesz, nazwać sensor (prosimy bez słów powszechnie
+      uznanych za obraźliwe ;)).
+    geo: |
+      Szerokość i długość geograficzna powinny być podane w stopniach i ułamkach stopni (np. 50.0484 lub
+      19.9599) - zachowaj proszę dokładność czterech miejsc po przecinku, to ważne. Wysokość względna
+      powinna być podana jako przybliżona liczba metrów nad poziomem gruntu. Dokładność do jednego
+      pełnego metra jest wystarczająca.
+
   nav:
     to_en: Switch language to English
     to_pl: Przełącz język na polski
@@ -45,6 +57,7 @@ pl:
     tabs:
       info: Informacje
       sensors: Mierniki
+      registration: Rejestracja sensora
 
   map:
     zoom_in: Przybliż mapę
