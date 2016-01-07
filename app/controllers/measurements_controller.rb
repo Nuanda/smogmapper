@@ -3,8 +3,9 @@ class MeasurementsController < ApplicationController
 
   def show
     if params[:iteration].blank?
-      last_reading = Reading.where(measurement_id: params[:id]).last
-      readings = readings_json((last_reading&.time || Time.now),
+      last_reading_time = Reading.where(measurement_id: params[:id]).
+                          maximum(:time)
+      readings = readings_json((last_reading_time || Time.now),
                                (2 * interval).minutes)
     else
       to = reference_time - (params[:iteration].to_i * interval).minutes
