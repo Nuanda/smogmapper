@@ -77,8 +77,8 @@ class @SmogMap
       window.smogMap.removeLayer(sensorMarker)
 
   showHeatmap: ->
-   unless window.heatmapLayer
-         window.heatmapLayer = new HeatmapOverlay(heatmapConfig)
+    unless window.heatmapLayer
+      window.heatmapLayer = new HeatmapOverlay(heatmapConfig)
     window.smogMap.addLayer(window.heatmapLayer)
 
   hideHeatmap: ->
