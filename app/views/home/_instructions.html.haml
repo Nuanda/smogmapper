@@ -7,22 +7,19 @@
 %p
   = t 'instructions.what_you_see_2'
 
-- if @measurements.present?
-  %h5= t('heatmap.last_day')
+- measurement = Measurement.find_by_name('pm')
+- if measurement
   %p
-    - @measurements.each do |measurement|
-      = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
-                '#',
-                class: "btn btn-primary measurement-button-24h #{measurement.name == 'pm' ? '' : 'disabled'}",
-                data: { id: measurement.id }
+    = link_to t("measurement.#{measurement.name}") + ' - ' + t('heatmap.last_day'),
+              '#',
+              class: "btn btn-primary measurement-button-24h",
+              data: { id: measurement.id }
 
-  %h5= t('heatmap.current')
   %p
-    - @measurements.each do |measurement|
-      = link_to t("measurement.#{measurement.name}") + " [#{measurement.unit}]",
-                '#',
-                class: "btn btn-primary measurement-button #{measurement.name == 'pm' ? '' : 'disabled'}",
-                data: { id: measurement.id }
+    = link_to t("measurement.#{measurement.name}") + ' - ' + t('heatmap.current'),
+              '#',
+              class: "btn btn-primary measurement-button",
+              data: { id: measurement.id }
 
 %p
   = t('instructions.disclaimer').html_safe
