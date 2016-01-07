@@ -6,6 +6,7 @@
 #= require leaflet
 #= require esri-leaflet
 #= require js-routes
+#= require js-cookie
 #= require leaflet-heatmap
 #= require heatmap
 #= require highcharts
