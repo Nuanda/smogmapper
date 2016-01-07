@@ -29,9 +29,9 @@ class @SmogMap
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
         sensorMarker = if sensor.id == 1000
-          L.marker([sensor['lat'], sensor['long']], { icon: bigIcon })
+          L.marker([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], { icon: bigIcon })
         else
-          L.marker([sensor['lat'], sensor['long']], { icon: sensorIcon })
+          L.marker([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], { icon: sensorIcon })
         window.markerLayer.addLayer(sensorMarker)
         sensorMarker.addTo(window.smogMap).
           on 'click', (sensor) =>

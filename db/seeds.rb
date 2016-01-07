@@ -5,16 +5,32 @@ if Rails.env.development?
 
   ms = [temperature, humidity, pm]
 
-  Sensor.create(id: 1000, name: 'My own! My precious!', long: 19.959689, lat: 50.048504, measurements: ms)
+  Sensor.create(id: 1000,
+                name: 'My own! My precious!',
+                locations: [
+                  Location.new(longitude: 19.959689, latitude: 50.048504)
+                ],
+                measurements: ms)
 
   fake_sensor_file = File.open('db/seeds/sensorLocation.csv').read
-  sensors = []
+  # sensors = []
   fake_sensor_file.lines.each do |line|
     data = line.split(',')
-    sensors << Sensor.new(id: data[0].to_i, name: data[0], long: data[1].to_f,
-                          lat: data[2].to_f, measurements: ms)
+    # sensors <<
+    Sensor.create(
+      id: data[0].to_i,
+      name: data[0],
+      # token: SecureRandom.urlsafe_base64.gsub(/-_/,'')[0,12],  # needed here since ar-import does not honor AR callbacks
+      locations: [
+        Location.new(longitude: data[1].to_f, latitude: data[2].to_f)
+      ],
+      measurements: ms
+    )
   end
-  Sensor.import(sensors)
+
+  # Sensor.reset_column_information  # ar-import gem probably needs this if you run seed right after migrate, in the same env
+  #
+  # Sensor.import(sensors)
 
   readings = []
   11.times.each do |i|
