@@ -79,6 +79,9 @@ group :test do
   # additional matchers
   gem 'shoulda-matchers', '~> 3.0'
 
+  # to test cache
+  gem 'db-query-matchers'
+
   # automatically invoke spec after clicking ctr+s
   gem 'guard-rspec', require: false
   gem 'guard-spring'
