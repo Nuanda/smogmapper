@@ -1,5 +1,7 @@
 class @SmogMap
-  constructor: ->
+  constructor: (config) ->
+    @config = config
+
     L.Icon.Default.imagePath = 'assets/images'
 
     $('#smog-map').css('min-height', window.innerHeight - 50)
@@ -12,9 +14,21 @@ class @SmogMap
       zoomOutTitle: I18n.t('map.zoom_out')
     ).addTo window.smogMap
 
-    L.tileLayer(Config.CDB_TILE_URL,{
-      attribution: Config.OSM_ATTRIBUTION + ', ' + Config.CDB_ATTRIBUTION
+    L.tileLayer(config.CDB_TILE_URL,{
+      attribution: config.OSM_ATTRIBUTION + ', ' + config.CDB_ATTRIBUTION
     }).addTo window.smogMap
+
+    @initSensors()
+
+    $('#zoom-out-button').on 'click', =>
+      # Zoom the map to proper bounds
+      southWest = L.latLng config.MAX_BOUNDS_SOUTH, config.MAX_BOUNDS_WEST
+      northEast = L.latLng config.MAX_BOUNDS_NORTH, config.MAX_BOUNDS_EAST
+      bounds = L.latLngBounds southWest, northEast
+      window.smogMap.fitBounds bounds
+
+  initSensors: ->
+    window.markerLayer = L.layerGroup()
 
     bigIcon = L.icon
       iconUrl: 'assets/images/marker-icon-2x.png'
@@ -25,7 +39,8 @@ class @SmogMap
       iconSize:     [25, 25] # size of the icon
       iconAnchor:   [13, 13] # point of the icon which will correspond to marker's location
 
-    window.markerLayer = L.layerGroup()
+    lastSensorId = @config.get("sensor.id", Number)
+
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
         sensorMarker = if sensor.id == 1000
@@ -37,19 +52,18 @@ class @SmogMap
           on 'click', (sensor) =>
             if window.isDeviceClass('xs')
               window.toggleSidebar () =>
-                SmogMap.loadSensor(sensor)
+                @loadSensor(sensor)
             else
-              SmogMap.loadSensor(sensor)
+              @loadSensor(sensor)
+
         sensorMarker.dbId = sensor.id
 
-    $('#zoom-out-button').on 'click', =>
-      # Zoom the map to proper bounds
-      southWest = L.latLng Config.MAX_BOUNDS_SOUTH, Config.MAX_BOUNDS_WEST
-      northEast = L.latLng Config.MAX_BOUNDS_NORTH, Config.MAX_BOUNDS_EAST
-      bounds = L.latLngBounds southWest, northEast
-      window.smogMap.fitBounds bounds
+        if lastSensorId == sensor.id
+          window.smogMap.setView([sensor['lat'], sensor['long']], 14)
 
-  @loadSensor: (sensor) ->
+  loadSensor: (sensor) ->
     $.get 'sensors/' + sensor.target.dbId, (data) ->
       $('#sensors-tab').html data
       $('#left-section a[href="#sensors-tab"]').tab 'show'
+
+    @config.set("sensor.id", sensor.target.dbId)

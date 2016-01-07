@@ -24,7 +24,7 @@ class Dispatcher
   initSmogMap: ->
     console.log 'INIT [Dispatcher]: initializing Smog Map component'
     if $('#smog-map').length > 0
-      new SmogMap
+      new SmogMap(Config)
 
   switchTabs: (targetTab) ->
     console.log "INIT [Dispatcher]: switching left section to #{targetTab}"

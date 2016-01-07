@@ -21,4 +21,25 @@ if (!this.Config) {
     '&copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
 
   I18n.defaultLocale = "<%= I18n.default_locale %>";
+
+  this.Config.set = function(key, value) {
+    key = "config." + key;
+
+    if (window.localStorage)
+      window.localStorage.setItem(key, value);
+    else if (window.Cookies)
+      window.Cookies.set(key, value, { expires: 365 });
+  }
+
+  this.Config.get = function(key, converter) {
+    key = "config." + key;
+
+    if (window.localStorage)
+      value = window.localStorage.getItem(key);
+    else if (window.Cookies)
+      value = window.Cookies.get(key);
+
+    if (value)
+      return converter ? converter(value) : value;
+  }
 }
