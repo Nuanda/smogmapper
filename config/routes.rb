@@ -4,6 +4,6 @@ Rails.application.routes.draw do
 
     resources :sensors, only: [:index, :show]
     resources :measurements, only: [:show]
-    resources :readings, only: [:show]
+    resources :readings, only: [:create]
   end
 end
