@@ -9,6 +9,6 @@ class Sensor < ActiveRecord::Base
   private
 
   def generate_token
-    self.token = SecureRandom.urlsafe_base64.gsub(/-_/,'')[0,12]
+    self.token = SecureRandom.urlsafe_base64.gsub('-_','')[0,12]
   end
 end
