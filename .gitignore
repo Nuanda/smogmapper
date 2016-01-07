@@ -16,6 +16,9 @@ config/initializers/secret_token.rb
 .env
 # config/secrets.yml
 
+# puma configuration
+config/puma.rb
+
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
