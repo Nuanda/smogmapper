@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105113315) do
+ActiveRecord::Schema.define(version: 20160105161831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "locations", force: :cascade do |t|
+    t.float    "latitude",          null: false
+    t.float    "longitude",         null: false
+    t.float    "height"
+    t.datetime "registration_time"
+    t.integer  "sensor_id",         null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "locations", ["registration_time"], name: "index_locations_on_registration_time", using: :btree
+  add_index "locations", ["sensor_id"], name: "index_locations_on_sensor_id", using: :btree
 
   create_table "measurement_sensors", force: :cascade do |t|
     t.integer  "measurement_id", null: false
@@ -46,12 +59,12 @@ ActiveRecord::Schema.define(version: 20160105113315) do
 
   create_table "sensors", force: :cascade do |t|
     t.string   "name"
-    t.float    "long",       null: false
-    t.float    "lat",        null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "token",      null: false
   end
 
+  add_foreign_key "locations", "sensors"
   add_foreign_key "measurement_sensors", "measurements"
   add_foreign_key "measurement_sensors", "sensors"
   add_foreign_key "readings", "measurements"

@@ -38,6 +38,10 @@ pl:
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
 
+  heatmap:
+    last_day: animacja ostatnich 24 godzin
+    current: najnowsze pomiary
+
   registration:
     title: Zarejestruj nowy sensor
     instruction: |
