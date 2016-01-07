@@ -4,6 +4,7 @@ class CreateLocations < ActiveRecord::Migration
       t.float :latitude, null: false
       t.float :longitude, null: false
       t.float :height
+      t.timestamp :registration_time, null: true, index: true
       t.belongs_to :sensor, null: false, index: true, foreign_key: true
 
       t.timestamps null: false

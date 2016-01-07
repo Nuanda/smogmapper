@@ -17,14 +17,16 @@ ActiveRecord::Schema.define(version: 20160105161831) do
   enable_extension "plpgsql"
 
   create_table "locations", force: :cascade do |t|
-    t.float    "latitude",   null: false
-    t.float    "longitude",  null: false
+    t.float    "latitude",          null: false
+    t.float    "longitude",         null: false
     t.float    "height"
-    t.integer  "sensor_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "registration_time"
+    t.integer  "sensor_id",         null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
+  add_index "locations", ["registration_time"], name: "index_locations_on_registration_time", using: :btree
   add_index "locations", ["sensor_id"], name: "index_locations_on_sensor_id", using: :btree
 
   create_table "measurement_sensors", force: :cascade do |t|
