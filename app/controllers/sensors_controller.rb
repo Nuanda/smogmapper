@@ -20,12 +20,6 @@ class SensorsController < ApplicationController
     render json: @sensors, include: :locations, except: [:token, :created_at, :updated_at]
   end
 
-  def new
-    @sensor = Sensor.new
-
-    render partial: 'sensors/new'
-  end
-
   private
 
   def to
