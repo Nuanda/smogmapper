@@ -77,14 +77,18 @@ class @SmogMap
       window.smogMap.removeLayer(sensorMarker)
 
   showHeatmap: ->
+    @initHeatmap()
+    window.smogMap.addLayer(window.heatmapLayer)
+
+  initHeatmap: ->
     unless window.heatmapLayer
       window.heatmapLayer = new HeatmapOverlay(heatmapConfig)
-    window.smogMap.addLayer(window.heatmapLayer)
 
   hideHeatmap: ->
     window.smogMap.removeLayer(window.heatmapLayer)
 
   setHeatmapData: (data) ->
+    @initHeatmap()
     wrapper = new Object()
     result = []
     $.each data, (i, r) ->

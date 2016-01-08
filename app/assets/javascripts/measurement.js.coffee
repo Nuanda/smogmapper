@@ -18,6 +18,7 @@ class @Heatmap
   show24hHeatmap: (btn) ->
     $('.btn-measurement').removeClass('active')
     @smogMap.hideSensors()
+    @smogMap.setHeatmapData([])
     @smogMap.showHeatmap()
     @loadHeatmap(@measurementUrl(btn), 10)
 
