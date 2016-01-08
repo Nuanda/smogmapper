@@ -33,6 +33,9 @@ en:
 
   sensors:
     title: Sensor readings
+    name: Sensor name
+    id: ID
+    current_location: Current location
     instruction: |
       Please pick a sensor on the map in order to see the last %{hours} hours of readings.
 

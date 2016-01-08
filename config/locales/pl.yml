@@ -34,6 +34,9 @@ pl:
 
   sensors:
     title: Dane pomiarowe
+    name: Nazwa miernika
+    id: ID
+    current_location: Obecna lokalizacja
     instruction: |
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
