@@ -12,7 +12,9 @@ class @Heatmap
       @showCurrentHeatmap($(measurement.currentTarget))
 
   beforeClick: ->
-    clearTimeout(@nextCallback) if @nextCallback
+    if @nextCallback
+      clearTimeout(@nextCallback)
+      @smogMap.showSensors()
     window.toggleSidebar() if window.isDeviceClass('xs')
 
   show24hHeatmap: (btn) ->
