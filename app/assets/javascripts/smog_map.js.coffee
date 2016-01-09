@@ -62,7 +62,7 @@ class @SmogMap
           window.smogMap.setView([sensor['lat'], sensor['long']], 14)
 
   loadSensor: (sensor) ->
-    $.get 'sensors/' + sensor.target.dbId, (data) ->
+    $.get I18n.locale + '/sensors/' + sensor.target.dbId, (data) ->
       $('#sensors-tab').html data
       $('#left-section a[href="#sensors-tab"]').tab 'show'
 
