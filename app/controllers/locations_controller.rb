@@ -9,7 +9,8 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @sensor = Sensor.find_by_token(params[:location][:sensor][:token])
+    safe_params = create_params
+    @sensor = Sensor.find_by_token(safe_params[:sensor][:token])
 
     if @sensor
       @location = Location.new(
@@ -19,11 +20,11 @@ class LocationsController < ApplicationController
       )
 
       if @result = @location.save
-        @sensor.update(name: create_params[:sensor][:name])
+        @sensor.update(name: safe_params[:sensor][:name]) if safe_params[:sensor][:name].present?
       end
     else
       @location = Location.new(location_params)
-      @location.sensor = Sensor.new(create_params[:sensor])
+      @location.sensor = Sensor.new(safe_params[:sensor])
       @location.sensor.errors.add(:token, :incorrect)
     end
 
