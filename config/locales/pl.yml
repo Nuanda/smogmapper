@@ -5,9 +5,9 @@ pl:
     header: Proszę Państwa, oto Smog!
 
   measurement:
-    temperature: Temperatura
-    humidity: Wilgotność
-    pm: Pył
+    pm: Pył zawieszony
+    temperature: Temperatura powietrza
+    humidity: Wilgotność względna
 
   instructions:
     welcome: Witamy w %{title}
@@ -71,3 +71,13 @@ pl:
     zoom_out: Oddal mapę
 
   welcome: Witaj,
+
+  helpers:
+    label:
+      location:
+        longitude: Długość geograficzna
+        latitude: Szerokość geograficzna
+        height: Wysokość względna
+      "location[sensor]":
+        token: Token identyfikacyjny
+        name: Nazwa (opcjonalna)

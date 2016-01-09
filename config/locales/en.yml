@@ -5,9 +5,9 @@ en:
     header: Know your Smog!
 
   measurement:
-    temperature: Temperature
-    humidity: Humidity
     pm: Particulate matter
+    temperature: Air temperature
+    humidity: Relative humidity
 
   instructions:
     welcome: Welcome to %{title}
@@ -67,3 +67,13 @@ en:
     zoom_out: Zoom out
 
   welcome: Welcome,
+
+  helpers:
+    label:
+      location:
+        longitude: Longitude
+        latitude: Latitude
+        height: Height
+      "location[sensor]":
+        token: Id token
+        name: Name (optional)

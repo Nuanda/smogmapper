@@ -24,7 +24,7 @@
     $(function () {
       $('##{measurement.name}-container').highcharts({
         title: {
-          text: '#{measurement.name.capitalize}',
+          text: '#{I18n.t('measurement.' + measurement.name)}',
           x: -20 //center
         },
         xAxis: {
@@ -51,7 +51,7 @@
           }
         },
         series: [{
-          name: '#{measurement.name}',
+          name: '#{I18n.t('measurement.' + measurement.name)}',
           data: #{readings.map{ |r| [r.time.to_i, r.value.round(4)] }},
           showInLegend: false
         }]
