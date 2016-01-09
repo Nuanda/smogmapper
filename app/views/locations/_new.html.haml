@@ -17,7 +17,7 @@
                 '#',
                 class: 'btn btn-primary',
                 id: 'sensor-show-button',
-                data: { id: @sensor.id }
+                data: { id: @sensor.id, longitude: @location.longitude, latitude: @location.latitude }
 
   - else
 
@@ -29,7 +29,7 @@
 
       = form.simple_fields_for @location.sensor do |sensor_fields|
 
-        = sensor_fields.input :token, input_html: { value: '2AIl9kqpgnQL' }
+        = sensor_fields.input :token
         = sensor_fields.input :name
 
       = form.button :submit, t('registration.register')

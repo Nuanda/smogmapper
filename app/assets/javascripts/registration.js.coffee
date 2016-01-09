@@ -11,5 +11,10 @@ $ ->
   )
 
   $('#sidebar-left').on 'click', '#sensor-show-button', ->
-    window.smogMapManager.loadSensor($(this).data('id'))
-    #TODO relocate the sensor to the new location
+    $button = $(this)
+    window.smogMapManager.loadSensor($button.data('id'))
+    window.markerLayer.eachLayer (marker) ->
+      if marker.dbId == $button.data('id')
+        newLatLng = new L.LatLng($button.data('latitude'), $button.data('longitude'))
+        marker.setLatLng(newLatLng)
+    window.smogMap.setView([$button.data('latitude'), $button.data('longitude')], 14)
