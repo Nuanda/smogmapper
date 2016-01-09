@@ -56,6 +56,7 @@ pl:
       19.9599) - zachowaj proszę dokładność czterech miejsc po przecinku, to ważne. Wysokość względna
       powinna być podana jako przybliżona liczba metrów nad poziomem gruntu. Dokładność do jednego
       pełnego metra jest wystarczająca.
+    register: Zapisz
 
   nav:
     to_en: Switch language to English
