@@ -17,7 +17,7 @@ class SensorsController < ApplicationController
   def index
     @sensors = Sensor.includes(:locations).all
 
-    render json: @sensors, include: :locations, except: [:token, :created_at, :updated_at]
+    render json: @sensors, include: { locations: { only: [:latitude, :longitude] }}, only: [:id]
   end
 
   private
