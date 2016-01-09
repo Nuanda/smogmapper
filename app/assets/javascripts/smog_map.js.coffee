@@ -67,3 +67,32 @@ class @SmogMap
       $('#left-section a[href="#sensors-tab"]').tab 'show'
 
     @config.set("sensor.id", sensor.target.dbId)
+
+  showSensors: ->
+    window.markerLayer.eachLayer (sensorMarker) ->
+      window.smogMap.addLayer(sensorMarker)
+
+  hideSensors: ->
+    window.markerLayer.eachLayer (sensorMarker) ->
+      window.smogMap.removeLayer(sensorMarker)
+
+  showHeatmap: ->
+    @initHeatmap()
+    window.smogMap.addLayer(window.heatmapLayer)
+
+  initHeatmap: ->
+    unless window.heatmapLayer
+      window.heatmapLayer = new HeatmapOverlay(heatmapConfig)
+
+  hideHeatmap: ->
+    window.smogMap.removeLayer(window.heatmapLayer)
+
+  setHeatmapData: (data) ->
+    @initHeatmap()
+    wrapper = new Object()
+    result = []
+    $.each data, (i, r) ->
+      result.push({ long: r.sensor.long, lat: r.sensor.lat, value: r.value })
+    wrapper.data = result
+    wrapper.max = 500
+    window.heatmapLayer.setData(wrapper)

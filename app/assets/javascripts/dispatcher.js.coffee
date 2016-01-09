@@ -24,7 +24,9 @@ class Dispatcher
   initSmogMap: ->
     console.log 'INIT [Dispatcher]: initializing Smog Map component'
     if $('#smog-map').length > 0
-      new SmogMap(Config)
+      smogMap = new SmogMap(Config)
+      new Heatmap(smogMap).
+        bind('.measurement-button-24h', '.measurement-button')
 
   switchTabs: (targetTab) ->
     console.log "INIT [Dispatcher]: switching left section to #{targetTab}"
