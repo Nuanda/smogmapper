@@ -15,9 +15,17 @@ class SensorsController < ApplicationController
   end
 
   def index
-    @sensors = Sensor.includes(:locations).all
+    last_location_joins = <<-SQL
+      JOIN locations l1 ON(l1.sensor_id = sensors.id)
+      LEFT OUTER JOIN locations l2 ON (sensors.id = l2.sensor_id AND
+        (l1.registration_time < l2.registration_time OR
+         l1.registration_time = l2.registration_time AND l1.id < l2.id))
+    SQL
 
-    render json: @sensors, include: { locations: { only: [:latitude, :longitude] }}, only: [:id]
+    render json: Sensor.joins(last_location_joins).
+      where('l2.id IS NULL').
+      select('sensors.id, l1.latitude, l1.longitude').
+      to_json
   end
 
   private
