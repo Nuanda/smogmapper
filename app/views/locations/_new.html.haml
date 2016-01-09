@@ -8,15 +8,28 @@
   = t('registration.geo')
 
 #registration-form
-  = simple_form_for @location, remote: true do |form|
+  - if @result
 
-    = form.input :latitude, as: :string
-    = form.input :longitude, as: :string
-    = form.input :height, as: :string
+    .alert.alert-success
+      = t('registration.success')
+    %p
+      = link_to t('sensors.show_me'),
+                '#',
+                class: 'btn btn-primary',
+                id: 'sensor-show-button',
+                data: { id: @sensor.id }
 
-    = form.simple_fields_for @location.sensor do |sensor_fields|
+  - else
 
-      = sensor_fields.input :token
-      = sensor_fields.input :name
+    = simple_form_for @location, url: { action: :create }, method: :post, remote: true do |form|
 
-    = form.button :submit, t('registration.register')
+      = form.input :latitude, as: :string
+      = form.input :longitude, as: :string
+      = form.input :height, as: :string
+
+      = form.simple_fields_for @location.sensor do |sensor_fields|
+
+        = sensor_fields.input :token, input_html: { value: '2AIl9kqpgnQL' }
+        = sensor_fields.input :name
+
+      = form.button :submit, t('registration.register')

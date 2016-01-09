@@ -18,17 +18,16 @@ class LocationsController < ApplicationController
         )
       )
 
-      if @location.save
-      else
-        render partial: 'locations/new'
+      if @result = @location.save
+        @sensor.update(name: create_params[:sensor][:name])
       end
     else
       @location = Location.new(location_params)
       @location.sensor = Sensor.new(create_params[:sensor])
       @location.sensor.errors.add(:token, :incorrect)
-
-      render partial: 'locations/new'
     end
+
+    render partial: 'locations/new'
   end
 
   private

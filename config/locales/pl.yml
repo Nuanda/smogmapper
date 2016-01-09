@@ -40,6 +40,7 @@ pl:
     instruction: |
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
+    show_me: Pokaż miernik
 
   heatmap:
     last_day: animacja ostatnich 24 godzin
@@ -57,6 +58,8 @@ pl:
       powinna być podana jako przybliżona liczba metrów nad poziomem gruntu. Dokładność do jednego
       pełnego metra jest wystarczająca.
     register: Zapisz
+    success: Zarejestrowano zmianę położenia miernika.
+    error: Wystąpił błąd serwera podczas zmiany położenia.
 
   nav:
     to_en: Switch language to English
@@ -96,7 +99,9 @@ pl:
               blank: Proszę podać szerokość geograficzną położenia miernika.
               less_than_or_equal_to: Wartość nie powinna być większa niż 90.
               greater_than_or_equal_to: Wartość nie powinna być mniejsza niż -90.
+              not_a_number: Szerokość geograficzna powinna być wyrażona liczbą stopni.
             longitude:
               blank: Proszę podać długość geograficzną położenia miernika.
               less_than_or_equal_to: Wartość nie powinna być większa niż 180.
               greater_than_or_equal_to: Wartość nie powinna być mniejsza niż -180.
+              not_a_number: Długość geograficzna powinna być wyrażona liczbą stopni.

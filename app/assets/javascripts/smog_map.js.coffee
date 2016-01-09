@@ -52,18 +52,18 @@ class @SmogMap
           on 'click', (sensor) =>
             if window.isDeviceClass('xs')
               window.toggleSidebar () =>
-                @loadSensor(sensor)
+                @loadSensor(sensor.target.dbId)
             else
-              @loadSensor(sensor)
+              @loadSensor(sensor.target.dbId)
 
         sensorMarker.dbId = sensor.id
 
         if lastSensorId == sensor.id
           window.smogMap.setView([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], 14)
 
-  loadSensor: (sensor) ->
-    $.get I18n.locale + '/sensors/' + sensor.target.dbId, (data) ->
+  loadSensor: (sensorId) ->
+    $.get I18n.locale + '/sensors/' + sensorId, (data) ->
       $('#sensors-tab').html data
       $('#left-section a[href="#sensors-tab"]').tab 'show'
 
-    @config.set("sensor.id", sensor.target.dbId)
+    @config.set("sensor.id", sensorId)
