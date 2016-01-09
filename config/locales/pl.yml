@@ -84,7 +84,7 @@ pl:
         height: Wysokość względna
       sensor:
         token: Token identyfikacyjny
-        name: Nazwa (opcjonalna)
+        name: Nowa nazwa (pozostaw puste, aby zachować starą)
 
   activerecord:
     errors:

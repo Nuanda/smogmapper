@@ -80,7 +80,7 @@ en:
         height: Height
       sensor:
         token: Id token
-        name: Name (optional)
+        name: New name (leave blank for no change)
 
   activerecord:
     errors:
