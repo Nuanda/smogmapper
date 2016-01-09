@@ -10,9 +10,10 @@ RSpec.describe "Sensors list" do
 
     get sensors_path, nil, json_header
 
-    expect(json_response[0]).to include('id' => sensor.id,
-                                 'latitude' => latest_location.latitude,
-                                 'longitude' => latest_location.longitude)
+    expect(json_response[0]).
+      to include('id' => sensor.id,
+                 'latitude' => latest_location.latitude,
+                 'longitude' => latest_location.longitude)
   end
 
   it 'returns only sensors with location' do
