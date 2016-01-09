@@ -12,15 +12,19 @@ class LocationsController < ApplicationController
     @sensor = Sensor.find_by_token(params[:location][:sensor][:token])
 
     if @sensor
-      @location = Location.create(
+      @location = Location.new(
         location_params.merge(
-          sensor: @sensor,
-          registration_time: Time.now
+          sensor: @sensor
         )
       )
+
+      if @location.save
+      else
+        render partial: 'locations/new'
+      end
     else
       @location = Location.new(location_params)
-      @location.sensor = Sensor.new
+      @location.sensor = Sensor.new(create_params[:sensor])
       @location.sensor.errors.add(:token, :incorrect)
 
       render partial: 'locations/new'

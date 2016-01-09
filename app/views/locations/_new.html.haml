@@ -10,9 +10,9 @@
 #registration-form
   = simple_form_for @location, remote: true do |form|
 
-    = form.input :latitude
-    = form.input :longitude
-    = form.input :height
+    = form.input :latitude, as: :string
+    = form.input :longitude, as: :string
+    = form.input :height, as: :string
 
     = form.simple_fields_for @location.sensor do |sensor_fields|
 

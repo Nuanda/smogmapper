@@ -82,3 +82,21 @@ pl:
       sensor:
         token: Token identyfikacyjny
         name: Nazwa (opcjonalna)
+
+  activerecord:
+    errors:
+      models:
+        sensor:
+          attributes:
+            token:
+              incorrect: Proszę użyj tokena identyfikacyjnego otrzymanego od nas.
+        location:
+          attributes:
+            latitude:
+              blank: Proszę podać szerokość geograficzną położenia miernika.
+              less_than_or_equal_to: Wartość nie powinna być większa niż 90.
+              greater_than_or_equal_to: Wartość nie powinna być mniejsza niż -90.
+            longitude:
+              blank: Proszę podać długość geograficzną położenia miernika.
+              less_than_or_equal_to: Wartość nie powinna być większa niż 180.
+              greater_than_or_equal_to: Wartość nie powinna być mniejsza niż -180.
