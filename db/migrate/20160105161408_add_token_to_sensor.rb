@@ -1,5 +1,5 @@
 class AddTokenToSensor < ActiveRecord::Migration
-  def change
+  def up
     add_column :sensors, :token, :string, index: true
 
     Sensor.reset_column_information
