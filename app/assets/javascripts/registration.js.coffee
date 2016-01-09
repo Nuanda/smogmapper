@@ -12,7 +12,13 @@ $ ->
 
   $('#sidebar-left').on 'click', '#sensor-show-button', ->
     $button = $(this)
-    window.smogMapManager.loadSensor($button.data('id'))
+    if window.isDeviceClass('xs')
+      window.toggleSidebar(
+        ->
+          window.smogMap.invalidateSize()
+        ,
+        500
+      )
     window.markerLayer.eachLayer (marker) ->
       if marker.dbId == $button.data('id')
         newLatLng = new L.LatLng($button.data('latitude'), $button.data('longitude'))
