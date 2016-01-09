@@ -8,28 +8,15 @@
   = t('registration.geo')
 
 #registration-form
-  = form_for @location do |form|
+  = simple_form_for @location, remote: true do |form|
 
-    .form-group
-      = form.label :latitude
-      = form.text_field :latitude, class: 'form-control'
+    = form.input :latitude
+    = form.input :longitude
+    = form.input :height
 
-    .form-group
-      = form.label :longitude
-      = form.text_field :longitude, class: 'form-control'
+    = form.simple_fields_for @location.sensor do |sensor_fields|
 
-    .form-group
-      = form.label :height
-      = form.text_field :height, class: 'form-control'
+      = sensor_fields.input :token
+      = sensor_fields.input :name
 
-    = form.fields_for :sensor, @location.sensor do |sensor_fields|
-
-      .form-group
-        = sensor_fields.label :token
-        = sensor_fields.text_field :token, class: 'form-control'
-
-      .form-group
-        = sensor_fields.label :name
-        = sensor_fields.text_field :name, class: 'form-control'
-
-    %button.btn.btn-primary{ type: 'submit' }= t 'registration.register'
+    = form.button :submit, t('registration.register')

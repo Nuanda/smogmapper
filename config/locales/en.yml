@@ -69,12 +69,12 @@ en:
 
   welcome: Welcome,
 
-  helpers:
-    label:
+  simple_form:
+    labels:
       location:
         longitude: Longitude
         latitude: Latitude
         height: Height
-      "location[sensor]":
+      sensor:
         token: Id token
         name: Name (optional)

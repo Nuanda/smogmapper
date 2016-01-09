@@ -73,12 +73,12 @@ pl:
 
   welcome: Witaj,
 
-  helpers:
-    label:
+  simple_form:
+    labels:
       location:
         longitude: Długość geograficzna
         latitude: Szerokość geograficzna
         height: Wysokość względna
-      "location[sensor]":
+      sensor:
         token: Token identyfikacyjny
         name: Nazwa (opcjonalna)
