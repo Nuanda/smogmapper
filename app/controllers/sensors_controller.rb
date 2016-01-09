@@ -15,7 +15,7 @@ class SensorsController < ApplicationController
   end
 
   def index
-    render json: Sensor.sensors_locations.to_json
+    render json: Sensor.with_last_location.to_json
   end
 
   private

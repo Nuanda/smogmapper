@@ -11,9 +11,10 @@ class Sensor < ActiveRecord::Base
   # location are rejected.
   #
   # Example:
-  #   `Sensor.sensors_location.to_json`
+  #   `Sensor.with_last_location.to_json`
+  #   => [{"id": 1, "latitude": 50.0, "longitude": 20.0}, ...]
   #
-  def self.sensors_locations
+  def self.with_last_location
     last_location_joins = <<-SQL
       JOIN locations l1 ON(l1.sensor_id = sensors.id)
       LEFT OUTER JOIN locations l2 ON (sensors.id = l2.sensor_id AND
