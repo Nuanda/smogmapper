@@ -31,7 +31,7 @@ class MeasurementsController < ApplicationController
       SELECT DISTINCT ON (sensor_id)
       id, sensor_id, latitude, longitude, registration_time
       FROM locations
-      WHERE registration_time <= '#{to.to_s(:db)}'
+      WHERE registration_time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
       ORDER BY sensor_id, registration_time DESC, id
     SQL
 
@@ -41,7 +41,7 @@ class MeasurementsController < ApplicationController
       FROM readings r
       JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
       JOIN measurements m ON r.measurement_id = m.id
-      WHERE m.created_at <= '#{to.to_s(:db)}'
+      WHERE m.created_at <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
       ORDER BY r.sensor_id, m.created_at DESC
     SQL
 
