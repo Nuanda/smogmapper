@@ -18,14 +18,31 @@ class MeasurementsController < ApplicationController
   private
 
   def readings_json(to, expires_in)
-    cache_key = { id: params[:id], to: to&.to_f }
+    # cache_key = { id: params[:id], to: to&.to_f }
 
     # Rails.cache.fetch(cache_key, expires_in: expires_in) do
-      Reading.includes(sensor: :locations).
-        where(measurement_id: params[:id]).
-        where('time > ? AND time <= ?', to - interval.minutes, to).
-        to_json(only: :value, include: { sensor: { only: [:lat, :long] } })
+    #   Reading.includes(sensor: :locations).
+    #     where(measurement_id: params[:id]).
+    #     where('time > ? AND time <= ?', to - interval.minutes, to).
+    #     to_json(only: :value, include: { sensor: { only: [:lat, :long] } })
     # end
+
+    inner_query = <<-SQL
+      SELECT DISTINCT ON (sensor_id)
+      id, sensor_id, latitude, longitude, registration_time
+      FROM locations
+      WHERE registration_time <= '#{to.to_s(:db)}'
+      ORDER BY sensor_id, registration_time DESC, id
+    SQL
+
+    outer_query = <<-SQL
+      SELECT r.*, loc.longitude, loc.latitude
+      FROM readings r
+      JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
+    SQL
+
+    Reading.find_by_sql(outer_query)
+      .to_json(only: [:value, :longitude, :latitude])
   end
 
   def interval_number(time)
