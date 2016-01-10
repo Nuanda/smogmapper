@@ -35,10 +35,22 @@ class MeasurementsController < ApplicationController
       ORDER BY sensor_id, registration_time DESC, id
     SQL
 
+    # outer_query = <<-SQL
+    #   SELECT r.*, loc.longitude, loc.latitude
+    #   FROM readings r
+    #   JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
+    #   JOIN measurements m ON r.measurement_id = m.id
+    #   ORDER BY m.created_at DESC
+    # SQL
+
     outer_query = <<-SQL
-      SELECT r.*, loc.longitude, loc.latitude
+      SELECT DISTINCT ON (r.sensor_id)
+      r.*, loc.longitude, loc.latitude
       FROM readings r
       JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
+      JOIN measurements m ON r.measurement_id = m.id
+      WHERE m.created_at <= '#{to.to_s(:db)}'
+      ORDER BY r.sensor_id, m.created_at DESC
     SQL
 
     Reading.find_by_sql(outer_query)
