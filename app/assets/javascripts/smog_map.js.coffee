@@ -59,7 +59,7 @@ class @SmogMap
         sensorMarker.dbId = sensor.id
 
         if lastSensorId == sensor.id
-          window.smogMap.setView([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], 14)
+          window.smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
 
   loadSensor: (sensorId) ->
     $.get I18n.locale + '/sensors/' + sensorId, (data) ->
