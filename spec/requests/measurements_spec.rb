@@ -20,44 +20,14 @@ RSpec.describe "Measurements" do
     let(:long_past) { Time.now - 1.day }
     let(:present) { Time.now }
 
-    # let(:m_long_past) {
-    #   create(
-    #       :measurement,
-    #       sensors: [s1, s2],
-    #       created_at: Time.now - 1.day
-    #   )
-    # }
-    #
-    # let(:m_past) {
-    #   create(
-    #     :measurement,
-    #     sensors: [s1, s2],
-    #     created_at: Time.now - 1.hour
-    #   )
-    # }
-    #
-    # let(:m_present) {
-    #   create(
-    #       :measurement,
-    #       sensors: [s1, s2],
-    #       created_at: Time.now
-    #   )
-    # }
-    #
-    # let(:m_future) {
-    #   create(
-    #       :measurement,
-    #       sensors: [s1, s2],
-    #       created_at: Time.now + 1.hour
-    #   )
-    # }
-
     it 'returns an empty set when no readings qualify' do
 
       r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: future)
       r2 = create(:reading, sensor: s2, value: 1.5, measurement: pm, time: future)
-      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60, registration_time: Time.now - 1.hour)
-      l2 = create(:location, sensor: s2, longitude: 110, latitude: 70, registration_time: Time.now - 1.hour)
+      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
+      l1.update_column(:registration_time, past)
+      l2 = create(:location, sensor: s2, longitude: 110, latitude: 70)
+      l2.update_column(:registration_time, past)
 
       get "/measurements/#{pm.id}"
 
@@ -68,8 +38,10 @@ RSpec.describe "Measurements" do
     it 'returns an empty set when no locations qualify' do
       r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
       r2 = create(:reading, sensor: s2, value: 1.5, measurement: pm, time: past)
-      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60, registration_time: future)
-      l2 = create(:location, sensor: s2, longitude: 110, latitude: 70, registration_time: future)
+      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
+      l1.update_column(:registration_time, future)
+      l2 = create(:location, sensor: s2, longitude: 110, latitude: 70)
+      l2.update_column(:registration_time, future)
 
       get "/measurements/#{pm.id}"
 
@@ -82,7 +54,8 @@ RSpec.describe "Measurements" do
       r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
       r2 = create(:reading, sensor: s1, value: 1.5, measurement: pm, time: present)
       r3 = create(:reading, sensor: s1, value: 2.0, measurement: pm, time: future)
-      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60, registration_time: long_past)
+      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
+      l1.update_column(:registration_time, long_past)
 
       get "/measurements/#{pm.id}"
 
@@ -96,10 +69,14 @@ RSpec.describe "Measurements" do
       r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
       r2 = create(:reading, sensor: s1, value: 1.5, measurement: pm, time: present)
       r3 = create(:reading, sensor: s1, value: 2.0, measurement: pm, time: future)
-      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60, registration_time: long_past)
-      l2 = create(:location, sensor: s1, longitude: 120, latitude: 80, registration_time: past)
-      l3 = create(:location, sensor: s1, longitude: 140, latitude: 30, registration_time: present)
-      l4 = create(:location, sensor: s1, longitude: 160, latitude: 20, registration_time: future)
+      l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
+      l1.update_column(:registration_time, long_past)
+      l2 = create(:location, sensor: s1, longitude: 120, latitude: 80)
+      l2.update_column(:registration_time, past)
+      l3 = create(:location, sensor: s1, longitude: 140, latitude: 30)
+      l3.update_column(:registration_time, present)
+      l4 = create(:location, sensor: s1, longitude: 160, latitude: 20)
+      l4.update_column(:registration_time, future)
 
       get "/measurements/#{pm.id}"
 
@@ -117,10 +94,14 @@ RSpec.describe "Measurements" do
       r4 = create(:reading, sensor: s2, value: 4.0, measurement: pm, time: past)
       r2 = create(:reading, sensor: s2, value: 4.5, measurement: pm, time: present)
       r3 = create(:reading, sensor: s2, value: 5.0, measurement: pm, time: future)
-      l2 = create(:location, sensor: s1, longitude: 120, latitude: 80, registration_time: past)
-      l2 = create(:location, sensor: s2, longitude: 140, latitude: 90, registration_time: past)
-      l3 = create(:location, sensor: s2, longitude: 160, latitude: 30, registration_time: present)
-      l4 = create(:location, sensor: s2, longitude: 180, latitude: 40, registration_time: future)
+      l1 = create(:location, sensor: s1, longitude: 120, latitude: 80)
+      l1.update_column(:registration_time, past)
+      l2 = create(:location, sensor: s2, longitude: 140, latitude: 90)
+      l2.update_column(:registration_time, past)
+      l3 = create(:location, sensor: s2, longitude: 160, latitude: 30)
+      l3.update_column(:registration_time, present)
+      l4 = create(:location, sensor: s2, longitude: 180, latitude: 40)
+      l4.update_column(:registration_time, future)
 
       get "/measurements/#{pm.id}"
 
