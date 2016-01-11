@@ -49,7 +49,7 @@ class @SmogMap
 
   addSensorMarker: (sensorId, latitude, longitude) ->
     icon = if sensorId == 1000 then @bigIcon else @sensorIcon
-    sensorMarker = L.marker([latitude, longitude], { icon: icon })
+    sensorMarker = L.marker([latitude, longitude], { icon: icon, zIndexOffset: 1000 })
     window.markerLayer.addLayer(sensorMarker)
     sensorMarker.addTo(window.smogMap).
       on 'click', (sensor) =>
