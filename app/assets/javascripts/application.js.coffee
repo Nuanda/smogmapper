@@ -34,13 +34,13 @@ $ ->
   unless window.isDeviceClass('xs')
     $('div#main').toggleClass('sidebar-show')
 
-window.toggleSidebar = (completeCallback = null) ->
+window.toggleSidebar = (completeCallback = null, delay = 250) ->
   $('div#main').toggleClass('sidebar-show').promise().done =>
     if completeCallback
       setTimeout(
         ->
           completeCallback()
-      , 250)
+      , delay)
 
 window.isDeviceClass = (alias) ->
   $('.device-' + alias).is(':visible')

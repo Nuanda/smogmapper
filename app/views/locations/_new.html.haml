@@ -1,0 +1,35 @@
+%h4.text-center
+  = t 'registration.title'
+
+%p
+  = t('registration.instruction')
+
+%p
+  = t('registration.geo')
+
+#registration-form
+  - if @result
+
+    .alert.alert-success
+      = t('registration.success')
+    %p
+      = link_to t('sensors.show_me'),
+                '#',
+                class: 'btn btn-primary',
+                id: 'sensor-show-button',
+                data: { id: @sensor.id, longitude: @location.longitude, latitude: @location.latitude }
+
+  - else
+
+    = simple_form_for @location, url: { action: :create }, method: :post, remote: true do |form|
+
+      = form.input :latitude, as: :string
+      = form.input :longitude, as: :string
+      = form.input :height, as: :string
+
+      = form.simple_fields_for @location.sensor do |sensor_fields|
+
+        = sensor_fields.input :token
+        = sensor_fields.input :name
+
+      = form.button :submit, t('registration.register')

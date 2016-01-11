@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources :sensors, only: [:index, :show]
+    resources :locations, only: [:new, :create]
     resources :measurements, only: [:show]
     resources :readings, only: [:create]
   end

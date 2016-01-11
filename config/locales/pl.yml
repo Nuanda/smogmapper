@@ -5,9 +5,9 @@ pl:
     header: Proszę Państwa, oto Smog!
 
   measurement:
-    temperature: Temperatura
-    humidity: Wilgotność
-    pm: Pył
+    pm: Pył zawieszony
+    temperature: Temperatura powietrza
+    humidity: Wilgotność względna
 
   instructions:
     welcome: Witamy w %{title}
@@ -34,13 +34,32 @@ pl:
 
   sensors:
     title: Dane pomiarowe
+    name: Nazwa miernika
+    id: ID
+    current_location: Obecna lokalizacja
     instruction: |
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
+    show_me: Pokaż miernik
 
   heatmap:
     last_day: animacja ostatnich 24 godzin
     current: najnowsze pomiary
+
+  registration:
+    title: Zarejestruj nowy sensor
+    instruction: |
+      Podaj proszę współrzędne geograficzne położenia miernika, wraz z numerem identyfikacyjnym, który
+      został Ci przekazany. Możesz także, jeśli chcesz, nazwać sensor (prosimy bez słów powszechnie
+      uznanych za obraźliwe ;)).
+    geo: |
+      Szerokość i długość geograficzna powinny być podane w stopniach i ułamkach stopni (np. 50.0484 lub
+      19.9599) - zachowaj proszę dokładność czterech miejsc po przecinku, to ważne. Wysokość względna
+      powinna być podana jako przybliżona liczba metrów nad poziomem gruntu. Dokładność do jednego
+      pełnego metra jest wystarczająca.
+    register: Zapisz
+    success: Zarejestrowano zmianę położenia miernika.
+    error: Wystąpił błąd serwera podczas zmiany położenia.
 
   nav:
     to_en: Switch language to English
@@ -49,9 +68,40 @@ pl:
     tabs:
       info: Informacje
       sensors: Mierniki
+      registration: Rejestracja sensora
 
   map:
     zoom_in: Przybliż mapę
     zoom_out: Oddal mapę
 
   welcome: Witaj,
+
+  simple_form:
+    labels:
+      location:
+        longitude: Długość geograficzna
+        latitude: Szerokość geograficzna
+        height: Wysokość względna
+      sensor:
+        token: Token identyfikacyjny
+        name: Nowa nazwa (pozostaw puste, aby zachować starą)
+
+  activerecord:
+    errors:
+      models:
+        sensor:
+          attributes:
+            token:
+              incorrect: Proszę użyj tokena identyfikacyjnego otrzymanego od nas.
+        location:
+          attributes:
+            latitude:
+              blank: Proszę podać szerokość geograficzną położenia miernika.
+              less_than_or_equal_to: Wartość nie powinna być większa niż 90.
+              greater_than_or_equal_to: Wartość nie powinna być mniejsza niż -90.
+              not_a_number: Szerokość geograficzna powinna być wyrażona liczbą stopni.
+            longitude:
+              blank: Proszę podać długość geograficzną położenia miernika.
+              less_than_or_equal_to: Wartość nie powinna być większa niż 180.
+              greater_than_or_equal_to: Wartość nie powinna być mniejsza niż -180.
+              not_a_number: Długość geograficzna powinna być wyrażona liczbą stopni.

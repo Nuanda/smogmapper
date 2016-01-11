@@ -15,15 +15,7 @@ class SensorsController < ApplicationController
   end
 
   def index
-    @sensors = Sensor.includes(:locations).all
-
-    render json: @sensors, include: :locations, except: [:token, :created_at, :updated_at]
-  end
-
-  def new
-    @sensor = Sensor.new
-
-    render partial: 'sensors/new'
+    render json: Sensor.with_last_location.to_json
   end
 
   private

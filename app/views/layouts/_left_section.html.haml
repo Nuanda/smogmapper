@@ -12,12 +12,29 @@
           title: t('nav.tabs.sensors') }
         = icon('line-chart')
 
+    - unless demo?
+      %li
+        %a{ href: '#registration-tab',
+            id: 'registration-button',
+            data: tab_data,
+            title: t('nav.tabs.registration') }
+          = icon('pencil')
+
   .tab-content
     #info-tab.tab-pane.active
       = render 'home/instructions'
+
     #sensors-tab.tab-pane
       #sensors
         %h4.text-center
           = t 'sensors.title'
         %p
           = t('sensors.instruction', hours: Rails.application.config_for(:application).fetch('charts', { 'interval' => 5 })['interval'])
+
+    - unless demo?
+      #registration-tab.tab-pane
+        #registration
+          %h4.text-center
+            = t 'registration.title'
+          %p
+            Registration not yet possible. Work in progress.

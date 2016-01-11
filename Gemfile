@@ -45,6 +45,8 @@ gem 'bootstrap-sass', '~> 3.3'
 gem 'font-awesome-sass', '~> 4.2'
 gem 'autoprefixer-rails'
 
+gem 'simple_form'
+
 group :development do
   gem 'quiet_assets'
 

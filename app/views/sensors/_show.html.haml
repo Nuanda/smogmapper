@@ -1,10 +1,21 @@
 %h4.text-center
-  Sensor name: #{ @sensor.name}
+  = succeed ':' do
+    = t 'sensors.name'
+  = @sensor.name
 
 %h4.text-center
-  Sensor id: #{ @sensor.id }
+  = succeed ':' do
+    = t 'sensors.id'
+  = @sensor.id
 
-%h4.text-center
+%h5.text-center
+  = succeed ':' do
+    = t 'sensors.current_location'
+  = @sensor.locations[0].latitude
+  = @sensor.locations[0].longitude
+  = @sensor.locations[0].height
+
+.text-center
   - @readings.each do |measurement, _|
     .reading-chart{ id: "#{measurement.name}-container" }
 
@@ -13,7 +24,7 @@
     $(function () {
       $('##{measurement.name}-container').highcharts({
         title: {
-          text: '#{measurement.name}',
+          text: '#{I18n.t('measurement.' + measurement.name)}',
           x: -20 //center
         },
         xAxis: {
@@ -40,7 +51,7 @@
           }
         },
         series: [{
-          name: '#{measurement.name}',
+          name: '#{I18n.t('measurement.' + measurement.name)}',
           data: #{readings.map{ |r| [r.time.to_i, r.value.round(4)] }},
           showInLegend: false
         }]

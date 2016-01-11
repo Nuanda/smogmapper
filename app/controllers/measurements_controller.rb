@@ -5,8 +5,8 @@ class MeasurementsController < ApplicationController
     if params[:iteration].blank?
       last_reading_time = Reading.where(measurement_id: params[:id]).
                           maximum(:time)
-      readings = readings_json((last_reading_time || Time.now),
-                               (2 * interval).minutes)
+      last_reading_time = Time.now if last_reading_time.blank? || (last_reading_time > Time.now)
+      readings = readings_json(last_reading_time + 1.second, (2 * interval).minutes)
     else
       to = reference_time - (params[:iteration].to_i * interval).minutes
       readings = readings_json(to, 25.hours)
@@ -18,35 +18,12 @@ class MeasurementsController < ApplicationController
   private
 
   def readings_json(to, expires_in)
-    # cache_key = { id: params[:id], to: to&.to_f }
+    cache_key = { id: params[:id], to: to&.to_f }
 
-    # Rails.cache.fetch(cache_key, expires_in: expires_in) do
-    #   Reading.includes(sensor: :locations).
-    #     where(measurement_id: params[:id]).
-    #     where('time > ? AND time <= ?', to - interval.minutes, to).
-    #     to_json(only: :value, include: { sensor: { only: [:lat, :long] } })
-    # end
-
-    inner_query = <<-SQL
-      SELECT DISTINCT ON (sensor_id)
-      id, sensor_id, latitude, longitude, registration_time
-      FROM locations
-      WHERE registration_time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
-      ORDER BY sensor_id, registration_time DESC, id
-    SQL
-
-    outer_query = <<-SQL
-      SELECT DISTINCT ON (r.sensor_id)
-      r.*, loc.longitude, loc.latitude
-      FROM readings r
-      JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
-      JOIN measurements m ON r.measurement_id = m.id
-      WHERE m.created_at <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
-      ORDER BY r.sensor_id, m.created_at DESC
-    SQL
-
-    Reading.find_by_sql(outer_query)
-      .to_json(only: [:value, :longitude, :latitude])
+    Rails.cache.fetch(cache_key, expires_in: expires_in) do
+      Reading.values_with_location(to, params[:id]).
+        to_json(only: [:value, :longitude, :latitude])
+    end
   end
 
   def interval_number(time)

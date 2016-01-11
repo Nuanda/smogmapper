@@ -3,8 +3,8 @@ var heatmapConfig = {
 	"maxOpacity": .6,
 	"scaleRadius": true,
 	"useLocalRadius": true,
-	"latField": 'lat',
-	"lngField": 'long',
+	"latField": 'latitude',
+	"lngField": 'longitude',
 	"valueField": 'value'
 };
 

@@ -8,4 +8,7 @@ module ApplicationHelper
     I18n.locale == :en
   end
 
+  def demo?
+    Rails.application.config_for(:application).fetch('demo')
+  end
 end

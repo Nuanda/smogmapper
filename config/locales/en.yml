@@ -5,9 +5,9 @@ en:
     header: Know your Smog!
 
   measurement:
-    temperature: Temperature
-    humidity: Humidity
     pm: Particulate matter
+    temperature: Air temperature
+    humidity: Relative humidity
 
   instructions:
     welcome: Welcome to %{title}
@@ -33,12 +33,29 @@ en:
 
   sensors:
     title: Sensor readings
+    name: Sensor name
+    id: ID
+    current_location: Current location
     instruction: |
       Please pick a sensor on the map in order to see the last %{hours} hours of readings.
+    show_me: Show me the sensor
 
   heatmap:
     last_day: animated last 24 hours
     current: most recent readings
+
+  registration:
+    title: Register new sensor
+    instruction: |
+      Please provide below the geolocalization of the sensor and type in the sensor identification
+      token, that was supplied to you. You may also name the sensor, if you like, but please be polite ;).
+    geo: |
+      Latitude and longitude should be provided in degrees and fraction of degrees (e.g. 50.0484 or
+      19.9599) - please keep the 4-digit precision, it's important. The height (altitude above the ground level)
+      should be provided as a rough number of meters above the ground level. Precision up to a full meter is sufficient.
+    register: Confirm
+    success: Location change registered.
+    error: Server error on location change.
 
   nav:
     to_en: Switch language to English
@@ -47,9 +64,38 @@ en:
     tabs:
       info: Information
       sensors: Sensors
+      registration: Sensor registration
 
   map:
     zoom_in: Zoom in
     zoom_out: Zoom out
 
   welcome: Welcome,
+
+  simple_form:
+    labels:
+      location:
+        longitude: Longitude
+        latitude: Latitude
+        height: Height
+      sensor:
+        token: Id token
+        name: New name (leave blank for no change)
+
+  activerecord:
+    errors:
+      models:
+        sensor:
+          attributes:
+            token:
+              incorrect: Please use the token identifier that we have supplied you.
+        location:
+          attributes:
+            latitude:
+              blank: Please provide the latitude of the sensor location.
+              less_than_or_equal_to: Should not be greater than 90.
+              greater_than_or_equal_to: Should not be lower than -90.
+            longitude:
+              blank: Please provide the longitude of the sensor location.
+              less_than_or_equal_to: Should not be greater than 180.
+              greater_than_or_equal_to: Should not be lower than -180.

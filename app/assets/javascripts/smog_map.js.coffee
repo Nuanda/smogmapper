@@ -30,11 +30,11 @@ class @SmogMap
   initSensors: ->
     window.markerLayer = L.layerGroup()
 
-    bigIcon = L.icon
+    @bigIcon = L.icon
       iconUrl: 'assets/images/marker-icon-2x.png'
       iconAnchor:   [20, 80] # point of the icon which will correspond to marker's location
 
-    sensorIcon = L.icon
+    @sensorIcon = L.icon
       iconUrl: 'assets/images/sensor-marker.png',
       iconSize:     [25, 25] # size of the icon
       iconAnchor:   [13, 13] # point of the icon which will correspond to marker's location
@@ -43,30 +43,31 @@ class @SmogMap
 
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
-        sensorMarker = if sensor.id == 1000
-          L.marker([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], { icon: bigIcon })
-        else
-          L.marker([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], { icon: sensorIcon })
-        window.markerLayer.addLayer(sensorMarker)
-        sensorMarker.addTo(window.smogMap).
-          on 'click', (sensor) =>
-            if window.isDeviceClass('xs')
-              window.toggleSidebar () =>
-                @loadSensor(sensor)
-            else
-              @loadSensor(sensor)
-
-        sensorMarker.dbId = sensor.id
-
+        @addSensorMarker sensor.id, sensor['latitude'], sensor['longitude']
         if lastSensorId == sensor.id
-          window.smogMap.setView([sensor['locations'][0]['latitude'], sensor['locations'][0]['longitude']], 14)
+          window.smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
 
-  loadSensor: (sensor) ->
-    $.get 'sensors/' + sensor.target.dbId, (data) ->
+  addSensorMarker: (sensorId, latitude, longitude) ->
+    icon = if sensorId == 1000 then @bigIcon else @sensorIcon
+    sensorMarker = L.marker([latitude, longitude], { icon: icon, zIndexOffset: 10000 })
+    window.markerLayer.addLayer(sensorMarker)
+    sensorMarker.addTo(window.smogMap).
+      on 'click', (sensor) =>
+        if window.isDeviceClass('xs')
+          window.toggleSidebar () =>
+            @loadSensor(sensor.target.dbId)
+        else
+          @loadSensor(sensor.target.dbId)
+
+    sensorMarker.dbId = sensorId
+
+
+  loadSensor: (sensorId) ->
+    $.get I18n.locale + '/sensors/' + sensorId, (data) ->
       $('#sensors-tab').html data
       $('#left-section a[href="#sensors-tab"]').tab 'show'
 
-    @config.set("sensor.id", sensor.target.dbId)
+    @config.set("sensor.id", sensorId)
 
   showSensors: ->
     window.markerLayer.eachLayer (sensorMarker) ->
@@ -92,7 +93,7 @@ class @SmogMap
     wrapper = new Object()
     result = []
     $.each data, (i, r) ->
-      result.push({ long: r.sensor.long, lat: r.sensor.lat, value: r.value })
+      result.push({ longitude: r.longitude, latitude: r.latitude, value: r.value })
     wrapper.data = result
     wrapper.max = 500
     window.heatmapLayer.setData(wrapper)
