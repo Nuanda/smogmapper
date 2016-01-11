@@ -13,17 +13,11 @@ if Rails.env.development?
                 measurements: ms)
 
   fake_sensor_file = File.open('db/seeds/sensorLocation.csv').read
-  # sensors = []
   fake_sensor_file.lines.each do |line|
     data = line.split(',')
-    # sensors <<
     Sensor.create(
       id: data[0].to_i,
       name: data[0],
-      # token: SecureRandom.urlsafe_base64.gsub(/-_/,'')[0,12],  # needed here since ar-import does not honor AR callbacks
-      locations: [
-        Location.new(longitude: data[1].to_f, latitude: data[2].to_f)
-      ],
       measurements: ms
     )
   end
@@ -49,4 +43,9 @@ if Rails.env.development?
     end
   end
   Reading.import(readings)
+
+  fake_sensor_file.lines.each do |line|
+    data = line.split(',')
+    Location.create(longitude: data[1].to_f, latitude: data[2].to_f, sensor_id: data[0].to_i)
+  end
 end
