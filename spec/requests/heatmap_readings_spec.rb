@@ -2,15 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "Heatmap" do
   let(:measurement) { create(:measurement) }
-  let(:sensor) { create(:sensor) }
+  let(:sensor) { create(:sensor, measurements: [measurement]) }
   let(:json_header) { { "ACCEPT" => "application/json" } }
 
   context 'time now' do
     it 'showns heatmap' do
       # old reading
       create_reading(Time.now - 20.minutes)
-      new_reading = create_reading
-
+      new_reading = create_reading(Time.now - 1.second)
+      create(:location, sensor: sensor)
 
       get measurement_path(id: measurement.id), nil, json_header
       result = JSON.parse(response.body)
@@ -26,21 +26,21 @@ RSpec.describe "Heatmap" do
 
       # one query is made to check latest reading
       expect { get measurement_path(id: measurement.id), nil, json_header }.
-        to make_database_queries(count: 1)
+        to make_database_queries(count: 2)
     end
 
     it 'returns latest results' do
       create_reading
+      l = create(:location, sensor: sensor)
       # cache results
       get measurement_path(id: measurement.id), nil, json_header
 
       new_reading = create_reading
       get measurement_path(id: measurement.id), nil, json_header
 
-      expect(response.body).
-        to include new_reading.to_json(only: :value,
-                                       include: { sensor: {
-                                                  only: [:lat, :long] }})
+      expect(response.body).to include new_reading.value.to_s
+      expect(response.body).to include l.latitude.to_s
+      expect(response.body).to include l.longitude.to_s
     end
   end
 
@@ -55,6 +55,7 @@ RSpec.describe "Heatmap" do
       create_reading(Time.new(2015, 1, 1, 11, 44)) # before
       current = create_reading(Time.new(2015, 1, 1, 11, 50))
       create_reading(Time.new(2015, 1, 1, 12, 1)) # after
+      create(:location, sensor: sensor)
 
       get measurement_path(id: measurement.id), { iteration: 0 }, json_header
       result = JSON.parse(response.body)

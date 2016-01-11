@@ -4,7 +4,7 @@ class MeasurementsController < ApplicationController
   def show
     if params[:iteration].blank?
       last_reading_time = Reading.where(measurement_id: params[:id]).
-                          maximum(:time)
+                          maximum(:time) + 1.second
       last_reading_time = Time.now if last_reading_time.blank? || (last_reading_time > Time.now)
       readings = readings_json(last_reading_time, (2 * interval).minutes)
     else
@@ -31,7 +31,7 @@ class MeasurementsController < ApplicationController
 
       outer_query = <<-SQL
         SELECT DISTINCT ON (r.sensor_id)
-        r.*, loc.longitude, loc.latitude
+        r.value, loc.longitude, loc.latitude
         FROM readings r
         JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
         WHERE r.time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
