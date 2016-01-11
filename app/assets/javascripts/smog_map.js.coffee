@@ -92,7 +92,7 @@ class @SmogMap
     wrapper = new Object()
     result = []
     $.each data, (i, r) ->
-      result.push({ long: r.sensor.long, lat: r.sensor.lat, value: r.value })
+      result.push({ longitude: r.longitude, latitude: r.latitude, value: r.value })
     wrapper.data = result
     wrapper.max = 500
     window.heatmapLayer.setData(wrapper)
