@@ -36,6 +36,7 @@ en:
     name: Sensor name
     id: ID
     current_location: Current location
+    no_location: no registered location
     instruction: |
       Please pick a sensor on the map in order to see the last %{hours} hours of readings.
     show_me: Show me the sensor

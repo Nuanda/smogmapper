@@ -37,6 +37,7 @@ pl:
     name: Nazwa miernika
     id: ID
     current_location: Obecna lokalizacja
+    no_location: brak zapisanej lokalizacji
     instruction: |
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.

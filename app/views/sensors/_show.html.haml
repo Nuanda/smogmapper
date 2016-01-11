@@ -11,9 +11,12 @@
 %h5.text-center
   = succeed ':' do
     = t 'sensors.current_location'
-  = @sensor.locations[0].latitude
-  = @sensor.locations[0].longitude
-  = @sensor.locations[0].height
+  - if location = @sensor.current_location
+    = location.latitude
+    = location.longitude
+    = location.height
+  - else
+    = t 'sensors.no_location'
 
 .text-center
   - @readings.each do |measurement, _|

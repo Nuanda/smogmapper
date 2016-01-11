@@ -27,6 +27,10 @@ class Sensor < ActiveRecord::Base
       select('sensors.id, l1.latitude, l1.longitude')
   end
 
+  def current_location
+    locations.order('registration_time DESC').first
+  end
+
   private
 
   def generate_token
