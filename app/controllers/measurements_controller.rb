@@ -18,35 +18,29 @@ class MeasurementsController < ApplicationController
   private
 
   def readings_json(to, expires_in)
-    # cache_key = { id: params[:id], to: to&.to_f }
+    cache_key = { id: params[:id], to: to&.to_f }
 
-    # Rails.cache.fetch(cache_key, expires_in: expires_in) do
-    #   Reading.includes(sensor: :locations).
-    #     where(measurement_id: params[:id]).
-    #     where('time > ? AND time <= ?', to - interval.minutes, to).
-    #     to_json(only: :value, include: { sensor: { only: [:lat, :long] } })
-    # end
+    readings = Rails.cache.fetch(cache_key, expires_in: expires_in) do
+      inner_query = <<-SQL
+        SELECT DISTINCT ON (sensor_id)
+        id, sensor_id, latitude, longitude, registration_time
+        FROM locations
+        WHERE registration_time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
+        ORDER BY sensor_id, registration_time DESC, id
+      SQL
 
-    inner_query = <<-SQL
-      SELECT DISTINCT ON (sensor_id)
-      id, sensor_id, latitude, longitude, registration_time
-      FROM locations
-      WHERE registration_time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
-      ORDER BY sensor_id, registration_time DESC, id
-    SQL
+      outer_query = <<-SQL
+        SELECT DISTINCT ON (r.sensor_id)
+        r.*, loc.longitude, loc.latitude
+        FROM readings r
+        JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
+        WHERE r.time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
+        AND r.measurement_id = #{ActiveRecord::Base::sanitize(params[:id])}
+        ORDER BY r.sensor_id, r.time DESC
+      SQL
 
-    outer_query = <<-SQL
-      SELECT DISTINCT ON (r.sensor_id)
-      r.*, loc.longitude, loc.latitude
-      FROM readings r
-      JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
-      WHERE r.time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
-      AND r.measurement_id = #{ActiveRecord::Base::sanitize(params[:id])}
-      ORDER BY r.sensor_id, r.time DESC
-    SQL
-
-    readings = Reading.find_by_sql(outer_query)
-    p readings.count
+      Reading.find_by_sql(outer_query)
+    end
     readings.to_json(only: [:value, :longitude, :latitude])
   end
 
