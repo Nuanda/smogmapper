@@ -26,7 +26,7 @@ RSpec.describe "Heatmap" do
 
       # one query is made to check latest reading
       expect { get measurement_path(id: measurement.id), nil, json_header }.
-        to make_database_queries(count: 2)
+        to make_database_queries(count: 1)
     end
 
     it 'returns latest results' do
