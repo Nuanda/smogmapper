@@ -40,13 +40,14 @@ class MeasurementsController < ApplicationController
       r.*, loc.longitude, loc.latitude
       FROM readings r
       JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
-      JOIN measurements m ON r.measurement_id = m.id
-      WHERE m.created_at <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
-      ORDER BY r.sensor_id, m.created_at DESC
+      WHERE r.time <= #{ActiveRecord::Base::sanitize(to.to_s(:db))}
+      AND r.measurement_id = #{ActiveRecord::Base::sanitize(params[:id])}
+      ORDER BY r.sensor_id, r.time DESC
     SQL
 
-    Reading.find_by_sql(outer_query)
-      .to_json(only: [:value, :longitude, :latitude])
+    readings = Reading.find_by_sql(outer_query)
+    p readings.count
+    readings.to_json(only: [:value, :longitude, :latitude])
   end
 
   def interval_number(time)
