@@ -30,11 +30,11 @@ class @SmogMap
   initSensors: ->
     window.markerLayer = L.layerGroup()
 
-    bigIcon = L.icon
+    @bigIcon = L.icon
       iconUrl: 'assets/images/marker-icon-2x.png'
       iconAnchor:   [20, 80] # point of the icon which will correspond to marker's location
 
-    sensorIcon = L.icon
+    @sensorIcon = L.icon
       iconUrl: 'assets/images/sensor-marker.png',
       iconSize:     [25, 25] # size of the icon
       iconAnchor:   [13, 13] # point of the icon which will correspond to marker's location
@@ -43,23 +43,24 @@ class @SmogMap
 
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
-        sensorMarker = if sensor.id == 1000
-          L.marker([sensor['latitude'], sensor['longitude']], { icon: bigIcon })
-        else
-          L.marker([sensor['latitude'], sensor['longitude']], { icon: sensorIcon })
-        window.markerLayer.addLayer(sensorMarker)
-        sensorMarker.addTo(window.smogMap).
-          on 'click', (sensor) =>
-            if window.isDeviceClass('xs')
-              window.toggleSidebar () =>
-                @loadSensor(sensor.target.dbId)
-            else
-              @loadSensor(sensor.target.dbId)
-
-        sensorMarker.dbId = sensor.id
-
+        @addSensorMarker sensor.id, sensor['latitude'], sensor['longitude']
         if lastSensorId == sensor.id
           window.smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
+
+  addSensorMarker: (sensorId, latitude, longitude) ->
+    icon = if sensorId == 1000 then @bigIcon else @sensorIcon
+    sensorMarker = L.marker([latitude, longitude], { icon: icon })
+    window.markerLayer.addLayer(sensorMarker)
+    sensorMarker.addTo(window.smogMap).
+      on 'click', (sensor) =>
+        if window.isDeviceClass('xs')
+          window.toggleSidebar () =>
+            @loadSensor(sensor.target.dbId)
+        else
+          @loadSensor(sensor.target.dbId)
+
+    sensorMarker.dbId = sensorId
+
 
   loadSensor: (sensorId) ->
     $.get I18n.locale + '/sensors/' + sensorId, (data) ->
