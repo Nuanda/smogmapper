@@ -20,10 +20,10 @@ class MeasurementsController < ApplicationController
   def readings_json(to, expires_in)
     cache_key = { id: params[:id], to: to&.to_f }
 
-    readings = Rails.cache.fetch(cache_key, expires_in: expires_in) do
-      Reading.values_with_location(to, params[:id])
+    Rails.cache.fetch(cache_key, expires_in: expires_in) do
+      Reading.values_with_location(to, params[:id]).
+        to_json(only: [:value, :longitude, :latitude])
     end
-    readings.to_json(only: [:value, :longitude, :latitude])
   end
 
   def interval_number(time)
