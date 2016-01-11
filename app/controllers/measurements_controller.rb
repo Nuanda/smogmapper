@@ -21,25 +21,23 @@ class MeasurementsController < ApplicationController
     cache_key = { id: params[:id], to: to&.to_f }
 
     readings = Rails.cache.fetch(cache_key, expires_in: expires_in) do
-      inner_query = <<-SQL
-        SELECT DISTINCT ON (sensor_id)
-        id, sensor_id, latitude, longitude, registration_time
-        FROM locations
-        WHERE registration_time <= #{ActiveRecord::Base::sanitize(to.utc.to_s(:db))}
-        ORDER BY sensor_id, registration_time DESC, id
-      SQL
-
-      outer_query = <<-SQL
+      query = <<-SQL
         SELECT DISTINCT ON (r.sensor_id)
-        r.value, loc.longitude, loc.latitude
+          r.value, loc.longitude, loc.latitude
         FROM readings r
-        JOIN (#{inner_query}) loc ON loc.sensor_id = r.sensor_id
-        WHERE r.time <= #{ActiveRecord::Base::sanitize(to.utc.to_s(:db))}
-        AND r.measurement_id = #{ActiveRecord::Base::sanitize(params[:id])}
+        JOIN (
+          SELECT DISTINCT ON (sensor_id)
+            id, sensor_id, latitude, longitude, registration_time
+          FROM locations
+          WHERE registration_time <= :to
+          ORDER BY sensor_id, registration_time DESC, id
+        ) loc ON loc.sensor_id = r.sensor_id
+        WHERE r.time <= :to
+        AND r.measurement_id = :measurement_id
         ORDER BY r.sensor_id, r.time DESC
       SQL
 
-      Reading.find_by_sql(outer_query)
+      Reading.find_by_sql([query, { to: to, measurement_id: params[:id]}])
     end
     readings.to_json(only: [:value, :longitude, :latitude])
   end
