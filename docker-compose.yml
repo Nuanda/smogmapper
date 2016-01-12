@@ -1,0 +1,14 @@
+db:
+  image: postgres
+web:
+  build: .
+  command: bundle exec rails s -p 3000 -b '0.0.0.0'
+  volumes:
+    - .:/smogmapper
+  ports:
+    - "3000:3000"
+  environment:
+    SMOGMAPPER_DB_USERNAME: postgres
+    SMOGMAPPER_DB_HOST: db
+  links:
+    - db
