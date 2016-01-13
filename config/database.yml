@@ -24,10 +24,16 @@ default: &default
 development:
   <<: *default
   database: smogmapper_development
+  username: <%= ENV['SMOGMAPPER_DB_USERNAME'] %>
+  password: <%= ENV['SMOGMAPPER_DB_PASSWORD'] %>
+  host: <%= ENV['SMOGMAPPER_DB_HOST'] %>
 
 test:
   <<: *default
   database: smogmapper_test
+  username: <%= ENV['SMOGMAPPER_DB_USERNAME'] %>
+  password: <%= ENV['SMOGMAPPER_DB_PASSWORD'] %>
+  host: <%= ENV['SMOGMAPPER_DB_HOST'] %>
 
 production:
   <<: *default
