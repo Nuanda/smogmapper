@@ -6,6 +6,9 @@ pl:
 
   measurement:
     pm: Pył zawieszony
+    pm1: Pył zawieszony 1 μm
+    pm2_5: Pył zawieszony 2.5 μm
+    pm10: Pył zawieszony 10 μm
     temperature: Temperatura powietrza
     humidity: Wilgotność względna
 

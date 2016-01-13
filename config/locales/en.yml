@@ -6,6 +6,9 @@ en:
 
   measurement:
     pm: Particulate matter
+    pm1: Particulate matter 1 μm
+    pm2_5: Particulate matter 2.5 μm
+    pm10: Particulate matter 10 μm
     temperature: Air temperature
     humidity: Relative humidity
 

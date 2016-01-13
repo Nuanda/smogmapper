@@ -2,6 +2,9 @@ if Rails.env.development?
   temperature = Measurement.create(name: 'temperature', unit: '°C')
   humidity = Measurement.create(name: 'humidity', unit: '%')
   pm = Measurement.create(name: 'pm', unit: 'μg/m³')
+  Measurement.create(name: 'pm1', unit: 'μg/m³')
+  Measurement.create(name: 'pm2_5', unit: 'μg/m³')
+  Measurement.create(name: 'pm10', unit: 'μg/m³')
 
   ms = [temperature, humidity, pm]
 
