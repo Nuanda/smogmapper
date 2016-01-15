@@ -25,7 +25,13 @@ class MeasurementsController < ApplicationController
   end
 
   def last_reading_expires_in
-    interval.minutes - (Time.current - last_reading_time).seconds
+    first_reading_time = Reading.
+                         where('measurement_id = ? AND time > ?',
+                               params[:id], Time.current - interval.minutes).
+                         minimum(:time)
+    first_reading_time = (2 * interval).minutes.ago unless first_reading_time
+
+    interval.minutes - (Time.current - first_reading_time).seconds
   end
 
   def last_reading_time

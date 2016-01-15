@@ -25,8 +25,9 @@ RSpec.describe "Heatmap" do
       get measurement_path(id: measurement.id), nil, json_header
 
       # one query is made to check latest reading
+      # second one to check first reading in defined interval
       expect { get measurement_path(id: measurement.id), nil, json_header }.
-        to make_database_queries(count: 1)
+        to make_database_queries(count: 2)
     end
 
     it 'returns latest results' do
@@ -55,15 +56,23 @@ RSpec.describe "Heatmap" do
     it 'does not return cached values older then interval' do
       now = Time.now
       create_reading(now - 5.minutes)
+
+      sensor2 = create(:sensor, measurements: [measurement])
+      last = create(:reading, measurement: measurement,
+                    sensor: sensor2, time: now - 3.minutes)
+
       create(:location, sensor: sensor, registration_time: 1.hour.ago)
+      create(:location, sensor: sensor2, registration_time: 1.hour.ago)
 
       # create cache
       get measurement_path(id: measurement.id), nil, json_header
       # time travel + 11 minutes
       allow(Time).to receive(:now).and_return(now + 11.minutes)
       get measurement_path(id: measurement.id), nil, json_header
+      result = json_response
 
-      expect(json_response).to eq []
+      expect(result.size).to eq 1
+      expect(result[0]['value']).to eq last.value
     end
   end
 
