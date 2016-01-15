@@ -6,7 +6,7 @@ module LocationHelper
         width: 1,
         value: location.registration_time.to_i,
         label: {
-          text: 'Location change'
+          text: I18n.t('sensors.location_change')
         },
         zIndex: 5
       }

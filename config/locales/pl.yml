@@ -45,6 +45,7 @@ pl:
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
     show_me: Pokaż miernik
+    location_change: Zmiana lokalizacji
 
   heatmap:
     last_day: animacja ostatnich 24 godzin
