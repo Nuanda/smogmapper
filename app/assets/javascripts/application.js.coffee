@@ -2,10 +2,10 @@
 #= require jquery_ujs
 #= require i18n
 #= require i18n/translations
-#= require bootstrap-sprockets
+#= require bootstrap/button
+#= require bootstrap/tab
+#= require bootstrap/tooltip
 #= require leaflet
-#= require esri-leaflet
-#= require js-routes
 #= require js-cookie
 #= require leaflet-heatmap
 #= require heatmap

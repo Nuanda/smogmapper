@@ -28,15 +28,11 @@ source 'https://rails-assets.org' do
   # A rails-assets 'gem' section, downloaded and packaged from bower.io
   # That packages the leaflet.js library for maps handling
   gem 'rails-assets-leaflet', '1.0.0.beta.2'
-  # It's an extension for leaflet.js to deal with ArcGIS feature layer servers
-  gem 'rails-assets-esri-leaflet', '~> 1.0.0'
   gem 'rails-assets-js-cookie', '~> 2.1.0'
 end
 
 # Helps with translating strings directly in js/cs
 gem 'i18n-js'
-# For Rails route helpers in js/cs code
-gem 'js-routes'
 
 # Use jQuery as the JavaScript library
 gem 'jquery-rails', '~> 4.0.0'
