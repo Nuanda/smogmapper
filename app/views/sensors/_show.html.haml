@@ -36,7 +36,8 @@
             formatter: function() {
               return Highcharts.dateFormat('%H:%M', this.value*1000);
             },
-          }
+          },
+          plotLines: #{locations_to_plotlines(@locations)}
         },
         yAxis: {
           title: {

@@ -11,6 +11,10 @@ class SensorsController < ApplicationController
                 order('time asc').
                 group_by { |r| r.measurement }
 
+    @locations = @sensor.locations.
+                 where('registration_time > ? AND registration_time <= ?', from, to).
+                 order('registration_time asc')
+
     render partial: 'sensors/show'
   end
 

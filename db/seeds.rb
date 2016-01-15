@@ -25,23 +25,21 @@ if Rails.env.development?
     )
   end
 
-  # Sensor.reset_column_information  # ar-import gem probably needs this if you run seed right after migrate, in the same env
-  #
-  # Sensor.import(sensors)
-
   readings = []
+  interval = Rails.application.config_for(:application).
+    fetch('measurements', { 'interval' => 15 })['interval']
+
   11.times.each do |i|
     sensor_value_file = File.open("db/seeds/values#{i + 1}.csv").read
     sensor_value_file.lines.each do |line|
       data = line.split(',')
-      readings << Reading.new(measurement: pm, sensor_id: data[0].to_i,
-                              time: Time.now - (i*15).minutes,
+      sensor_id = data[0].to_i
+      time = Time.now - (i * interval).minutes
+      readings << Reading.new(measurement: pm, sensor_id: sensor_id, time: time,
                               value: data[1].to_f)
-      readings << Reading.new(measurement: temperature, sensor_id: data[0].to_i,
-                              time: Time.now - (i*15).minutes,
+      readings << Reading.new(measurement: temperature, sensor_id: sensor_id, time: time,
                               value: (rand(60) - 20.0).to_f)
-      readings << Reading.new(measurement: humidity, sensor_id: data[0].to_i,
-                              time: Time.now - (i*15).minutes,
+      readings << Reading.new(measurement: humidity, sensor_id: sensor_id, time: time,
                               value: rand(100).to_f)
     end
   end
@@ -49,6 +47,13 @@ if Rails.env.development?
 
   fake_sensor_file.lines.each do |line|
     data = line.split(',')
-    Location.create(longitude: data[1].to_f, latitude: data[2].to_f, sensor_id: data[0].to_i)
+    sensor_id = data[0].to_i
+    Location.create(longitude: data[1].to_f, latitude: data[2].to_f, sensor_id: sensor_id)
+    if sensor_id == 273
+      extra_location = Location.create(longitude: data[1].to_f + 0.01,
+                                       latitude: data[2].to_f - 0.01,
+                                       sensor_id: sensor_id)
+      extra_location.update(registration_time: Time.now - (4 * interval + 1).minutes)
+    end
   end
 end
