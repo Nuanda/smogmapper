@@ -13,7 +13,7 @@ RSpec.describe "Heatmap" do
       create(:location, sensor: sensor)
 
       get measurement_path(id: measurement.id), nil, json_header
-      result = JSON.parse(response.body)
+      result = json_response
 
       expect(result.size).to eq 1
       expect(result[0]['value']).to eq new_reading.value
@@ -42,6 +42,29 @@ RSpec.describe "Heatmap" do
       expect(response.body).to include l.latitude.to_s
       expect(response.body).to include l.longitude.to_s
     end
+
+    it 'does not return values older then interval' do
+      create_reading(Time.now - 20.minutes)
+      create(:location, sensor: sensor, registration_time: 1.hour.ago)
+
+      get measurement_path(id: measurement.id), nil, json_header
+
+      expect(json_response).to eq []
+    end
+
+    it 'does not return cached values older then interval' do
+      now = Time.now
+      create_reading(now - 5.minutes)
+      create(:location, sensor: sensor, registration_time: 1.hour.ago)
+
+      # create cache
+      get measurement_path(id: measurement.id), nil, json_header
+      # time travel + 11 minutes
+      allow(Time).to receive(:now).and_return(now + 11.minutes)
+      get measurement_path(id: measurement.id), nil, json_header
+
+      expect(json_response).to eq []
+    end
   end
 
   context 'iteration' do
@@ -58,10 +81,20 @@ RSpec.describe "Heatmap" do
       create(:location, sensor: sensor)
 
       get measurement_path(id: measurement.id), { iteration: 0 }, json_header
-      result = JSON.parse(response.body)
+      result = json_response
 
       expect(result.size).to eq 1
       expect(result[0]['value']).to eq current.value
+    end
+
+    it 'does\'t return data older then interval' do
+      before_interval = Time.new(2015, 1, 1, 11, 44)
+      create_reading(before_interval)
+      create(:location, sensor: sensor, registration_time: before_interval)
+
+      get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+
+      expect(json_response).to eq []
     end
 
     it 'uses cache for iteration data' do
@@ -73,6 +106,10 @@ RSpec.describe "Heatmap" do
         get measurement_path(id: measurement.id), { iteration: 0 }, json_header
       end.to_not make_database_queries
     end
+  end
+
+  def json_response
+    JSON.parse(response.body)
   end
 
   def create_reading(time = Time.now)
