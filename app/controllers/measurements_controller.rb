@@ -3,10 +3,8 @@ class MeasurementsController < ApplicationController
 
   def show
     if params[:iteration].blank?
-      last_reading_time = Reading.where(measurement_id: params[:id]).
-                          maximum(:time)
-      last_reading_time = Time.now if last_reading_time.blank? || (last_reading_time > Time.now)
-      readings = readings_json(last_reading_time + 1.second, (2 * interval).minutes)
+      readings = readings_json(last_reading_time + 1.second,
+                               (2 * interval).minutes)
     else
       to = reference_time - (params[:iteration].to_i * interval).minutes
       readings = readings_json(to, 25.hours)
@@ -16,6 +14,14 @@ class MeasurementsController < ApplicationController
   end
 
   private
+
+  def last_reading_time
+    last_reading_time = Reading.
+                        where(measurement_id: params[:id]).
+                        maximum(:time)
+
+    last_reading_time&.past? ? last_reading_time : Time.now
+  end
 
   def readings_json(to, expires_in)
     cache_key = { id: params[:id], to: to&.to_f }
