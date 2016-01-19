@@ -34,6 +34,11 @@ $ ->
   unless window.isDeviceClass('xs')
     $('div#main').toggleClass('sidebar-show')
 
+  # This is for all plots, change Date axis to local timezone
+  Highcharts.setOptions
+    global :
+      useUTC : false
+
 window.toggleSidebar = (completeCallback = null, delay = 250) ->
   $('div#main').toggleClass('sidebar-show').promise().done =>
     if completeCallback
