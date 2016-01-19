@@ -12,7 +12,7 @@ RSpec.describe "Heatmap" do
       new_reading = create_reading(Time.now - 1.second)
       create(:location, sensor: sensor)
 
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
       result = json_response
 
       expect(result.size).to eq 1
@@ -22,7 +22,7 @@ RSpec.describe "Heatmap" do
     it 'caches readings until new reading appear' do
       create_reading
       # cache results
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
 
       # 2 queries are made: to check latest reading time, and to check readings numbers
       expect { get_measurement }.to make_database_queries(count: 3)
@@ -32,10 +32,10 @@ RSpec.describe "Heatmap" do
       create_reading
       l = create(:location, sensor: sensor)
       # cache results
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
 
       new_reading = create_reading
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
 
       expect(response.body).to include new_reading.value.to_s
       expect(response.body).to include l.latitude.to_s
@@ -46,7 +46,7 @@ RSpec.describe "Heatmap" do
       create_reading(Time.now - 20.minutes)
       create(:location, sensor: sensor, registration_time: 1.hour.ago)
 
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
 
       expect(json_response).to eq []
     end
@@ -63,10 +63,10 @@ RSpec.describe "Heatmap" do
       create(:location, sensor: sensor2, registration_time: 1.hour.ago)
 
       # create cache
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
       # time travel + 11 minutes
       allow(Time).to receive(:now).and_return(now + 11.minutes)
-      get measurement_path(id: measurement.id), nil, json_header
+      get_measurement
       result = json_response
 
       expect(result.size).to eq 1
@@ -87,7 +87,7 @@ RSpec.describe "Heatmap" do
       create_reading(Time.new(2015, 1, 1, 12, 1)) # after
       create(:location, sensor: sensor)
 
-      get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+      get_measurement 0
       result = json_response
 
       expect(result.size).to eq 1
@@ -99,7 +99,7 @@ RSpec.describe "Heatmap" do
       create_reading(before_interval)
       create(:location, sensor: sensor, registration_time: before_interval)
 
-      get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+      get_measurement 0
 
       expect(json_response).to eq []
     end
@@ -135,6 +135,10 @@ RSpec.describe "Heatmap" do
   end
 
   def get_measurement(iteration = nil)
-    get measurement_path(id: measurement.id), { iteration: iteration }, json_header
+    if iteration
+      get measurement_path(id: measurement.id), { iteration: iteration }, json_header
+    else
+      get measurement_path(id: measurement.id), nil, json_header
+    end
   end
 end
