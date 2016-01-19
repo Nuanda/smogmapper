@@ -16,7 +16,9 @@ class MeasurementsController < ApplicationController
   private
 
   def readings_json(key_date, to, expires_in)
-    cache_key = { id: params[:id], to: key_date&.to_f }
+    # Readings number needs to be checked for new-'past' readings added
+    readings_number = Reading.where(measurement_id: params[:id], time: (to - interval.minutes)..to).count
+    cache_key = { id: params[:id], number: readings_number, to: key_date&.to_f }
 
     Rails.cache.fetch(cache_key, expires_in: expires_in) do
       Reading.values_with_location(to - interval.minutes, to, params[:id]).

@@ -24,10 +24,8 @@ RSpec.describe "Heatmap" do
       # cache results
       get measurement_path(id: measurement.id), nil, json_header
 
-      # one query is made to check latest reading
-      # second one to check first reading in defined interval
-      expect { get measurement_path(id: measurement.id), nil, json_header }.
-        to make_database_queries(count: 2)
+      # 2 queries are made: to check latest reading time, and to check readings numbers
+      expect { get_measurement }.to make_database_queries(count: 3)
     end
 
     it 'returns latest results' do
@@ -108,12 +106,23 @@ RSpec.describe "Heatmap" do
 
     it 'uses cache for iteration data' do
       create_reading(Time.new(2015, 1, 1, 11, 50))
+      create(:location, sensor: sensor)
       #make sure cache is created
-      get measurement_path(id: measurement.id), { iteration: 0 }, json_header
+      get_measurement 0
 
-      expect do
-        get measurement_path(id: measurement.id), { iteration: 0 }, json_header
-      end.to_not make_database_queries
+      expect { get_measurement 0 }.to make_database_queries(count: 1)
+    end
+
+    it 'invalidates cache if new reading appears for given iteration' do
+      create_reading(Time.new(2015, 1, 1, 11, 40))
+      create(:location, sensor: sensor)
+      # cache is created
+      expect { get_measurement 1 }.to make_database_queries(count: 2)
+      # cache is used
+      expect { get_measurement 1 }.to make_database_queries(count: 1)
+      create_reading(Time.new(2015, 1, 1, 11, 41))
+      # cache is re-created
+      expect { get_measurement 1 }.to make_database_queries(count: 2)
     end
   end
 
@@ -123,5 +132,9 @@ RSpec.describe "Heatmap" do
 
   def create_reading(time = Time.now)
     create(:reading, measurement: measurement, sensor: sensor, time: time)
+  end
+
+  def get_measurement(iteration = nil)
+    get measurement_path(id: measurement.id), { iteration: iteration }, json_header
   end
 end
