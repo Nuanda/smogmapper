@@ -3,7 +3,7 @@ class MeasurementsController < ApplicationController
 
   def show
     if params[:iteration].blank?
-      readings = readings_json(last_reading_time + 1.second, Time.current,
+      readings = readings_json(last_reading_time + 1.second, base_time,
                                interval.minutes)
     else
       to = reference_time - (params[:iteration].to_i * interval).minutes
