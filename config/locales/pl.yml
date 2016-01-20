@@ -46,6 +46,8 @@ pl:
       %{hours} godzin.
     show_me: Pokaż miernik
     location_change: Zmiana lokalizacji
+    show_reference: Pokaż odczyty referencyjne
+    no_reference: Brak dostępnych danych referencyjnych.
 
   heatmap:
     last_day: animacja ostatnich 24 godzin

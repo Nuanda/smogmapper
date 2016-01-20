@@ -19,8 +19,21 @@
     = t 'sensors.no_location'
 
 .text-center
+  - pm_available = false
   - @readings.each do |measurement, _|
+    - pm_available = pm_available || measurement.name.include?('pm')
     .reading-chart{ id: "#{measurement.name}-container" }
+
+- if pm_available && !demo?
+  %p
+  %p
+    = link_to t('sensors.show_reference'),
+              '#',
+              class: 'btn btn-primary',
+              id: 'show-reference-button'
+
+    #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
+
 
 - @readings.each do |measurement, readings|
   :javascript

@@ -7,7 +7,7 @@ defaults: &defaults
       east: 20.20907913224060
       north: 50.12550879764089
   charts:
-    interval: 5 # hours
+    interval: 15 # hours
   measurements:
     interval: 15 # minutes
   demo: false
