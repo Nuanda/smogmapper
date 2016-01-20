@@ -22,8 +22,8 @@ RSpec.describe "Measurements" do
 
     it 'returns an empty set when no readings qualify' do
 
-      r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: future)
-      r2 = create(:reading, sensor: s2, value: 1.5, measurement: pm, time: future)
+      create(:reading, sensor: s1, value: 1.0, measurement: pm, time: future)
+      create(:reading, sensor: s2, value: 1.5, measurement: pm, time: future)
       l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
       l1.update_column(:registration_time, past)
       l2 = create(:location, sensor: s2, longitude: 110, latitude: 70)
@@ -36,8 +36,8 @@ RSpec.describe "Measurements" do
     end
 
     it 'returns an empty set when no locations qualify' do
-      r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
-      r2 = create(:reading, sensor: s2, value: 1.5, measurement: pm, time: past)
+      create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
+      create(:reading, sensor: s2, value: 1.5, measurement: pm, time: past)
       l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
       l1.update_column(:registration_time, future)
       l2 = create(:location, sensor: s2, longitude: 110, latitude: 70)
@@ -50,10 +50,10 @@ RSpec.describe "Measurements" do
     end
 
     it 'returns the latest readings which qualify' do
-      r0 = create(:reading, sensor: s1, value: 0.5, measurement: pm, time: long_past)
-      r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
-      r2 = create(:reading, sensor: s1, value: 1.5, measurement: pm, time: present)
-      r3 = create(:reading, sensor: s1, value: 2.0, measurement: pm, time: future)
+      create(:reading, sensor: s1, value: 0.5, measurement: pm, time: long_past)
+      create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
+      create(:reading, sensor: s1, value: 1.5, measurement: pm, time: present)
+      create(:reading, sensor: s1, value: 2.0, measurement: pm, time: future)
       l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
       l1.update_column(:registration_time, long_past)
 
@@ -66,9 +66,9 @@ RSpec.describe "Measurements" do
     end
 
     it 'returns the latest locations which qualify' do
-      r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
-      r2 = create(:reading, sensor: s1, value: 1.5, measurement: pm, time: present)
-      r3 = create(:reading, sensor: s1, value: 2.0, measurement: pm, time: future)
+      create(:reading, sensor: s1, value: 1.0, measurement: pm, time: past)
+      create(:reading, sensor: s1, value: 1.5, measurement: pm, time: present)
+      create(:reading, sensor: s1, value: 2.0, measurement: pm, time: future)
       l1 = create(:location, sensor: s1, longitude: 100, latitude: 60)
       l1.update_column(:registration_time, long_past)
       l2 = create(:location, sensor: s1, longitude: 120, latitude: 80)
@@ -88,12 +88,12 @@ RSpec.describe "Measurements" do
     end
 
     it 'properly handles multiple readings' do
-      r1 = create(:reading, sensor: s1, value: 1.0, measurement: pm, time: long_past)
-      r2 = create(:reading, sensor: s1, value: 1.5, measurement: pm, time: past)
-      r3 = create(:reading, sensor: s1, value: 2.0, measurement: pm, time: present)
-      r4 = create(:reading, sensor: s2, value: 4.0, measurement: pm, time: past)
-      r2 = create(:reading, sensor: s2, value: 4.5, measurement: pm, time: present)
-      r3 = create(:reading, sensor: s2, value: 5.0, measurement: pm, time: future)
+      create(:reading, sensor: s1, value: 1.0, measurement: pm, time: long_past)
+      create(:reading, sensor: s1, value: 1.5, measurement: pm, time: past)
+      create(:reading, sensor: s1, value: 2.0, measurement: pm, time: present)
+      create(:reading, sensor: s2, value: 4.0, measurement: pm, time: past)
+      create(:reading, sensor: s2, value: 4.5, measurement: pm, time: present)
+      create(:reading, sensor: s2, value: 5.0, measurement: pm, time: future)
       l1 = create(:location, sensor: s1, longitude: 120, latitude: 80)
       l1.update_column(:registration_time, past)
       l2 = create(:location, sensor: s2, longitude: 140, latitude: 90)
