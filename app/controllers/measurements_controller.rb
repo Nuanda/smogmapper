@@ -4,7 +4,7 @@ class MeasurementsController < ApplicationController
   def show
     if params[:iteration].blank?
       readings = readings_json(last_reading_time + 1.second, Time.current,
-                               last_reading_expires_in)
+                               interval.minutes)
     else
       to = reference_time - (params[:iteration].to_i * interval).minutes
       readings = readings_json(to, to, 25.hours)
@@ -24,16 +24,6 @@ class MeasurementsController < ApplicationController
       Reading.values_with_location(to - interval.minutes, to, params[:id]).
         to_json(only: [:value, :longitude, :latitude])
     end
-  end
-
-  def last_reading_expires_in
-    first_reading_time = Reading.
-                         where('measurement_id = ? AND time > ?',
-                               params[:id], Time.current - interval.minutes).
-                         minimum(:time)
-    first_reading_time = (2 * interval).minutes.ago unless first_reading_time
-
-    interval.minutes - (Time.current - first_reading_time).seconds
   end
 
   def last_reading_time

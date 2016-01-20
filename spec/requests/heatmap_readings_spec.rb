@@ -24,8 +24,9 @@ RSpec.describe "Heatmap" do
       # cache results
       get_measurement
 
-      # 2 queries are made: to check latest reading time, and to check readings numbers
-      expect { get_measurement }.to make_database_queries(count: 3)
+      # 2 queries are made: to check latest reading time,
+      # and to check number of readings
+      expect { get_measurement }.to make_database_queries(count: 2)
     end
 
     it 'returns latest results' do
