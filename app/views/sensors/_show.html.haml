@@ -1,53 +1,53 @@
-%h4.text-center
-  = succeed ':' do
-    = t 'sensors.name'
-  = @sensor.name
+.modal#sensor-info(tabindex="-1" role="dialog" aria-labelledby="sensor-info-label" data-show="true")
+  .modal-dialog(role="document")
+    .modal-content
+      .modal-header
+        %button.close(type="button" data-dismiss="modal" aria-label="Close")
+          %span(aria-hidden="true") &times;
+        %h4.modal-title#sensor-info-label
+          = succeed ':' do
+            = t 'sensors.name'
+          = @sensor.name
 
-%h4.text-center
-  = succeed ':' do
-    = t 'sensors.id'
-  = @sensor.id
+      .modal-body
+        %h4.text-center
+          = succeed ':' do
+            = t 'sensors.id'
+          = @sensor.id
 
-%h5.text-center
-  = succeed ':' do
-    = t 'sensors.current_location'
-  - if location = @sensor.current_location
-    = location.latitude
-    = location.longitude
-    = location.height
-  - else
-    = t 'sensors.no_location'
+        %h5.text-center
+          = succeed ':' do
+            = t 'sensors.current_location'
+          - if location = @sensor.current_location
+            = location.latitude
+            = location.longitude
+            = location.height
+          - else
+            = t 'sensors.no_location'
 
-.text-center
-  - pm_available = false
-  - @readings.each do |measurement, _|
-    - pm_available = pm_available || measurement.name.include?('pm')
-    .reading-chart{ id: "#{measurement.name}-container" }
+        .text-center
+          - pm_available = false
+          - @readings.each do |measurement, _|
+            - pm_available = pm_available || measurement.name.include?('pm')
+            .reading-chart{ id: "#{measurement.name}-container" }
 
-- if pm_available && !demo?
-  %p
-  %p
-    = link_to t('sensors.show_reference'),
-              '#',
-              class: 'btn btn-primary',
-              id: 'show-reference-button'
+        - if pm_available && !demo?
+          %p
+          %p
+            = link_to t('sensors.show_reference'),
+                      '#',
+                      class: 'btn btn-primary',
+                      id: 'show-reference-button'
 
-    #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
+            #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
 
-  %button.btn.btn-primary(type="button" data-toggle="modal" data-target="#sensor-info")
-    Large chart
+      .modal-footer
+        %button.btn.btn-default(type="button" data-dismiss="modal")= t('close')
 
-  .modal#sensor-info(tabindex="-1" role="dialog" aria-labelledby="sensor-info-label")
-    .modal-dialog(role="document")
-      .modal-content
-        .modal-header
-          %button.close(type="button" data-dismiss="modal" aria-label="Close")
-            %span(aria-hidden="true") &times;
-          %h4.modal-title#sensor-info-label Sensor information
-        .modal-body
-          '...'
-        .modal-footer
-          %button.btn.btn-default(type="button" data-dismiss="modal") Close
+:javascript
+  $(function () {
+    $('#sensor-info').modal('toggle');
+  });
 
 - @readings.each do |measurement, readings|
   :javascript
