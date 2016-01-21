@@ -8,20 +8,23 @@
           = succeed ':' do
             = t 'sensors.name'
           = @sensor.name
+          = surround '[',']' do
+            = @sensor.id
 
       .modal-body
         %h4.text-center
           = succeed ':' do
-            = t 'sensors.id'
-          = @sensor.id
-
-        %h5.text-center
-          = succeed ':' do
             = t 'sensors.current_location'
           - if location = @sensor.current_location
-            = location.latitude
-            = location.longitude
-            = location.height
+            = succeed ',' do
+              = location.latitude
+              = location.latitude > 0 ? 'N' : 'S'
+            = succeed (location.height ? ',' : '') do
+              = location.longitude
+              = location.longitude > 0 ? 'E' : 'W'
+            - if location.height
+              %span{ title: t('sensors.altitude_unit_tooltip') }
+                = "#{location.height} m."
           - else
             = t 'sensors.no_location'
 

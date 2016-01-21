@@ -47,6 +47,7 @@ en:
     location_change: Location change
     show_reference: Show reference readings
     no_reference: No reference data available.
+    altitude_unit_tooltip: Meters above the ground level.
 
   heatmap:
     last_day: animated last 24 hours
