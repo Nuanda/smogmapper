@@ -53,19 +53,14 @@ class @SmogMap
     window.markerLayer.addLayer(sensorMarker)
     sensorMarker.addTo(window.smogMap).
       on 'click', (sensor) =>
-        if window.isDeviceClass('xs')
-          window.toggleSidebar () =>
-            @loadSensor(sensor.target.dbId)
-        else
-          @loadSensor(sensor.target.dbId)
+        @loadSensor(sensor.target.dbId)
 
     sensorMarker.dbId = sensorId
 
 
   loadSensor: (sensorId) ->
     $.get I18n.locale + '/sensors/' + sensorId, (data) ->
-      $('#sensors-tab').html data
-      $('#left-section a[href="#sensors-tab"]').tab 'show'
+      $('#sensor-modal-wrapper').html data
 
     @config.set("sensor.id", sensorId)
 

@@ -1,5 +1,5 @@
 $ ->
-  $('#sidebar-left').on 'click', '#show-reference-button', (e) ->
+  $('#sensor-modal-wrapper').on 'click', '#show-reference-button', (e) ->
     e.stopPropagation()
     e.preventDefault()
     today = new Date()
