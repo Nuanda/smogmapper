@@ -34,6 +34,20 @@
 
     #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
 
+  %button.btn.btn-primary(type="button" data-toggle="modal" data-target="#sensor-info")
+    Large chart
+
+  .modal#sensor-info(tabindex="-1" role="dialog" aria-labelledby="sensor-info-label")
+    .modal-dialog(role="document")
+      .modal-content
+        .modal-header
+          %button.close(type="button" data-dismiss="modal" aria-label="Close")
+            %span(aria-hidden="true") &times;
+          %h4.modal-title#sensor-info-label Sensor information
+        .modal-body
+          '...'
+        .modal-footer
+          %button.btn.btn-default(type="button" data-dismiss="modal") Close
 
 - @readings.each do |measurement, readings|
   :javascript
