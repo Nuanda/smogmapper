@@ -1,5 +1,5 @@
 $ ->
-  $('#sidebar-left').on 'click', '#show-reference-button', (e) ->
+  $('#sensor-modal-wrapper').on 'click', '#show-reference-button', (e) ->
     e.stopPropagation()
     e.preventDefault()
     today = new Date()
@@ -29,16 +29,17 @@ $ ->
       date: today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear()
       channels: [46, 202, 57, 211, 148, 242, 1723, 1747, 1752]
 
-    $.post('/reference',
+    $.post('http://smogmapper.info/reference',
       query: queryJson
       ,
       (data) ->
-        pmChart = $('#pm-container').highcharts()
-        if pmChart.series.length == 1
+        pmChart = $('#reading-chart-container').highcharts()
+        unless $('#reading-chart-container').data('reference')
           for series, i in data['data']['series']
             series['data'] = series['data'].map (dataPoint) -> [parseInt(dataPoint[0], 10), parseFloat(dataPoint[1])]
             series['name'] = referenceNames[i] + ' (' + series['label'] + ')'
             pmChart.addSeries series
+            $('#reading-chart-container').data('reference', true)
     ).fail ->
       $('#show-reference-button').attr("disabled", true)
       $('#no-reference-error').removeClass('hidden')

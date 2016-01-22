@@ -5,6 +5,7 @@
 #= require bootstrap/button
 #= require bootstrap/tab
 #= require bootstrap/tooltip
+#= require bootstrap/modal
 #= require leaflet
 #= require js-cookie
 #= require leaflet-heatmap

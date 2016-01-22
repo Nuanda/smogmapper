@@ -2,6 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.reading-chart {
-  height: 200px;
+.modal-dialog {
+  z-index: 3000;
+  width: 90%;
+}
+
+.modal {
+  color: black;
+}
+
+.tooltip {
+  z-index: 10000;
 }

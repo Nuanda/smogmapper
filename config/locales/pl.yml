@@ -1,5 +1,6 @@
 pl:
   title: Smog Mapper
+  close: Zamknij
 
   home:
     header: Proszę Państwa, oto Smog!
@@ -37,6 +38,7 @@ pl:
 
   sensors:
     title: Dane pomiarowe
+    chart_title: Pomiary dla ostatnich %{interval} godzin
     name: Nazwa miernika
     id: ID
     current_location: Obecna lokalizacja
@@ -48,6 +50,7 @@ pl:
     location_change: Zmiana lokalizacji
     show_reference: Pokaż odczyty referencyjne
     no_reference: Brak dostępnych danych referencyjnych.
+    altitude_unit_tooltip: Metrów nad poziomem gruntu.
 
   heatmap:
     last_day: animacja ostatnich 24 godzin

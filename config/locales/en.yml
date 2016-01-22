@@ -1,5 +1,6 @@
 en:
   title: Smog Mapper
+  close: Close
 
   home:
     header: Know your Smog!
@@ -36,6 +37,7 @@ en:
 
   sensors:
     title: Sensor readings
+    chart_title: Readings for past %{interval} hours
     name: Sensor name
     id: ID
     current_location: Current location
@@ -46,6 +48,7 @@ en:
     location_change: Location change
     show_reference: Show reference readings
     no_reference: No reference data available.
+    altitude_unit_tooltip: Meters above the ground level.
 
   heatmap:
     last_day: animated last 24 hours
