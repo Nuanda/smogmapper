@@ -37,7 +37,7 @@ class SensorsController < ApplicationController
   end
 
   def interval
-    Rails.application.config_for(:application).
-      fetch('charts', { 'interval' => 5 })['interval'].hours
+    @interval ||= Rails.application.config_for(:application).
+                        fetch('charts', { 'interval' => 5 })['interval'].hours
   end
 end

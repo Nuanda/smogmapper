@@ -92,7 +92,7 @@
 
       $('#reading-chart-container').highcharts({
         title: {
-          text: 'Sensor readings for past 15 hours',
+          text: '#{I18n.t('sensors.chart_title', interval: @interval/3600)}',
           x: -20 //center
         },
         xAxis: {

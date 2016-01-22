@@ -37,6 +37,7 @@ en:
 
   sensors:
     title: Sensor readings
+    chart_title: Readings for past %{interval} hours
     name: Sensor name
     id: ID
     current_location: Current location

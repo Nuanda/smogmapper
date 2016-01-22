@@ -38,6 +38,7 @@ pl:
 
   sensors:
     title: Dane pomiarowe
+    chart_title: Pomiary dla ostatnich %{interval} godzin
     name: Nazwa miernika
     id: ID
     current_location: Obecna lokalizacja
