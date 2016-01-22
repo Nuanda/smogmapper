@@ -29,11 +29,9 @@
             = t 'sensors.no_location'
 
         .text-center
-          - pm_available = false
-          - @readings.each do |measurement, _|
-            - pm_available = pm_available || measurement.name.include?('pm')
-            .reading-chart{ id: "#{measurement.name}-container" }
+          .reading-chart#reading-chart-container
 
+        - pm_available = @readings.any?{ |m, _| m.name.include?('pm') }
         - if pm_available && !demo?
           %p
           %p
@@ -52,12 +50,49 @@
     $('#sensor-info').modal('toggle');
   });
 
-- @readings.each do |measurement, readings|
+- if @readings.present?
   :javascript
     $(function () {
-      $('##{measurement.name}-container').highcharts({
+      var yAxes = [];
+      var readingSeries = [];
+      #{
+        pm_axis_index = -1
+        @readings.map.with_index do |measurement, i|
+          code = ""
+          pm_reading = measurement[0].name.include?('pm')
+          if !pm_reading || (pm_axis_index < 0)
+            code += "yAxes[#{i}] = {
+              title: {
+                text: '#{I18n.t('measurement.' + (pm_reading ? 'pm' : measurement[0].name))} [#{measurement[0].unit}]',
+                style: {
+                  color: Highcharts.getOptions().colors[#{i}]
+                }
+              },
+              labels: {
+                style: {
+                  color: Highcharts.getOptions().colors[#{i}]
+                }
+              },
+              opposite: #{pm_reading ? 'false' : 'true'},
+              showEmpty: false
+            };\n"
+            pm_axis_index = i if pm_reading
+          end
+
+          code += "readingSeries[#{i}] = {
+            name: '#{I18n.t('measurement.' + measurement[0].name)}',
+            data: #{measurement[1].map{ |r| [r.time.to_i, r.value.round(4)] }},
+            yAxis: #{pm_reading ? pm_axis_index : i},
+            tooltip: {
+              valueSuffix: ' #{measurement[0].unit}'
+            }
+          };\n"
+        end.join('')
+      }
+
+      $('#reading-chart-container').highcharts({
         title: {
-          text: '#{I18n.t('measurement.' + measurement.name)}',
+          text: 'Sensor readings for past 15 hours',
           x: -20 //center
         },
         xAxis: {
@@ -69,29 +104,12 @@
           },
           plotLines: #{locations_to_plotlines(@locations)}
         },
-        yAxis: {
-          title: {
-            text: '[#{measurement.unit}]'
-          },
-          plotLines: [{
-            value: 0,
-            width: 1,
-            color: '#808080'
-          }]
-        },
         tooltip: {
           formatter: function () {
-            return '<div class="tooltip">' + Highcharts.dateFormat('%e %b %H:%M:%S', this.x * 1000) + '<br/><b>' + Highcharts.numberFormat(this.y) + ' [#{measurement.unit}]</b></div>';
+            return '<div class="tooltip">' + Highcharts.dateFormat('%e %b %H:%M:%S', this.x * 1000) + '<br/><b>' + Highcharts.numberFormat(this.y) + ' [' + this.series.tooltipOptions.valueSuffix + ']</b></div>';
           }
         },
-        series: [{
-          name: '#{I18n.t('measurement.' + measurement.name)}',
-          data: #{readings.map{ |r| [r.time.to_i, r.value.round(4)] }},
-          showInLegend: false
-        }]
-      }, function(e) {
-        setTimeout(function() {
-          e.setSize($('##{measurement.name}-container').width(), $('##{measurement.name}-container').height());
-        }, 1);
+        yAxis: yAxes,
+        series: readingSeries
       });
     });

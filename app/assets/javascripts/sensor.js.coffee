@@ -33,8 +33,8 @@ $ ->
       query: queryJson
       ,
       (data) ->
-        pmChart = $('#pm-container').highcharts()
-        if pmChart.series.length == 1
+        pmChart = $('#reading-chart-container').highcharts()
+        if pmChart.series.length <= 3
           for series, i in data['data']['series']
             series['data'] = series['data'].map (dataPoint) -> [parseInt(dataPoint[0], 10), parseFloat(dataPoint[1])]
             series['name'] = referenceNames[i] + ' (' + series['label'] + ')'
