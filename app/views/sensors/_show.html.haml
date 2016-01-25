@@ -84,7 +84,7 @@
             data: #{measurement[1].map{ |r| [r.time.to_i, r.value.round(4)] }},
             yAxis: #{pm_reading ? pm_axis_index : i},
             tooltip: {
-              valueSuffix: ' #{measurement[0].unit}'
+              valueSuffix: '#{measurement[0].unit}'
             }
           };\n"
         end.join('')
