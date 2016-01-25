@@ -6,31 +6,31 @@ class @SmogMap
 
     $('#smog-map').css('min-height', window.innerHeight - 50)
 
-    # Create a map in the "map" div, set the view to Kraków and zoom level to 13
-    window.smogMap = L.map('smog-map', { zoomControl: false })
+    @smogMap = L.map('smog-map', { zoomControl: false })
 
     new L.Control.Zoom(
       zoomInTitle: I18n.t('map.zoom_in')
       zoomOutTitle: I18n.t('map.zoom_out')
-    ).addTo window.smogMap
+    ).addTo @smogMap
 
     L.tileLayer(config.CDB_TILE_URL,{
       attribution: config.OSM_ATTRIBUTION + ', ' + config.CDB_ATTRIBUTION
-    }).addTo window.smogMap
+    }).addTo @smogMap
 
     @initSensors()
 
-    window.smogMap.setView([50.06, 19.95], 13) unless window.smogMap.getZoom()
+    # Set the view to Kraków and zoom level to 13 as a default behaviour
+    @smogMap.setView([50.06, 19.95], 13) unless @smogMap.getZoom()
 
     $('#zoom-out-button').on 'click', =>
       # Zoom the map to proper bounds
       southWest = L.latLng config.MAX_BOUNDS_SOUTH, config.MAX_BOUNDS_WEST
       northEast = L.latLng config.MAX_BOUNDS_NORTH, config.MAX_BOUNDS_EAST
       bounds = L.latLngBounds southWest, northEast
-      window.smogMap.fitBounds bounds
+      @smogMap.fitBounds bounds
 
   initSensors: ->
-    window.markerLayer = L.layerGroup()
+    @markerLayer = L.layerGroup()
 
     @bigIcon = L.icon
       iconUrl: 'assets/images/marker-icon-2x.png'
@@ -47,13 +47,13 @@ class @SmogMap
       $(data).each (i, sensor) =>
         @addSensorMarker sensor.id, sensor['latitude'], sensor['longitude']
         if lastSensorId == sensor.id
-          window.smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
+          @smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
 
   addSensorMarker: (sensorId, latitude, longitude) ->
     icon = if sensorId == 1000 then @bigIcon else @sensorIcon
     sensorMarker = L.marker([latitude, longitude], { icon: icon, zIndexOffset: 10000 })
-    window.markerLayer.addLayer(sensorMarker)
-    sensorMarker.addTo(window.smogMap).
+    @markerLayer.addLayer(sensorMarker)
+    sensorMarker.addTo(@smogMap).
       on 'click', (sensor) =>
         @loadSensor(sensor.target.dbId)
         @setLastSensorId(sensor.target.dbId)
@@ -65,23 +65,23 @@ class @SmogMap
       $('#sensor-modal-wrapper').html data
 
   showSensors: ->
-    window.markerLayer.eachLayer (sensorMarker) ->
-      window.smogMap.addLayer(sensorMarker)
+    @markerLayer.eachLayer (sensorMarker) ->
+      @smogMap.addLayer(sensorMarker)
 
   hideSensors: ->
-    window.markerLayer.eachLayer (sensorMarker) ->
-      window.smogMap.removeLayer(sensorMarker)
+    @markerLayer.eachLayer (sensorMarker) ->
+      @smogMap.removeLayer(sensorMarker)
 
   showHeatmap: ->
     @initHeatmap()
-    window.smogMap.addLayer(window.heatmapLayer)
+    @smogMap.addLayer(window.heatmapLayer)
 
   initHeatmap: ->
     unless window.heatmapLayer
       window.heatmapLayer = new HeatmapOverlay(heatmapConfig)
 
   hideHeatmap: ->
-    window.smogMap.removeLayer(window.heatmapLayer)
+    @smogMap.removeLayer(window.heatmapLayer)
 
   setHeatmapData: (data) ->
     @initHeatmap()

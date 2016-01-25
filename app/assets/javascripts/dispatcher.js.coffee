@@ -25,6 +25,7 @@ class Dispatcher
     console.log 'INIT [Dispatcher]: initializing Smog Map component'
     if $('#smog-map').length > 0
       window.smogMapManager = new SmogMap(Config)
+      window.smogMap = window.smogMapManager.smogMap
       new Heatmap(window.smogMapManager).
         bind('.measurement-button-24h', '.measurement-button')
 
