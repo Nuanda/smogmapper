@@ -8,7 +8,7 @@ class @SmogMap
 
     # Create a map in the "map" div, set the view to Kraków and zoom level to 13
     window.smogMap = L.map('smog-map', { zoomControl: false })
-                .setView [50.06, 19.95], 13
+
     new L.Control.Zoom(
       zoomInTitle: I18n.t('map.zoom_in')
       zoomOutTitle: I18n.t('map.zoom_out')
@@ -19,6 +19,8 @@ class @SmogMap
     }).addTo window.smogMap
 
     @initSensors()
+
+    window.smogMap.setView([50.06, 19.95], 13) unless window.smogMap.getZoom()
 
     $('#zoom-out-button').on 'click', =>
       # Zoom the map to proper bounds
@@ -39,7 +41,7 @@ class @SmogMap
       iconSize:     [25, 25] # size of the icon
       iconAnchor:   [13, 13] # point of the icon which will correspond to marker's location
 
-    lastSensorId = @config.get("sensor.id", Number)
+    lastSensorId = @getLastSensorId()
 
     $.get 'sensors.json', (data) =>
       $(data).each (i, sensor) =>
@@ -54,15 +56,13 @@ class @SmogMap
     sensorMarker.addTo(window.smogMap).
       on 'click', (sensor) =>
         @loadSensor(sensor.target.dbId)
+        @setLastSensorId(sensor.target.dbId)
 
     sensorMarker.dbId = sensorId
-
 
   loadSensor: (sensorId) ->
     $.get I18n.locale + '/sensors/' + sensorId, (data) ->
       $('#sensor-modal-wrapper').html data
-
-    @config.set("sensor.id", sensorId)
 
   showSensors: ->
     window.markerLayer.eachLayer (sensorMarker) ->
@@ -92,3 +92,10 @@ class @SmogMap
     wrapper.data = result
     wrapper.max = 500
     window.heatmapLayer.setData(wrapper)
+
+  setLastSensorId: (sensorId) ->
+    @config.set("sensor.id", sensorId)
+
+  getLastSensorId: ->
+    @config.get("sensor.id", Number)
+
