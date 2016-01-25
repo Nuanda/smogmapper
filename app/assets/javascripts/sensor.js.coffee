@@ -37,7 +37,7 @@ $ ->
         unless $('#reading-chart-container').data('reference')
           for series, i in data['data']['series']
             series['data'] = series['data'].map (dataPoint) -> [parseInt(dataPoint[0], 10), parseFloat(dataPoint[1])]
-            series['name'] = referenceNames[i] + ' (' + series['label'] + ')'
+            series['name'] = referenceNames[i] + ' (' + series['paramCode'] + ')'
             series['tooltip'] = {
               valueSuffix: 'μg/m³'
             }
