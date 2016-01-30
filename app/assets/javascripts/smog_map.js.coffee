@@ -20,7 +20,7 @@ class @SmogMap
     @initSensors()
 
     # Set the view to Kraków and zoom level to 13 as a default behaviour
-    @smogMap.setView([50.06, 19.95], 13) unless @smogMap.getZoom()
+    @smogMap.setView([50.06, 19.95], 13) unless @getLastSensorId()
 
     $('#zoom-out-button').on 'click', =>
       # Zoom the map to proper bounds
