@@ -20,7 +20,7 @@ $ ->
         500
       )
     found = false
-    window.markerLayer.eachLayer (marker) ->
+    window.smogMapManager.markerLayer.eachLayer (marker) ->
       if marker.dbId == $button.data('id')
         newLatLng = new L.LatLng($button.data('latitude'), $button.data('longitude'))
         marker.setLatLng(newLatLng)
