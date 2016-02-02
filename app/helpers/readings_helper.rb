@@ -10,7 +10,7 @@ module ReadingsHelper
       last_time = @readings[0].time
       buffer = {}
       @readings.each_with_index do |reading, i|
-        if reading.time > last_time
+        if reading.time.to_i > last_time.to_i
           flush_buffer(last_time, buffer)
           last_time = reading.time
           buffer = {}
