@@ -1,0 +1,5 @@
+- headers, data = build_time_series
+
+= CSV.generate_line headers, row_sep: nil
+- data.each do |_, series|
+  = CSV.generate_line series, row_sep: nil

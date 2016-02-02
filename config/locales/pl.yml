@@ -47,6 +47,7 @@ pl:
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
     show_me: Pokaż miernik
+    download_csv: Pobierz (CSV)
     location_change: Zmiana lokalizacji
     show_reference: Pokaż odczyty referencyjne
     no_reference: Brak dostępnych danych referencyjnych.

@@ -43,6 +43,7 @@
             #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
 
       .modal-footer
+        = link_to t('sensors.download_csv'), readings_path(sensor_id: @sensor.id, format: :csv), class: 'btn btn-default'
         %button.btn.btn-default(type="button" data-dismiss="modal")= t('close')
 
 :javascript

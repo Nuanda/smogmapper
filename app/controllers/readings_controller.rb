@@ -2,6 +2,18 @@ class ReadingsController < ApplicationController
   layout false
   skip_before_action :verify_authenticity_token
 
+  def index
+    @sensor = Sensor.find(params[:sensor_id])
+    @readings = @sensor.readings.order('time asc')
+
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"readings-sensor-#{@sensor.id}.csv\""
+        headers['Content-Type'] = 'text/csv'
+      end
+    end
+  end
+
   def create
     if demo?
       head 501, content_type: "text/html"
@@ -22,3 +34,5 @@ class ReadingsController < ApplicationController
     end
   end
 end
+
+require 'csv'

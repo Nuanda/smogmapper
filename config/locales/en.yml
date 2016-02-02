@@ -45,6 +45,7 @@ en:
     instruction: |
       Please pick a sensor on the map in order to see the last %{hours} hours of readings.
     show_me: Show me the sensor
+    download_csv: Download (CSV)
     location_change: Location change
     show_reference: Show reference readings
     no_reference: No reference data available.
