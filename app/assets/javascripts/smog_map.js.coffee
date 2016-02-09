@@ -19,9 +19,6 @@ class @SmogMap
 
     @initSensors()
 
-    # Set the view to Kraków and zoom level to 13 as a default behaviour
-    @smogMap.setView([50.06, 19.95], 13) unless @getLastSensorId()
-
     $('#zoom-out-button').on 'click', =>
       # Zoom the map to proper bounds
       southWest = L.latLng config.MAX_BOUNDS_SOUTH, config.MAX_BOUNDS_WEST
@@ -44,10 +41,15 @@ class @SmogMap
     lastSensorId = @getLastSensorId()
 
     $.get 'sensors.json', (data) =>
+      lastSensorFound = false
       $(data).each (i, sensor) =>
         @addSensorMarker sensor.id, sensor['latitude'], sensor['longitude']
         if lastSensorId == sensor.id
           @smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
+          lastSensorFound = true
+        if (i == $(data).length - 1) && !lastSensorFound
+          # Set the view to Kraków and zoom level to 13 as a default behaviour
+          @smogMap.setView([50.06, 19.95], 13)
 
   addSensorMarker: (sensorId, latitude, longitude) ->
     icon = if sensorId == 1000 then @bigIcon else @sensorIcon
