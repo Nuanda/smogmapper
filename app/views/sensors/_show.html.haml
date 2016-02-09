@@ -12,7 +12,21 @@
             = @sensor.id
 
       .modal-body
-        %h4.text-center
+        - if @readings.present?
+          .text-center
+            %h3= t 'sensors.current_readings'
+            - @readings.each do |m|
+              - text = "#{t 'measurement.' + m[0].name}: #{m[1].last.value.round(4)} #{m[0].unit}"
+              .current-reading
+                - if m[0].name.include? 'pm'
+                  %h4= text
+                - else
+                  = text
+                %span.time
+                  (#{m[1].last.time.strftime('%H:%M:%S')})
+
+        .text-center.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
+          %br
           = succeed ':' do
             = t 'sensors.current_location'
           - if location = @sensor.current_location
@@ -28,22 +42,31 @@
           - else
             = t 'sensors.no_location'
 
-        .text-center
+
+        .text-center.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
           .reading-chart#reading-chart-container
 
-        - pm_available = @readings.any?{ |m, _| m.name.include?('pm') }
-        - if pm_available && !demo?
-          %p
-          %p
-            = link_to t('sensors.show_reference'),
-                      '#',
-                      class: 'btn btn-primary',
-                      id: 'show-reference-button'
-
-            #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
+        .device-xs.visible-xs
+          %br
+          .alert.alert-info
+            = t 'sensors.you_mustnt_be_afraid_to_dream_a_little_bigger_darling'
 
       .modal-footer
-        = link_to t('sensors.download_csv'), readings_path(sensor_id: @sensor.id, format: :csv), class: 'btn btn-default'
+        %span.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
+          - pm_available = @readings.any?{ |m, _| m.name.include?('pm') }
+          - if pm_available && !demo?
+            %p
+            %p
+              = link_to t('sensors.show_reference'),
+                        '#',
+                        class: 'btn btn-primary pull-left',
+                        id: 'show-reference-button'
+
+              #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
+
+          .device-md.visible-md.device-lg.visible-lg
+            = link_to t('sensors.download_csv'), readings_path(sensor_id: @sensor.id, format: :csv), class: 'btn btn-default'
+
         %button.btn.btn-default(type="button" data-dismiss="modal")= t('close')
 
 :javascript

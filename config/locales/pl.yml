@@ -52,6 +52,9 @@ pl:
     show_reference: Pokaż odczyty referencyjne
     no_reference: Brak dostępnych danych referencyjnych.
     altitude_unit_tooltip: Metrów nad poziomem gruntu.
+    current_readings: Najnowsze pomiary
+    you_mustnt_be_afraid_to_dream_a_little_bigger_darling: |
+      Proszę użyj szerszego wyświetlacza aby móc oglądać przeszłe odczyty na wykresie.
 
   heatmap:
     last_day: animacja ostatnich 24 godzin

@@ -50,6 +50,9 @@ en:
     show_reference: Show reference readings
     no_reference: No reference data available.
     altitude_unit_tooltip: Meters above the ground level.
+    current_readings: Current readings
+    you_mustnt_be_afraid_to_dream_a_little_bigger_darling: |
+      Please use wider screen device to have the past readings chart displayed.
 
   heatmap:
     last_day: animated last 24 hours

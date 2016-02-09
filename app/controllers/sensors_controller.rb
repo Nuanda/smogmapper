@@ -11,6 +11,8 @@ class SensorsController < ApplicationController
                 order('time asc').
                 group_by { |r| r.measurement }
 
+    @readings = @readings.sort_by{ |m| measurement_order.index m[0].name }
+
     @locations = @sensor.locations.
                  where('registration_time > ? AND registration_time <= ?', from, to).
                  order('registration_time asc')
@@ -39,5 +41,9 @@ class SensorsController < ApplicationController
   def interval
     @interval ||= Rails.application.config_for(:application).
                         fetch('charts', { 'interval' => 5 })['interval'].hours
+  end
+
+  def measurement_order
+    %w(pm pm1 pm2_5 pm10 temperature humidity)
   end
 end
