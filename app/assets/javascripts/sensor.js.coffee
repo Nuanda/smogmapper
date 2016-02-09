@@ -41,8 +41,8 @@ $ ->
             series['tooltip'] = {
               valueSuffix: 'μg/m³'
             }
-            for axis, i in pmChart.axes
-              series['yAxis'] = i if !axis['isXAxis'] && axis['opposite']
+            for axis, i in pmChart.yAxis
+              series['yAxis'] = i if !axis['opposite']
             pmChart.addSeries series
             $('#reading-chart-container').data('reference', true)
     ).fail ->
