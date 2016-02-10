@@ -41,20 +41,22 @@ pl:
     chart_title: Pomiary dla ostatnich %{interval} godzin
     name: Nazwa miernika
     id: ID
-    current_location: Obecna lokalizacja
-    no_location: brak zapisanej lokalizacji
     instruction: |
       Proszę wybierz miernik na mapie, aby zobaczyć pomiary w tej lokalizacji z ostatnich
       %{hours} godzin.
     show_me: Pokaż miernik
-    download_csv: Pobierz (CSV)
     location_change: Zmiana lokalizacji
-    show_reference: Pokaż odczyty referencyjne
-    no_reference: Brak dostępnych danych referencyjnych.
-    altitude_unit_tooltip: Metrów nad poziomem gruntu.
-    current_readings: Najnowsze pomiary
-    you_mustnt_be_afraid_to_dream_a_little_bigger_darling: |
-      Proszę użyj szerszego wyświetlacza aby móc oglądać przeszłe odczyty na wykresie.
+    show:
+      current_location: Obecna lokalizacja
+      no_location: brak zapisanej lokalizacji
+      altitude_unit_tooltip: Metrów nad poziomem gruntu.
+      show_reference: Pokaż odczyty referencyjne
+      no_reference: Brak dostępnych danych referencyjnych.
+      current_readings: Najnowsze pomiary
+      rescale: Przeskaluj
+      download_csv: Pobierz (CSV)
+      you_mustnt_be_afraid_to_dream_a_little_bigger_darling: |
+        Proszę użyj szerszego wyświetlacza aby móc oglądać przeszłe odczyty na wykresie.
 
   heatmap:
     last_day: animacja ostatnich 24 godzin

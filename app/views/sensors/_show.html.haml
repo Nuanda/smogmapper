@@ -14,7 +14,7 @@
       .modal-body
         - if @readings.present?
           .text-center
-            %h3= t 'sensors.current_readings'
+            %h3= t '.current_readings'
             - @readings.each do |m|
               - text = "#{t 'measurement.' + m[0].name}: #{m[1].last.value.round(4)} #{m[0].unit}"
               .current-reading
@@ -28,7 +28,7 @@
         .text-center.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
           %br
           = succeed ':' do
-            = t 'sensors.current_location'
+            = t '.current_location'
           - if location = @sensor.current_location
             = succeed ',' do
               = location.latitude
@@ -37,10 +37,10 @@
               = location.longitude
               = location.longitude > 0 ? 'E' : 'W'
             - if location.height
-              %span{ title: t('sensors.altitude_unit_tooltip') }
+              %span{ title: t('.altitude_unit_tooltip') }
                 = "#{location.height} m."
           - else
-            = t 'sensors.no_location'
+            = t '.no_location'
 
 
         .text-center.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
@@ -49,23 +49,30 @@
         .device-xs.visible-xs
           %br
           .alert.alert-info
-            = t 'sensors.you_mustnt_be_afraid_to_dream_a_little_bigger_darling'
+            = t '.you_mustnt_be_afraid_to_dream_a_little_bigger_darling'
 
       .modal-footer
-        %span.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
+        .device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
           - pm_available = @readings.any?{ |m, _| m.name.include?('pm') }
           - if pm_available && !demo?
             %p
             %p
-              = link_to t('sensors.show_reference'),
-                        '#',
-                        class: 'btn btn-primary pull-left',
-                        id: 'show-reference-button'
+              .form-inline.pull-left
+                .form-group
+                  = link_to t('.show_reference'),
+                            '#',
+                            class: 'btn btn-primary pull-left',
+                            id: 'show-reference-button'
 
-              #no-reference-error.alert.alert-danger.hidden= t('sensors.no_reference')
+                  #no-reference-error.alert.alert-danger.hidden= t('.no_reference')
+
+                .form-group
+                  = select_tag '', options_from_collection_for_select(@readings.map(&:first), :name, :name), id: 'rescale-measurement', class: 'form-control rescale-input'
+                  = text_field_tag '', 'x*x', id: 'rescale-function', class: 'form-control rescale-input'
+                = button_tag t('.rescale'), id: 'rescale-button', class: 'btn btn-primary'
 
           .device-md.visible-md.device-lg.visible-lg
-            = link_to t('sensors.download_csv'), readings_path(sensor_id: @sensor.id, format: :csv), class: 'btn btn-default'
+            = link_to t('.download_csv'), readings_path(sensor_id: @sensor.id, format: :csv), class: 'btn btn-default'
 
         %button.btn.btn-default(type="button" data-dismiss="modal")= t('close')
 
@@ -104,6 +111,7 @@
           end
 
           code += "readingSeries[#{i}] = {
+            dbName: '#{measurement[0].name}',
             name: '#{I18n.t('measurement.' + measurement[0].name)}',
             data: #{measurement[1].map{ |r| [r.time.to_i, r.value.round(4)] }},
             yAxis: #{pm_reading ? pm_axis_index : i},

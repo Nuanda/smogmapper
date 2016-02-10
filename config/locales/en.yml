@@ -40,19 +40,21 @@ en:
     chart_title: Readings for past %{interval} hours
     name: Sensor name
     id: ID
-    current_location: Current location
-    no_location: no registered location
     instruction: |
       Please pick a sensor on the map in order to see the last %{hours} hours of readings.
     show_me: Show me the sensor
-    download_csv: Download (CSV)
     location_change: Location change
-    show_reference: Show reference readings
-    no_reference: No reference data available.
-    altitude_unit_tooltip: Meters above the ground level.
-    current_readings: Current readings
-    you_mustnt_be_afraid_to_dream_a_little_bigger_darling: |
-      Please use wider screen device to have the past readings chart displayed.
+    show:
+      current_location: Current location
+      no_location: no registered location
+      altitude_unit_tooltip: Meters above the ground level.
+      show_reference: Show reference readings
+      no_reference: No reference data available.
+      current_readings: Current readings
+      rescale: Rescale
+      download_csv: Download (CSV)
+      you_mustnt_be_afraid_to_dream_a_little_bigger_darling: |
+        Please use wider screen device to have the past readings chart displayed.
 
   heatmap:
     last_day: animated last 24 hours

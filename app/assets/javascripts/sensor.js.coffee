@@ -48,3 +48,11 @@ $ ->
     ).fail ->
       $('#show-reference-button').attr("disabled", true)
       $('#no-reference-error').removeClass('hidden')
+
+
+  $('#sensor-modal-wrapper').on 'click', '#rescale-button', (e) ->
+    pmChart = $('#reading-chart-container').highcharts()
+    series = pmChart.series.filter (s) -> s.options.dbName == $('#rescale-measurement').val()
+    if series.length > 0
+      for d in series[0].data
+        d.update(eval($('#rescale-function').val().replace(/x/g, d.y)))
