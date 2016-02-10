@@ -68,7 +68,7 @@
 
                 .form-group
                   = select_tag '', options_from_collection_for_select(@readings.map(&:first), :name, :name), id: 'rescale-measurement', class: 'form-control rescale-input'
-                  = text_field_tag '', 'x*x', id: 'rescale-function', class: 'form-control rescale-input'
+                  = text_field_tag '', '(y-20)*2.5', id: 'rescale-function', class: 'form-control rescale-input'
                 = button_tag t('.rescale'), id: 'rescale-button', class: 'btn btn-primary'
 
           .device-md.visible-md.device-lg.visible-lg

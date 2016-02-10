@@ -55,4 +55,4 @@ $ ->
     series = pmChart.series.filter (s) -> s.options.dbName == $('#rescale-measurement').val()
     if series.length > 0
       for d in series[0].data
-        d.update(eval($('#rescale-function').val().replace(/x/g, d.y)))
+        d.update(eval($('#rescale-function').val().replace(/y/g, d.y)))
