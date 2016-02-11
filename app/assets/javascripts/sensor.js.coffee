@@ -54,5 +54,8 @@ $ ->
     pmChart = $('#reading-chart-container').highcharts()
     series = pmChart.series.filter (s) -> s.options.dbName == $('#rescale-measurement').val()
     if series.length > 0
+      rescaler = new Function('y', 'return ' + $('#rescale-function').val())
+      t0 = Date.now()
       for d in series[0].data
-        d.update(eval($('#rescale-function').val().replace(/y/g, d.y)))
+        d.update(rescaler(d.y))
+      console.log Date.now() - t0
