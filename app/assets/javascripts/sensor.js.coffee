@@ -56,6 +56,6 @@ $ ->
     if series.length > 0
       rescaler = new Function('y', 'return ' + $('#rescale-function').val())
       t0 = Date.now()
-      for d in series[0].data
-        d.update(rescaler(d.y))
+      newData = ([d.x, rescaler(d.y)] for d in series[0].data)
+      series[0].setData newData
       console.log Date.now() - t0
