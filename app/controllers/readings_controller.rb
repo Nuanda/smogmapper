@@ -40,7 +40,7 @@ class ReadingsController < ApplicationController
   private
 
   def time_where_if_param(sql, param_name)
-    if params[param_name]
+    unless params[param_name].blank?
       @readings = @readings.where(sql, Time.parse(params[param_name]))
     end
   end
