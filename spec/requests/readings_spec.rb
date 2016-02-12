@@ -7,6 +7,8 @@ RSpec.describe "Readings" do
   let(:now) { Time.now }
   let(:past) { Time.now - 1.minute }
   let(:long_past) { Time.now - 2.hours }
+  let(:future) { Time.now + 1.minute }
+  let(:long_future) { Time.now + 2.hours }
 
   describe 'POST /readings' do
     context 'when setting time explicitly' do
@@ -100,6 +102,38 @@ RSpec.describe "Readings" do
         expect(expected).to include response.body.lines[2].strip
         puts response.body.lines[0]
       end
+    end
+  end
+
+  context 'time constraints' do
+    before do
+      create(:reading, sensor: sensor, measurement: measurement,
+              value: 1, time: long_past)
+      create(:reading, sensor: sensor, measurement: measurement,
+              value: 2, time: past)
+      create(:reading, sensor: sensor, measurement: measurement,
+              value: 3, time: now)
+    end
+
+    it 'limit number or returned values basing on "from"' do
+      get readings_path, sensor_id: sensor.id, from: past, format: :csv
+
+      expect(response.body.lines[1].strip).
+        to eq "#{sensor.id},#{measurement.name},2.0,3.0"
+    end
+
+    it 'limit number or returned values basing on "to"' do
+      get readings_path, sensor_id: sensor.id, to: now, format: :csv
+
+      expect(response.body.lines[1].strip).
+        to eq "#{sensor.id},#{measurement.name},1.0,2.0"
+    end
+
+    it 'limit number or returned values basing on "from" and "to"' do
+      get readings_path, sensor_id: sensor.id, from: past, to: now, format: :csv
+
+      expect(response.body.lines[1].strip).
+        to eq "#{sensor.id},#{measurement.name},2.0"
     end
   end
 end

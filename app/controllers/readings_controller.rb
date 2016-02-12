@@ -6,6 +6,9 @@ class ReadingsController < ApplicationController
     @sensor = Sensor.find(params[:sensor_id])
     @readings = @sensor.readings.order('time asc')
 
+    time_where_if_param('time >= ?', :from)
+    time_where_if_param('time <= ?', :to)
+
     respond_to do |format|
       format.csv do
         headers['Content-Disposition'] = "attachment; filename=\"readings-sensor-#{@sensor.id}.csv\""
@@ -31,6 +34,14 @@ class ReadingsController < ApplicationController
       else
         head 403, content_type: "text/html"
       end
+    end
+  end
+
+  private
+
+  def time_where_if_param(sql, param_name)
+    if params[param_name]
+      @readings = @readings.where(sql, Time.parse(params[param_name]))
     end
   end
 end
