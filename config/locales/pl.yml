@@ -1,6 +1,8 @@
 pl:
   title: Smog Mapper
   close: Zamknij
+  from: od
+  to: do
 
   home:
     header: Proszę Państwa, oto Smog!
