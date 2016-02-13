@@ -92,14 +92,17 @@
   });
 
   $('.csv-interval').on('change', function() {
-    from = $('#csv-from').val()
-    to = $('#csv-to').val()
-    query = "?from=" + from + "&to=" + to
-    path = "#{readings_path(sensor_id: @sensor.id, format: :csv)}"
-    $('#csv-download').attr('href', path + query)
+    from = $('#csv-from').val();
+    to = $('#csv-to').val();
+    query = "?from=" + from + "&to=" + to;
+    path = "#{readings_path(sensor_id: @sensor.id, format: :csv)}";
+    $('#csv-download').attr('href', path + query);
   })
 
-  $('.csv-interval').datetimepicker({ format: 'yyyy-mm-ddThh:ii:ssZ' });
+  $('.csv-interval').datetimepicker({
+    format: 'yyyy-mm-ddThh:ii:ssZ',
+    pickerPosition: 'top-left'
+  });
 
 - if @readings.present?
   :javascript
