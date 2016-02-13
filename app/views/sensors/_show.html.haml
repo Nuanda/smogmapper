@@ -94,7 +94,7 @@
   $('.csv-interval').on('change', function() {
     from = $('#csv-from').val();
     to = $('#csv-to').val();
-    query = "?from=" + from + "&to=" + to;
+    query = "&from=" + from + "&to=" + to;
     path = "#{readings_path(sensor_id: @sensor.id, format: :csv)}";
     $('#csv-download').attr('href', path + query);
   })
