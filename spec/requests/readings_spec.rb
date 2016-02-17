@@ -60,8 +60,8 @@ RSpec.describe "Readings" do
       it 'produces a no-reading document' do
         get readings_path, sensor_id: sensor.id, format: :csv
         expect(response).to be_success
-        expect(response.body.lines[0].strip).to eq 'Sensor id,Measurement name'
-        expect(response.body.lines[1].strip).to eq "#{sensor.id},#{measurement.name}"
+        expect(response.body.lines.size).to eq 1
+        expect(response.body.lines[0].strip).to eq "Time,Sensor id,#{measurement.name}"
       end
     end
 
@@ -81,10 +81,10 @@ RSpec.describe "Readings" do
 
         get readings_path, sensor_id: sensor.id, format: :csv
         expect(response).to be_success
-        expect(response.body.lines.size).to eq 3
-        expected = ["#{sensor.id},#{measurement.name},1.0,2.0,3.0", "#{sensor.id},#{other_measurement.name},4.0,5.0,6.0"]
-        expect(expected).to include response.body.lines[1].strip
-        expect(expected).to include response.body.lines[2].strip
+        expect(response.body.lines.size).to eq 4
+        expect(response.body.lines[1].strip).to eq "#{long_past.utc},#{sensor.id},1.0,4.0"
+        expect(response.body.lines[2].strip).to eq "#{past.utc},#{sensor.id},2.0,5.0"
+        expect(response.body.lines[3].strip).to eq "#{now.utc},#{sensor.id},3.0,6.0"
       end
 
       it 'properly handles sparse data' do
@@ -96,11 +96,10 @@ RSpec.describe "Readings" do
 
         get readings_path, sensor_id: sensor.id, format: :csv
         expect(response).to be_success
-        expect(response.body.lines.size).to eq 3
-        expected = ["#{sensor.id},#{measurement.name},1.0,,3.0", "#{sensor.id},#{other_measurement.name},4.0,5.0,"]
-        expect(expected).to include response.body.lines[1].strip
-        expect(expected).to include response.body.lines[2].strip
-        puts response.body.lines[0]
+        expect(response.body.lines.size).to eq 4
+        expect(response.body.lines[1].strip).to eq "#{long_past.utc},#{sensor.id},1.0,4.0"
+        expect(response.body.lines[2].strip).to eq "#{past.utc},#{sensor.id},,5.0"
+        expect(response.body.lines[3].strip).to eq "#{now.utc},#{sensor.id},3.0,"
       end
     end
   end
@@ -118,22 +117,26 @@ RSpec.describe "Readings" do
     it 'limit number or returned values basing on "from"' do
       get readings_path, sensor_id: sensor.id, from: past, format: :csv
 
-      expect(response.body.lines[1].strip).
-        to eq "#{sensor.id},#{measurement.name},2.0,3.0"
+      expect(response).to be_success
+      expect(response.body.lines.size).to eq 3
+      expect(response.body.lines[1].strip).to eq "#{past.utc},#{sensor.id},2.0"
+      expect(response.body.lines[2].strip).to eq "#{now.utc},#{sensor.id},3.0"
     end
 
     it 'limit number or returned values basing on "to"' do
-      get readings_path, sensor_id: sensor.id, to: now, format: :csv
+      get readings_path, sensor_id: sensor.id, to: past, format: :csv
 
-      expect(response.body.lines[1].strip).
-        to eq "#{sensor.id},#{measurement.name},1.0,2.0"
+      expect(response).to be_success
+      expect(response.body.lines.size).to eq 2
+      expect(response.body.lines[1].strip).to eq "#{long_past.utc},#{sensor.id},1.0"
     end
 
     it 'limit number or returned values basing on "from" and "to"' do
       get readings_path, sensor_id: sensor.id, from: past, to: now, format: :csv
 
-      expect(response.body.lines[1].strip).
-        to eq "#{sensor.id},#{measurement.name},2.0"
+      expect(response).to be_success
+      expect(response.body.lines.size).to eq 2
+      expect(response.body.lines[1].strip).to eq "#{past.utc},#{sensor.id},2.0"
     end
   end
 end
