@@ -72,13 +72,36 @@
                 = button_tag t('.rescale'), id: 'rescale-button', class: 'btn btn-primary'
 
           .device-md.visible-md.device-lg.visible-lg
-            = link_to t('.download_csv'), readings_path(sensor_id: @sensor.id, format: :csv), class: 'btn btn-default'
+            .form-inline
+              .form-group
+                = text_field_tag '', '', id: 'csv-from',
+                  class: 'form-control rescale-input csv-interval',
+                  placeholder: t('from')
+              .form-group
+                = text_field_tag '', '', id: 'csv-to',
+                  class: 'form-control rescale-input csv-interval',
+                  placeholder: t('to')
+              = link_to t('.download_csv'), readings_path(sensor_id: @sensor.id,
+                format: :csv), id: 'csv-download', class: 'btn btn-default'
 
         %button.btn.btn-default(type="button" data-dismiss="modal")= t('close')
 
 :javascript
   $(function () {
     $('#sensor-info').modal('toggle');
+  });
+
+  $('.csv-interval').on('change', function() {
+    from = $('#csv-from').datetimepicker('getDate').toISOString();
+    to = $('#csv-to').datetimepicker('getDate').toISOString();
+    query = "&from=" + from + "&to=" + to;
+    path = "#{readings_path(sensor_id: @sensor.id, format: :csv)}";
+    $('#csv-download').attr('href', path + query);
+  })
+
+  $('.csv-interval').datetimepicker({
+    format: 'yyyy-mm-dd hh:ii',
+    pickerPosition: 'top-left'
   });
 
 - if @readings.present?

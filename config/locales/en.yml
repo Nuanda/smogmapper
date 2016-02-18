@@ -1,6 +1,8 @@
 en:
   title: Smog Mapper
   close: Close
+  from: from
+  to: to
 
   home:
     header: Know your Smog!

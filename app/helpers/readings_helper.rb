@@ -1,10 +1,7 @@
 module ReadingsHelper
   def build_time_series
-    @headers = "Sensor id","Measurement name"
-    @data = {}
-    @sensor.measurements.each do |measurement|
-      @data[measurement.id] = [@sensor.id, measurement.name]
-    end
+    @headers = ["Time", "Sensor id"] + measurements.map(&:name)
+    @data = []
 
     if @readings.present?
       last_time = @readings[0].time
@@ -24,10 +21,13 @@ module ReadingsHelper
 
   private
 
-  def flush_buffer(header_time, buffer)
-    @headers << header_time
-    @sensor.measurements.each do |measurement|
-      @data[measurement.id] << buffer[measurement.id]
-    end
+  def flush_buffer(time, buffer)
+    @data << [time, @sensor.id] + measurements.map do |m|
+                                    buffer[m.id]
+                                  end
+  end
+
+  def measurements
+    @measurements ||= @sensor.measurements.sort_by(&:id)
   end
 end

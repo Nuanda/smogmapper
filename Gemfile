@@ -29,6 +29,7 @@ source 'https://rails-assets.org' do
   # That packages the leaflet.js library for maps handling
   gem 'rails-assets-leaflet', '1.0.0.beta.2'
   gem 'rails-assets-js-cookie', '~> 2.1.0'
+  gem 'rails-assets-smalot-bootstrap-datetimepicker'
 end
 
 # Helps with translating strings directly in js/cs

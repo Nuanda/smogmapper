@@ -6,6 +6,7 @@
 #= require bootstrap/tab
 #= require bootstrap/tooltip
 #= require bootstrap/modal
+#= require smalot-bootstrap-datetimepicker
 #= require leaflet
 #= require js-cookie
 #= require leaflet-heatmap
