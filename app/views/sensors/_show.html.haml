@@ -92,8 +92,8 @@
   });
 
   $('.csv-interval').on('change', function() {
-    from = $('#csv-from').val();
-    to = $('#csv-to').val();
+    from = $('#csv-from').datetimepicker('getDate').toISOString();
+    to = $('#csv-to').datetimepicker('getDate').toISOString();
     query = "&from=" + from + "&to=" + to;
     path = "#{readings_path(sensor_id: @sensor.id, format: :csv)}";
     $('#csv-download').attr('href', path + query);
