@@ -2,24 +2,25 @@
   = t 'instructions.welcome', title: t('title')
 
 %p
-  = t('instructions.what_you_see').html_safe
+  = t("instructions.#{demo? ? 'demo' : 'production'}.what_you_see").html_safe
 
 %p
-  = t 'instructions.what_you_see_2'
+  = t "instructions.#{demo? ? 'demo' : 'production'}.what_you_see_2"
 
-- measurement = Measurement.find_by_name('pm')
-- if measurement
-  %p
-    = link_to t("measurement.#{measurement.name}") + ' - ' + t('heatmap.last_day'),
-              '#',
-              class: "btn btn-primary btn-measurement measurement-button-24h",
-              data: { id: measurement.id }
+- if demo?
+  - measurement = Measurement.find_by_name('pm')
+  - if measurement
+    %p
+      = link_to t("measurement.#{measurement.name}") + ' - ' + t('heatmap.last_day'),
+                '#',
+                class: "btn btn-primary btn-measurement measurement-button-24h",
+                data: { id: measurement.id }
 
-  %p
-    = link_to t("measurement.#{measurement.name}") + ' - ' + t('heatmap.current'),
-              '#',
-              class: "btn btn-primary btn-measurement measurement-button",
-              data: { id: measurement.id }
+    %p
+      = link_to t("measurement.#{measurement.name}") + ' - ' + t('heatmap.current'),
+                '#',
+                class: "btn btn-primary btn-measurement measurement-button",
+                data: { id: measurement.id }
 
 %p
-  = t('instructions.disclaimer').html_safe
+  = t("instructions.#{demo? ? 'demo' : 'production'}.disclaimer").html_safe

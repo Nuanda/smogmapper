@@ -17,26 +17,41 @@ pl:
 
   instructions:
     welcome: Witamy w %{title}
-    what_you_see: |
-      To jest demonstracyjna wersja systemu, który został zaprojektowany, wykonany
-      i opublikowany w trakcie trwania <a href='http://www.smogathon.pl/'>Smogathonu 2015</a>.
-      Serwis pokazuje odczyty temperatury, wilgotności i pyłu z miernika, który wówczas
-      zbudowaliśmy. Prezentujemy także symulację wizualizacji danych z 340 takich
-      mierników, gdyby zostały one rozmieszczone w Krakowie.
-    what_you_see_2: |
-      Proszę kliknij miernik na mapie, aby zobaczyć odczyty. Większy znacznik w okolicy
-      Zabłocia pokazuje prawdziwe odczyty z miernika, który zbudowaliśmy. Pozostałe
-      znaczniki pokazują dane demonstracyjne.
+    production:
+      what_you_see: |
+        System prezentuje pomiary zanieczyszczenia powietrza, zebrane poprzez sieć rozproszonych
+        mierników automatycznych. W zależności od typu miernika, publikowane są wartości zmierzonego
+        stężenia pyłu zawieszonego (o określonej wielkości), temperatury powietrza oraz wilgotności
+        względnej.
+      what_you_see_2: |
+        Proszę kliknij miernik na mapie, aby zobaczyć odczyty z ostatnich godzin. Istnieje też możliwość
+        naniesienia, bezpośrednio na uzyskany wykres, odczytów stacji monitorujących Wojewódzkiego
+        Inspektoratu Ochrony Środowiska (funkcja używana do diagnostyki mierników).
+      disclaimer: |
+        Pierwsza wersja SmogMappera powstała w trakcie trwania <a href='http://www.smogathon.pl/'>Smogathonu 2015</a>,
+        i zdobyła główną nagrodę. SmogMapper jest wciąż we wczesnej fazie implementacji i testów - stąd skąpa liczba
+        zarejestrowanych mierników, oraz przerwy w odczytach mierzonych wartości.
 
-      Proszę wybierz przycisk 'Pył' poniżej, aby zobaczyć dynamiczną mapę zjawiska
-      zanieczyszczenia powietrza pyłem, symulowaną dla 340 mierników.
+    demo:
+      what_you_see: |
+        To jest demonstracyjna wersja systemu, który został zaprojektowany, wykonany
+        i opublikowany w trakcie trwania <a href='http://www.smogathon.pl/'>Smogathonu 2015</a>.
+        Serwis pokazuje odczyty temperatury, wilgotności i pyłu z miernika, który wówczas
+        zbudowaliśmy. Prezentujemy także symulację wizualizacji danych z 340 takich
+        mierników, gdyby zostały one rozmieszczone w Krakowie.
+      what_you_see_2: |
+        Proszę kliknij miernik na mapie, aby zobaczyć odczyty. Większy znacznik w okolicy
+        Zabłocia pokazuje prawdziwe odczyty z miernika, który zbudowaliśmy. Pozostałe
+        znaczniki pokazują dane demonstracyjne.
 
-    disclaimer: |
-      <strong>UWAGA</strong>: proszę zauważyć, że prezentowane dane zostały wygenerowane na
-      potrzeby symulacji rozwiązania, a więc w żadnym razie nie pokazują prawdziwych wartości
-      jakości potwierza (z wyjątkiem jednego, większego znacznika na mapie, który reprezentuje
-      prawdziwy miernik zbudowany przez nas i zintegrowany z serwisem). Dane z rzeczywistego
-      miernika zostały zarejestrowane 13 grudnia 2015 roku, wewnątrz lokalu biurowego.
+        Proszę wybierz przycisk 'Pył' poniżej, aby zobaczyć dynamiczną mapę zjawiska
+        zanieczyszczenia powietrza pyłem, symulowaną dla 340 mierników.
+      disclaimer: |
+        <strong>UWAGA</strong>: proszę zauważyć, że prezentowane dane zostały wygenerowane na
+        potrzeby symulacji rozwiązania, a więc w żadnym razie nie pokazują prawdziwych wartości
+        jakości potwierza (z wyjątkiem jednego, większego znacznika na mapie, który reprezentuje
+        prawdziwy miernik zbudowany przez nas i zintegrowany z serwisem). Dane z rzeczywistego
+        miernika zostały zarejestrowane 13 grudnia 2015 roku, wewnątrz lokalu biurowego.
 
   sensors:
     title: Dane pomiarowe

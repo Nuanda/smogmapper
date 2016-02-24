@@ -17,25 +17,40 @@ en:
 
   instructions:
     welcome: Welcome to %{title}
-    what_you_see: |
-      It's a demonstration version of what was designed, developed and deployed
-      during <a href='http://www.smogathon.pl/'>Smogathon 2015</a>. It shows temperature,
-      humidity and particulate matter reading data from the sensor we have built.
-      It also demonstrates visualization of 340 of such sensors, if one would deploy them
-      throughout the city of Kraków, Poland.
-    what_you_see_2: |
-      Please click a sensor marker on the map, in order to get the readings. The bigger marker
-      in Zabłocie district shows the real readings from the sensor we have constructed. All
-      other readings are just a demonstration.
+    production:
+      what_you_see: |
+        This system shows measurements of air quality, gathered through a distributed network of
+        automated sensors. Depending on a sensor type, we publish readings of particulate matter
+        density (in various molecule sizes), air temperature and relative humidity.
+      what_you_see_2: |
+        Please click a sensor marker on the map, in order to get the readings. You are also able to
+        load a reference data in the same air quality chart - the reference data comes from the air
+        quality measurement stations deployed by Wojewódzki Inspektorat Ochrony Środowiska - regional
+        air quality monitoring authority (this function is there mainly for sensor diagnostics).
+      disclaimer: |
+        The first SmogMapper version was created during the <a href='http://www.smogathon.pl/'>Smogathon 2015</a>,
+        where it won the first prize. SmogMapper is currently still in its early stage of implementation and
+        testing - hence the small amount of registered sensors, and occasional discontinuity in readings.
 
-      Please also use the Particulate matter button below to see a dynamic map of the
-      phenomenon, simulated for 340 sensors.
+    demo:
+      what_you_see: |
+        It's a demonstration version of what was designed, developed and deployed
+        during <a href='http://www.smogathon.pl/'>Smogathon 2015</a>. It shows temperature,
+        humidity and particulate matter reading data from the sensor we have built.
+        It also demonstrates visualization of 340 of such sensors, if one would deploy them
+        throughout the city of Kraków, Poland.
+      what_you_see_2: |
+        Please click a sensor marker on the map, in order to get the readings. The bigger marker
+        in Zabłocie district shows the real readings from the sensor we have constructed. All
+        other readings are just a demonstration.
 
-    disclaimer: |
-      <strong>NOTE</strong>: please note the presented data is generated for the purpose
-      of the demonstration, so it in no way shows the actual air quality (apart from the
-      single, bigger, marker, that represents the real sensor we have built and integrated in).
-      The real sensor data was recorded on 13th of December, 2015, indoors.
+        Please also use the Particulate matter button below to see a dynamic map of the
+        phenomenon, simulated for 340 sensors.
+      disclaimer: |
+        <strong>NOTE</strong>: please note the presented data is generated for the purpose
+        of the demonstration, so it in no way shows the actual air quality (apart from the
+        single, bigger, marker, that represents the real sensor we have built and integrated in).
+        The real sensor data was recorded on 13th of December, 2015, indoors.
 
   sensors:
     title: Sensor readings
