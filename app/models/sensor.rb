@@ -6,8 +6,10 @@ class Sensor < ActiveRecord::Base
 
   before_create :generate_token
 
+  enum sensor_type: [ :unknown, :reference ]
+
   #
-  # Returns list of sensor id with its last location. Sensors witout
+  # Returns list of sensor id with its last location. Sensors without
   # location are rejected.
   #
   # Example:
@@ -24,7 +26,7 @@ class Sensor < ActiveRecord::Base
 
     Sensor.joins(last_location_joins).
       where('l2.id IS NULL').
-      select('sensors.id, l1.latitude, l1.longitude')
+      select('sensors.id, l1.latitude, l1.longitude, sensors.sensor_type')
   end
 
   def current_location

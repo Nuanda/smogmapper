@@ -38,12 +38,17 @@ class @SmogMap
       iconSize:     [25, 25] # size of the icon
       iconAnchor:   [13, 13] # point of the icon which will correspond to marker's location
 
+    @referenceIcon = L.icon
+      iconUrl: 'assets/images/reference-marker.png',
+      iconSize:     [25, 25]
+      iconAnchor:   [13, 13]
+
     lastSensorId = @getLastSensorId()
 
     $.get 'sensors.json', (data) =>
       lastSensorFound = false
       $(data).each (i, sensor) =>
-        @addSensorMarker sensor.id, sensor['latitude'], sensor['longitude']
+        @addSensorMarker sensor.id, sensor['latitude'], sensor['longitude'], sensor['sensor_type'] == 'reference'
         if lastSensorId == sensor.id
           @smogMap.setView([sensor['latitude'], sensor['longitude']], 14)
           lastSensorFound = true
@@ -51,8 +56,11 @@ class @SmogMap
           # Set the view to Kraków and zoom level to 13 as a default behaviour
           @smogMap.setView([50.06, 19.95], 13)
 
-  addSensorMarker: (sensorId, latitude, longitude) ->
-    icon = if sensorId == 1000 then @bigIcon else @sensorIcon
+  addSensorMarker: (sensorId, latitude, longitude, reference = false) ->
+    icon = switch
+      when reference then @referenceIcon
+      when sensorId == 1000 then @bigIcon
+      else @sensorIcon
     sensorMarker = L.marker([latitude, longitude], { icon: icon, zIndexOffset: 10000 })
     @markerLayer.addLayer(sensorMarker)
     sensorMarker.addTo(@smogMap).

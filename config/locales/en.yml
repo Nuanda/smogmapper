@@ -62,6 +62,8 @@ en:
     show_me: Show me the sensor
     location_change: Location change
     show:
+      wios: Readings are provided by Wojewódzki Inspektorat Ochrony Środowiska
+      source: source
       current_location: Current location
       no_location: no registered location
       altitude_unit_tooltip: Meters above the ground level.

@@ -64,6 +64,8 @@ pl:
     show_me: Pokaż miernik
     location_change: Zmiana lokalizacji
     show:
+      wios: Pomiary stacji monitorującej Wojewódzkiego Inspektoratu Ochrony Środowiska
+      source: żródło
       current_location: Obecna lokalizacja
       no_location: brak zapisanej lokalizacji
       altitude_unit_tooltip: Metrów nad poziomem gruntu.

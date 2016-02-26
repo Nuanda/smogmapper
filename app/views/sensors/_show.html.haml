@@ -12,6 +12,12 @@
             = @sensor.id
 
       .modal-body
+        - if @sensor.reference?
+          = t ('.wios')
+          = succeed '.' do
+            = surround '(',')' do
+              = link_to t('.source'), 'http://monitoring.krakow.pios.gov.pl/'
+
         - if @readings.present?
           .text-center
             %h3= t '.current_readings'
@@ -52,37 +58,38 @@
             = t '.you_mustnt_be_afraid_to_dream_a_little_bigger_darling'
 
       .modal-footer
-        .device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
-          - pm_available = @readings.any?{ |m, _| m.name.include?('pm') }
-          - if pm_available && !demo?
-            %p
-            %p
-              .form-inline.pull-left
+        - unless @sensor.reference?
+          .device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
+            - pm_available = @readings.any?{ |m, _| m.name.include?('pm') }
+            - if pm_available && !demo?
+              %p
+              %p
+                .form-inline.pull-left
+                  .form-group
+                    = link_to t('.show_reference'),
+                              '#',
+                              class: 'btn btn-primary pull-left',
+                              id: 'show-reference-button'
+
+                    #no-reference-error.alert.alert-danger.hidden= t('.no_reference')
+
+                  .form-group
+                    = select_tag '', options_from_collection_for_select(@readings.map(&:first), :name, :name), id: 'rescale-measurement', class: 'form-control rescale-input'
+                    = text_field_tag '', '(y-20)*2.5', id: 'rescale-function', class: 'form-control rescale-input'
+                  = button_tag t('.rescale'), id: 'rescale-button', class: 'btn btn-primary'
+
+            .device-md.visible-md.device-lg.visible-lg
+              .form-inline
                 .form-group
-                  = link_to t('.show_reference'),
-                            '#',
-                            class: 'btn btn-primary pull-left',
-                            id: 'show-reference-button'
-
-                  #no-reference-error.alert.alert-danger.hidden= t('.no_reference')
-
+                  = text_field_tag '', '', id: 'csv-from',
+                    class: 'form-control rescale-input csv-interval',
+                    placeholder: t('from')
                 .form-group
-                  = select_tag '', options_from_collection_for_select(@readings.map(&:first), :name, :name), id: 'rescale-measurement', class: 'form-control rescale-input'
-                  = text_field_tag '', '(y-20)*2.5', id: 'rescale-function', class: 'form-control rescale-input'
-                = button_tag t('.rescale'), id: 'rescale-button', class: 'btn btn-primary'
-
-          .device-md.visible-md.device-lg.visible-lg
-            .form-inline
-              .form-group
-                = text_field_tag '', '', id: 'csv-from',
-                  class: 'form-control rescale-input csv-interval',
-                  placeholder: t('from')
-              .form-group
-                = text_field_tag '', '', id: 'csv-to',
-                  class: 'form-control rescale-input csv-interval',
-                  placeholder: t('to')
-              = link_to t('.download_csv'), readings_path(sensor_id: @sensor.id,
-                format: :csv), id: 'csv-download', class: 'btn btn-default'
+                  = text_field_tag '', '', id: 'csv-to',
+                    class: 'form-control rescale-input csv-interval',
+                    placeholder: t('to')
+                = link_to t('.download_csv'), readings_path(sensor_id: @sensor.id,
+                  format: :csv), id: 'csv-download', class: 'btn btn-default'
 
         %button.btn.btn-default(type="button" data-dismiss="modal")= t('close')
 
@@ -104,67 +111,106 @@
     pickerPosition: 'top-left'
   });
 
-- if @readings.present?
-  :javascript
-    $(function () {
-      var yAxes = [];
-      var readingSeries = [];
-      #{
-        pm_axis_index = -1
+:javascript
+  $(function () {
+    var yAxes = [];
+    var readingSeries = [];
+    #{
+      pm_axis_index = -1
+      if @sensor.reference?
+        @sensor.measurements.map.with_index do |measurement, i|
+          code = ""
+          pm_reading = measurement.name.include?('pm')
+          if !pm_reading || (pm_axis_index < 0)
+            code += "yAxes[#{i}] = {
+                        title: {
+                          text: '#{I18n.t('measurement.' + (pm_reading ? 'pm' : measurement.name))} [#{measurement.unit}]',
+                          style: {
+                            color: Highcharts.getOptions().colors[#{i}]
+                          }
+                        },
+                        labels: {
+                          style: {
+                            color: Highcharts.getOptions().colors[#{i}]
+                          }
+                        },
+                        opposite: #{pm_reading ? 'false' : 'true'},
+                        showEmpty: false
+                      };\n"
+            pm_axis_index = i if pm_reading
+          end
+
+          code + "readingSeries[#{i}] = {
+                      dbName: '#{measurement.name}',
+                      name: '#{I18n.t('measurement.' + measurement.name)}',
+                      data: [],
+                      yAxis: #{pm_reading ? pm_axis_index : i},
+                      tooltip: {
+                        valueSuffix: '#{measurement.unit}'
+                      }
+                    };\n"
+
+        end.join('')
+      else
         @readings.map.with_index do |measurement, i|
           code = ""
           pm_reading = measurement[0].name.include?('pm')
           if !pm_reading || (pm_axis_index < 0)
             code += "yAxes[#{i}] = {
-              title: {
-                text: '#{I18n.t('measurement.' + (pm_reading ? 'pm' : measurement[0].name))} [#{measurement[0].unit}]',
-                style: {
-                  color: Highcharts.getOptions().colors[#{i}]
-                }
-              },
-              labels: {
-                style: {
-                  color: Highcharts.getOptions().colors[#{i}]
-                }
-              },
-              opposite: #{pm_reading ? 'false' : 'true'},
-              showEmpty: false
-            };\n"
+                        title: {
+                          text: '#{I18n.t('measurement.' + (pm_reading ? 'pm' : measurement[0].name))} [#{measurement[0].unit}]',
+                          style: {
+                            color: Highcharts.getOptions().colors[#{i}]
+                          }
+                        },
+                        labels: {
+                          style: {
+                            color: Highcharts.getOptions().colors[#{i}]
+                          }
+                        },
+                        opposite: #{pm_reading ? 'false' : 'true'},
+                        showEmpty: false
+                      };\n"
             pm_axis_index = i if pm_reading
           end
 
-          code += "readingSeries[#{i}] = {
-            dbName: '#{measurement[0].name}',
-            name: '#{I18n.t('measurement.' + measurement[0].name)}',
-            data: #{measurement[1].map{ |r| [r.time.to_i, r.value.round(4)] }},
-            yAxis: #{pm_reading ? pm_axis_index : i},
-            tooltip: {
-              valueSuffix: '#{measurement[0].unit}'
-            }
-          };\n"
+          code + "readingSeries[#{i}] = {
+                      dbName: '#{measurement[0].name}',
+                      name: '#{I18n.t('measurement.' + measurement[0].name)}',
+                      data: #{measurement[1].map{ |r| [r.time.to_i, r.value.round(4)] }},
+                      yAxis: #{pm_reading ? pm_axis_index : i},
+                      tooltip: {
+                        valueSuffix: '#{measurement[0].unit}'
+                      }
+                    };\n"
         end.join('')
-      }
+      end
+    }
 
-      $('#reading-chart-container').highcharts({
-        title: {
-          text: '#{I18n.t('sensors.chart_title', interval: @interval/3600)}',
-          x: -20 //center
-        },
-        xAxis: {
-          type: 'datetime',
-          labels: {
-            formatter: function() {
-              return Highcharts.dateFormat('%H:%M', this.value*1000);
-            },
+    $('#reading-chart-container').highcharts({
+      title: {
+        text: '#{I18n.t('sensors.chart_title', interval: @interval/3600)}',
+        x: -20 //center
+      },
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          formatter: function() {
+            return Highcharts.dateFormat('%H:%M', this.value*1000);
           },
-          plotLines: #{locations_to_plotlines(@locations)}
         },
-        tooltip: {
-          formatter: function () {
-            return '<div class="tooltip">' + Highcharts.dateFormat('%e %b %H:%M:%S', this.x * 1000) + '<br/><b>' + Highcharts.numberFormat(this.y) + ' [' + this.series.tooltipOptions.valueSuffix + ']</b></div>';
-          }
-        },
-        yAxis: yAxes,
-        series: readingSeries
-      });
+        plotLines: #{locations_to_plotlines(@locations)}
+      },
+      tooltip: {
+        formatter: function () {
+          return '<div class="tooltip">' + Highcharts.dateFormat('%e %b %H:%M:%S', this.x * 1000) + '<br/><b>' + Highcharts.numberFormat(this.y) + ' [' + this.series.tooltipOptions.valueSuffix + ']</b></div>';
+        }
+      },
+      yAxis: yAxes,
+      series: readingSeries
     });
+
+    #{
+      "window.loadReferenceData('#{@sensor.name}');\n" if @sensor.reference?
+    }
+  });
