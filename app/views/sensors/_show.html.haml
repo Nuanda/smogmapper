@@ -188,6 +188,9 @@
     }
 
     $('#reading-chart-container').highcharts({
+      chart: {
+        zoomType: 'x'
+      },
       title: {
         text: '#{I18n.t('sensors.chart_title', interval: @interval/3600)}',
         x: -20 //center
