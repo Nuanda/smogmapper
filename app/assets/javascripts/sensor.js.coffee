@@ -54,7 +54,10 @@ window.loadReferenceData = (referenceName) ->
               seconds = ("0" + time.getSeconds()).slice(-2)
               $('.' + mName + ' .time-placeholder').text time.getHours() + ':' + minutes + ':' + seconds
           series['data'] = series['data'].map (dataPoint) -> [parseInt(dataPoint[0], 10), parseFloat(dataPoint[1])]
-          series['name'] = referenceName + ' (' + series['paramCode'] + ')'
+          if referenceName == 'all'
+            series['name'] = referenceNames[i] + ' (' + series['paramCode'] + ')'
+          else
+            series['name'] = referenceName + ' (' + series['paramCode'] + ')'
           series['tooltip'] = {
             valueSuffix: 'μg/m³'
           }
