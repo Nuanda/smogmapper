@@ -139,17 +139,7 @@
                       };\n"
             pm_axis_index = i if pm_reading
           end
-
-          code + "readingSeries[#{i}] = {
-                      dbName: '#{measurement.name}',
-                      name: '#{I18n.t('measurement.' + measurement.name)}',
-                      data: [],
-                      yAxis: #{pm_reading ? pm_axis_index : i},
-                      tooltip: {
-                        valueSuffix: '#{measurement.unit}'
-                      }
-                    };\n"
-
+          code
         end.join('')
       else
         @readings.map.with_index do |measurement, i|
