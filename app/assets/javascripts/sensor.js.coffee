@@ -44,6 +44,15 @@ window.loadReferenceData = (referenceName) ->
       pmChart = $('#reading-chart-container').highcharts()
       unless $('#reading-chart-container').data('reference')
         for series, i in data['data']['series']
+          lastIndex = series['data'].length - 1
+          if lastIndex > 0
+            mName = series['paramCode'].toLowerCase().replace('.','_')
+            if $('.' + mName).length > 0
+              $('.' + mName + ' .reading-placeholder').text series['data'][lastIndex][1]
+              time = new Date(parseInt(series['data'][lastIndex][0] * 1000, 10))
+              minutes = ("0" + time.getMinutes()).slice(-2)
+              seconds = ("0" + time.getSeconds()).slice(-2)
+              $('.' + mName + ' .time-placeholder').text time.getHours() + ':' + minutes + ':' + seconds
           series['data'] = series['data'].map (dataPoint) -> [parseInt(dataPoint[0], 10), parseFloat(dataPoint[1])]
           series['name'] = referenceName + ' (' + series['paramCode'] + ')'
           series['tooltip'] = {

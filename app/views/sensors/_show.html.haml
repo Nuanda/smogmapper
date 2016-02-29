@@ -13,10 +13,11 @@
 
       .modal-body
         - if @sensor.reference?
-          = t ('.wios')
-          = succeed '.' do
-            = surround '(',')' do
-              = link_to t('.source'), 'http://monitoring.krakow.pios.gov.pl/'
+          %p
+            = t ('.wios')
+            = succeed '.' do
+              = surround '(',')' do
+                = link_to t('.source'), 'http://monitoring.krakow.pios.gov.pl/'
 
         - if @readings.present?
           .text-center
@@ -30,6 +31,18 @@
                   = text
                 %span.time
                   (#{m[1].last.time.strftime('%H:%M:%S')})
+
+        - elsif @sensor.reference?
+          .text-center
+            %h3= t '.current_readings'
+            - @sensor.measurements.each do |m|
+              .current-reading{ class: m.name }
+                %h4
+                  = succeed ':' do
+                    = t 'measurement.' + m.name
+                  %span.reading-placeholder
+                  = m.unit
+                %span.time.time-placeholder
 
         .text-center.device-sm.visible-sm.device-md.visible-md.device-lg.visible-lg
           %br
