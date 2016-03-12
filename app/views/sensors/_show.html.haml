@@ -82,7 +82,8 @@
                     = link_to t('.show_reference'),
                               '#',
                               class: 'btn btn-primary pull-left',
-                              id: 'show-reference-button'
+                              id: 'show-reference-button',
+                              data: { latitude: @sensor.current_location.try(:latitude), longitude: @sensor.current_location.try(:longitude) }
 
                     #no-reference-error.alert.alert-danger.hidden= t('.no_reference')
 

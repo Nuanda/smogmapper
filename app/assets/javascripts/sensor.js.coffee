@@ -17,7 +17,7 @@ referenceNames = [
   'Ulica Złoty Róg'
 ]
 
-channels = {
+channels =
   'Aleja Krasińskiego': [46, 202]
   'Nowa Huta': [57, 211]
   'Kurdwanów': [148, 242]
@@ -25,9 +25,28 @@ channels = {
   'Osiedle Piastów': [1747]
   'Ulica Złoty Róg': [1752]
   'all': [46, 202, 57, 211, 148, 242, 1723, 1747, 1752]
-}
 
-window.loadReferenceData = (referenceName) ->
+referenceLocations =
+  'Aleja Krasińskiego':
+    longitude: 19.926189
+    latitude: 50.057678
+  'Nowa Huta':
+    longitude: 20.053492
+    latitude: 50.069308
+  'Kurdwanów':
+    longitude: 19.949189
+    latitude: 50.010575
+  'Ulica Dietla':
+    longitude: 19.946008
+    latitude: 50.057447
+  'Osiedle Piastów':
+    longitude: 20.018317
+    latitude: 50.099361
+  'Ulica Złoty Róg':
+    longitude: 19.895358
+    latitude: 50.081197
+
+window.loadReferenceData = (referenceName, latitude = null, longitude = null) ->
   today = new Date()
 
   queryJson = JSON.stringify
@@ -36,6 +55,17 @@ window.loadReferenceData = (referenceName) ->
     dateRange: "Day"
     date: today.getDate() + '.' + (today.getMonth() + 1) + '.' + today.getFullYear()
     channels: channels[referenceName]
+
+  nearestReferenceName = 'none'
+  if referenceName == 'all' && latitude && longitude
+    shortestDistance = Number.POSITIVE_INFINITY
+    sensorLatLng = L.latLng(latitude, longitude)
+    for name, referenceLocation of referenceLocations
+      referenceLatLng = L.latLng(referenceLocation['latitude'], referenceLocation['longitude'])
+      referenceDistance = sensorLatLng.distanceTo(referenceLatLng)
+      if referenceDistance < shortestDistance
+        shortestDistance = referenceDistance
+        nearestReferenceName = name
 
   $.post('http://smogmapper.info/reference',
     query: queryJson
@@ -63,6 +93,8 @@ window.loadReferenceData = (referenceName) ->
           }
           for axis, i in pmChart.yAxis
             series['yAxis'] = i if !axis['opposite']
+          if nearestReferenceName != 'none' && series['name'].indexOf(nearestReferenceName) == -1
+            series['visible'] = false
           pmChart.addSeries series
           $('#reading-chart-container').data('reference', true)
   ).fail ->
@@ -74,7 +106,7 @@ $ ->
   $('#sensor-modal-wrapper').on 'click', '#show-reference-button', (e) ->
     e.stopPropagation()
     e.preventDefault()
-    window.loadReferenceData 'all'
+    window.loadReferenceData 'all', $(this).data('latitude'), $(this).data('longitude')
 
   $('#sensor-modal-wrapper').on 'click', '#rescale-button', (e) ->
     pmChart = $('#reading-chart-container').highcharts()
