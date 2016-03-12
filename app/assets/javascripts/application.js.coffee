@@ -12,6 +12,7 @@
 #= require leaflet-heatmap
 #= require heatmap
 #= require highcharts
+#= require leaflet.contextmenu
 #= require_tree .
 
 $ ->

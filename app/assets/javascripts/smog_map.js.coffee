@@ -6,7 +6,17 @@ class @SmogMap
 
     $('#smog-map').css('min-height', window.innerHeight - 50)
 
-    @smogMap = L.map('smog-map', { zoomControl: false })
+    @smogMap = L.map('smog-map',
+      {
+        zoomControl: false
+        contextmenu: true
+        contextmenuWidth: 140
+        contextmenuItems: [
+          text: "<b>+</b> " + I18n.t('registration.add_sensor')
+          callback: @addSensor
+        ]
+      }
+    )
 
     new L.Control.Zoom(
       zoomInTitle: I18n.t('map.zoom_in')
@@ -25,6 +35,18 @@ class @SmogMap
       northEast = L.latLng config.MAX_BOUNDS_NORTH, config.MAX_BOUNDS_EAST
       bounds = L.latLngBounds southWest, northEast
       @smogMap.fitBounds bounds
+
+  addSensor: (e) ->
+    window.toggleSidebar() if window.isDeviceClass('xs')
+    $('#left-section a[href="#registration-tab"]').tab('show')
+    if $('#new_location').length == 0
+      $.get I18n.locale + '/locations/new', (data) ->
+        $('#registration').html data
+        $('#location_latitude').val(e.latlng['lat'])
+        $('#location_longitude').val(e.latlng['lng'])
+    else
+      $('#location_latitude').val(e.latlng['lat'])
+      $('#location_longitude').val(e.latlng['lng'])
 
   initSensors: ->
     @markerLayer = L.layerGroup()

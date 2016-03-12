@@ -99,12 +99,13 @@ pl:
       uznanych za obraźliwe ;)).
     geo: |
       Szerokość i długość geograficzna powinny być podane w stopniach i ułamkach stopni (np. 50.0484 lub
-      19.9599) - zachowaj proszę dokładność czterech miejsc po przecinku, to ważne. Wysokość względna
+      19.9599) - zachowaj proszę dokładność przynajmniej czterech miejsc po przecinku, to ważne. Wysokość względna
       powinna być podana jako przybliżona liczba metrów nad poziomem gruntu. Dokładność do jednego
       pełnego metra jest wystarczająca.
     register: Zapisz
     success: Zarejestrowano zmianę położenia miernika.
     error: Wystąpił błąd serwera podczas zmiany położenia.
+    add_sensor: Dodaj miernik.
 
   nav:
     to_en: Switch language to English

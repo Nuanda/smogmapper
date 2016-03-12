@@ -95,11 +95,12 @@ en:
       token, that was supplied to you. You may also name the sensor, if you like, but please be polite ;).
     geo: |
       Latitude and longitude should be provided in degrees and fraction of degrees (e.g. 50.0484 or
-      19.9599) - please keep the 4-digit precision, it's important. The height (altitude above the ground level)
+      19.9599) - please keep at least the 4-digit precision, it's important. The height (altitude above the ground level)
       should be provided as a rough number of meters above the ground level. Precision up to a full meter is sufficient.
     register: Confirm
     success: Location change registered.
     error: Server error on location change.
+    add_sensor: Add a sensor.
 
   nav:
     to_en: Switch language to English
