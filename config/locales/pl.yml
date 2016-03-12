@@ -19,14 +19,24 @@ pl:
     welcome: Witamy w %{title}
     production:
       what_you_see: |
-        System prezentuje pomiary zanieczyszczenia powietrza, zebrane poprzez sieć rozproszonych
-        mierników automatycznych. W zależności od typu miernika, publikowane są wartości zmierzonego
-        stężenia pyłu zawieszonego (o określonej wielkości), temperatury powietrza oraz wilgotności
-        względnej.
+        Projekt SmogMapper ma na celu skonstruowanie i ustalenie dokładności pomiaru tanich mierników
+        pyłu zawieszonego (w dalszej perspektywie także innych zanieczyszczeń powietrza). Istotą pomysłu
+        jest instalacja licznych, niedrogich lecz w pełni zautomatyzowanych czujników pyłu, a następnie
+        walidacja podawanych przez nie pomiarów ze stacjami referencyjnymi
+        <a href='http://www.krakow.pios.gov.pl/'>Wojewódzkiego Inspektoratu Ochrony Środowiska (WIOŚ)</a>.
+        Przewidujemy, że mimo większej niedokładności pomiaru pojedynczego
+        taniego miernika, informacja płynąca z gęstej sieci takich czujników może w przyszłości istotnie
+        wzbogacić naszą wiedzę o zjawisku smogu, jego dynamice i żródłach powstawania.
+#        System prezentuje pomiary zanieczyszczenia powietrza, zebrane poprzez sieć rozproszonych
+#        mierników automatycznych. W zależności od typu miernika, publikowane są wartości zmierzonego
+#        stężenia pyłu zawieszonego (o określonej wielkości), temperatury powietrza oraz wilgotności
+#        względnej.
       what_you_see_2: |
-        Proszę kliknij miernik na mapie, aby zobaczyć odczyty z ostatnich godzin. Istnieje też możliwość
-        naniesienia, bezpośrednio na uzyskany wykres, odczytów stacji monitorujących Wojewódzkiego
-        Inspektoratu Ochrony Środowiska (funkcja używana do diagnostyki mierników).
+        Proszę kliknij znacznik na mapie, aby zobaczyć odczyty z ostatnich godzin miernika, umieszczonego
+        w danej lokalizacji. Istnieje też możliwość naniesienia, bezpośrednio na uzyskany wykres, odczytów
+        stacji monitorujących Wojewódzkiego Inspektoratu Ochrony Środowiska (funkcja używana do diagnostyki
+        mierników). Znaczniki fioletowe reprezentują referencyjne stacje pomiarowe WIOŚ a prezentowane dla
+        nich odczyty pochodzą z serwisu <a href='http://monitoring.krakow.pios.gov.pl/'>monitoringu powietrza</a>.
       disclaimer: |
         Pierwsza wersja SmogMappera powstała w trakcie trwania <a href='http://www.smogathon.pl/'>Smogathonu 2015</a>,
         i zdobyła główną nagrodę. SmogMapper jest wciąż we wczesnej fazie implementacji i testów - stąd skąpa liczba

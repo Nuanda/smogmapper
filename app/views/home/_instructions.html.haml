@@ -5,7 +5,7 @@
   = t("instructions.#{demo? ? 'demo' : 'production'}.what_you_see").html_safe
 
 %p
-  = t "instructions.#{demo? ? 'demo' : 'production'}.what_you_see_2"
+  = t("instructions.#{demo? ? 'demo' : 'production'}.what_you_see_2").html_safe
 
 - if demo?
   - measurement = Measurement.find_by_name('pm')

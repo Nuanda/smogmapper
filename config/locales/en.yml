@@ -19,14 +19,23 @@ en:
     welcome: Welcome to %{title}
     production:
       what_you_see: |
-        This system shows measurements of air quality, gathered through a distributed network of
-        automated sensors. Depending on a sensor type, we publish readings of particulate matter
-        density (in various molecule sizes), air temperature and relative humidity.
+        The SmogMapper project aims at designing and testing the measurement quality of inexpensive dust
+        sensors (and, perhaps, other air pollutants, in the future). The core idea is to have a lot
+        of cheap, yet fully automated, particulate matter detectors, in order to validate their readings
+        against the reference air quality monitoring stations of
+        <a href='http://www.krakow.pios.gov.pl/'>Wojewódzki Inspektorat Ochrony Środowiska (WIOŚ)</a>
+        (a regional environment protection authority). We predict that a dense network of such inexpensive
+        devices, despite the fact of lower accuracy of a single reading, will provide us with fresh and
+        valuable insights as to the nature and the dynamics of the smog phenomenon.
+#        This system shows measurements of air quality, gathered through a distributed network of
+#        automated sensors. Depending on a sensor type, we publish readings of particulate matter
+#        density (in various molecule sizes), air temperature and relative humidity.
       what_you_see_2: |
         Please click a sensor marker on the map, in order to get the readings. You are also able to
         load a reference data in the same air quality chart - the reference data comes from the air
-        quality measurement stations deployed by Wojewódzki Inspektorat Ochrony Środowiska - regional
-        air quality monitoring authority (this function is there mainly for sensor diagnostics).
+        quality measurement stations deployed by WIOŚ (this function is there mainly for sensor diagnostics).
+        The magenta markers represent reference air quality stations - the readings for those stations
+        are loaded from <a href='http://monitoring.krakow.pios.gov.pl/'>the official air quality monitoring service</a>.
       disclaimer: |
         The first SmogMapper version was created during the <a href='http://www.smogathon.pl/'>Smogathon 2015</a>,
         where it won the first prize. SmogMapper is currently still in its early stage of implementation and
