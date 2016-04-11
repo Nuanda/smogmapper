@@ -1,5 +1,20 @@
-- headers, data = build_time_series
+- headers = build_headers
 
 = CSV.generate_line headers, row_sep: nil
-- data.each do |aligned_readings|
-  = CSV.generate_line aligned_readings, row_sep: nil
+
+- first_reading = @readings.first
+- if first_reading.present?
+  - offset = 0
+  - last_time = first_reading.time
+  - buffer = {}
+  - records = fetch_batch(offset)
+  - while records.any?
+    - offset += records.size
+    - records.each do |reading|
+      - if reading[0].to_i > last_time.to_i
+        = CSV.generate_line flush_line(last_time, buffer), row_sep: nil
+        - last_time = reading[0]
+        - buffer = {}
+      - buffer[reading[2]] = reading[1]
+    - records = fetch_batch(offset)
+  = CSV.generate_line flush_line(last_time, buffer), row_sep: nil

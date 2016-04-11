@@ -1,31 +1,19 @@
 module ReadingsHelper
-  def build_time_series
-    @headers = ["Time", "Sensor id"] + measurements.map(&:name)
-    @data = []
+  def build_headers
+    ["Time", "Sensor id"] + measurements.map(&:name)
+  end
 
-    if @readings.present?
-      last_time = @readings[0].time
-      buffer = {}
-      @readings.each_with_index do |reading, i|
-        if reading.time.to_i > last_time.to_i
-          flush_buffer(last_time, buffer)
-          last_time = reading.time
-          buffer = {}
-        end
-        buffer[reading.measurement_id] = reading.value
-      end
-      flush_buffer(last_time, buffer)
+  def fetch_batch(offset)
+    @readings.offset(offset).limit(10000).pluck(:time, :value, :measurement_id)
+  end
+
+  def flush_line(time, buffer)
+    [time, @sensor.id] + measurements.map do |m|
+      buffer[m.id]
     end
-    [@headers, @data]
   end
 
   private
-
-  def flush_buffer(time, buffer)
-    @data << [time, @sensor.id] + measurements.map do |m|
-                                    buffer[m.id]
-                                  end
-  end
 
   def measurements
     @measurements ||= @sensor.measurements.sort_by(&:id)

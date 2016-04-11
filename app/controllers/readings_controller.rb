@@ -6,7 +6,7 @@ class ReadingsController < ApplicationController
     @sensor = Sensor.find(params[:sensor_id])
     @readings = @sensor.readings.order('time asc')
 
-    time_where_if_param('time >= ?', :from)
+    time_where_if_param('time >= ?', :from, Time.now - 1.day)
     time_where_if_param('time <= ?', :to)
 
     respond_to do |format|
@@ -39,8 +39,10 @@ class ReadingsController < ApplicationController
 
   private
 
-  def time_where_if_param(sql, param_name)
-    unless params[param_name].blank?
+  def time_where_if_param(sql, param_name, default = nil)
+    if params[param_name].blank? && default
+      @readings = @readings.where(sql, default)
+    elsif params[param_name].present?
       @readings = @readings.where(sql, Time.parse(params[param_name]))
     end
   end
