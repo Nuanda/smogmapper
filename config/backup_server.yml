@@ -1,0 +1,14 @@
+development:
+  backup_server: http://nothing.nowhere/
+  sensor_id: 5
+  measurement_name: pm2_5
+
+test:
+  backup_server: http://nothing.nowhere/
+  sensor_id: 0
+  measurement_name: pm2_5
+
+production:
+  backup_server: <%= ENV["BACKUP_SERVER"] %>
+  sensor_id: 5
+  measurement_name: pm2_5

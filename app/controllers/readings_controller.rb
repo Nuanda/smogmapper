@@ -28,6 +28,15 @@ class ReadingsController < ApplicationController
         sensor.measurements.each do |measurement|
           if params[measurement.name].present?
             Reading.create(value: params[measurement.name].to_f, sensor: sensor, measurement: measurement, time: time)
+
+            backup_config = Rails.application.config_for(:backup_server)
+            if measurement.name == backup_config['measurement_name'] && sensor.id == backup_config['sensor_id']
+              location = sensor.current_location
+              data = "val=#{params[measurement.name].to_f}&lo=#{location.longitude}&la=#{location.latitude}"
+              full_url = "#{backup_config['backup_server']}#{data}"
+              logger.info "Sending data to backup URL: #{full_url}"
+              `curl "#{full_url}"`
+            end
           end
         end
         head :ok
