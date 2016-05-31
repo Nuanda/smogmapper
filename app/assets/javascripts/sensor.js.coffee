@@ -117,3 +117,9 @@ $ ->
       newData = ([d.x, rescaler(d.y)] for d in series[0].data)
       series[0].setData newData
       console.log Date.now() - t0
+
+  $('#sensor-modal-wrapper').on 'change', '#rescale-measurement', (e) ->
+    if $(e.target).val() == 'pm2_5'
+      $('#rescale-function').val('y*1.4')
+    else if $(e.target).val() == 'pm10'
+      $('#rescale-function').val('y*0.8+30')
